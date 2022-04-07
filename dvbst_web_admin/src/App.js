@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 import { AiOutlineMenu } from "react-icons/ai";
 import Election from './components/Elections';
+import Blacklist from './components/Blacklist'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/users/newuser" element={<NewUser />} />
             <Route path="/elections" element={<Election />} />
             <Route path="/elections/newelection" element={<NewElection />} />
+            <Route path="/blacklist" element={<Blacklist />} />
           </Routes>
         </div>
       </div>
