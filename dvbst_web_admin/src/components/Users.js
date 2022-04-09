@@ -1,5 +1,6 @@
 import React from 'react'
 import UsersTable, { Detail } from './UsersTable';
+import { UsersData } from './UsersData';
 
 export default function Users() {
     const columns = React.useMemo(() => 
@@ -27,116 +28,11 @@ export default function Users() {
         },
     ], 
     []);
-    const rowdata = [
-        {
-            name: "Kaleb Mesfin",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 1,
-        },
-        {
-            name: "Hanna Samuel",
-            sect: 3,
-            year: 5,
-            dept: "Software Engineering",
-            details: 2,
-        },
-        {
-            name: "Daniel Terefe",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 3,
-        },
-        {
-            name: "Kaleb Mesfin",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 1,
-        },
-        {
-            name: "Hanna Samuel",
-            sect: 3,
-            year: 5,
-            dept: "Software Engineering",
-            details: 2,
-        },
-        {
-            name: "Daniel Terefe",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 3,
-        },
-        {
-            name: "Kaleb Mesfin",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 1,
-        },
-        {
-            name: "Hanna Samuel",
-            sect: 3,
-            year: 5,
-            dept: "Software Engineering",
-            details: 2,
-        },
-        {
-            name: "Daniel Terefe",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 3,
-        },        {
-            name: "Kaleb Mesfin",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 1,
-        },
-        {
-            name: "Hanna Samuel",
-            sect: 3,
-            year: 5,
-            dept: "Software Engineering",
-            details: 2,
-        },
-        {
-            name: "Daniel Terefe",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 3,
-        },        
-        {
-            name: "Kaleb Mesfin",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 1,
-        },
-        {
-            name: "Hanna Samuel",
-            sect: 3,
-            year: 5,
-            dept: "Software Engineering",
-            details: 2,
-        },
-        {
-            name: "Daniel Terefe",
-            sect: 2,
-            year: 5,
-            dept: "Software Engineering",
-            details: 3,
-        },
-    ]
+
     return (
         <div class="min-h-screen w-full bg-white-800 flex flex-col justify-center items-center py-4 px-4 lg:px-8">
             <div class="w-full py-4 px-4 lg:px-8 rounded-2xl bg-white-700">
-                <UsersTable columns={columns} data={rowdata} />
+                <UsersTable columns={columns} data={UsersData} />
             </div>
         </div>
     )
