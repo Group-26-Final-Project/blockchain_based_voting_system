@@ -10,6 +10,8 @@ import Navbar from "./component/Navbar";
 import Register from "./component/Register/Register";
 import Register_by_face from "./component/Register_by_face/Register_by_face";
 import Voting_underway from "./component/VotingUnderway/Voting_underway";
+import Before_Voting from "./component/BeforeVoting/Before_Voting";
+import Result from "./component/Result/Result";
 import Ideas from "./component/Idea/Ideas";
 import CandidateList from "./component/candidate_list";
 
@@ -34,11 +36,11 @@ function App() {
         <Route path="/auth/Homepage" element={<HomeScreen />} />
         <Route path="/auth/Voting_underway" element={<Voting_underway />} />
         <Route path="/auth/idea" element={<Idea />} />
-        <Route path="/auth/ideas" element={<Ideas  />} />
+        <Route path="/auth/ideas" element={<Ideas />} />
         <Route path="/candidate_list" element={<CandidateList />} />
-        
+        <Route path="/Before_Voting" element={<Before_Voting />} />
+        <Route path="/Result" element={<Result />} />
       </Routes>
-      
     </Router>
   );
 }
