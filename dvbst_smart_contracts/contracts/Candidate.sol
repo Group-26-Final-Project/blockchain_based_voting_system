@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "User.sol";
+import "./User.sol";
+import "./Voter.sol";
 
 contract Candidate is User {
     struct CandidateStruct {
         UserStruct candidateInfo;
-        uint32 vindex;
+        uint256 vindex;
         string candidateEmail;
         string candidatePassword;
         string candidateBio;
@@ -19,6 +20,9 @@ contract Candidate is User {
     address[] private candidateIndex;
     CandidateStruct[] private candidateValue;
 
+    address private userContractAddress;
+    address private voterContractAddress;
+
     event LogNewCandidate(
         UserStruct candidateInfo,
         string candidateEmail,
@@ -26,17 +30,30 @@ contract Candidate is User {
         string candidateBio,
         string candidateProfilePicture
     );
-    // event LogUpdateCandidate(
-    //     UserStruct candidateInfo,
-    //     string candidateEmail,
-    //     string candidatePassword,
-    //     string candidateBio,
-    //     string candidateProfilePicture
-    // );
+    event LogUpdateCandidate(
+        UserStruct candidateInfo,
+        string candidateEmail,
+        string candidatePassword,
+        string candidateBio,
+        string candidateProfilePicture
+    );
     event LogDeleteCandidate(address indexed userAddress, uint256 index);
 
     constructor() {
         owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    function setAddresses(
+        address _userContractAddress,
+        address _voterContractAddress
+    ) public onlyOwner {
+        userContractAddress = _userContractAddress;
+        voterContractAddress = _voterContractAddress;
     }
 
     //   event (address indexed userAddress, uint index, bytes32 userEmail, uint userAge);
@@ -112,9 +129,18 @@ contract Candidate is User {
         return false;
     }
 
-    function isCandidate(address userAddress) public view returns (bool isIndeed) {
-        require(isUser(userAddress), "User Does not Exist");
+    function isCandidate(address userAddress)
+        public
+        view
+        returns (bool isIndeed)
+    {
+        User deployedUser = User(userContractAddress);
+        // UserStruct[] memory tempUsers = deployedUser.getAllUsers();
+        require(deployedUser.isUser(userAddress), "User Does not Exist");
+
         if (candidateIndex.length == 0) return false;
+        // require(candidateIndex[candidateStructsMapping[userAddress].vindex] ==
+        //     userAddress,"index out of bounds error over here");
         return (candidateIndex[candidateStructsMapping[userAddress].vindex] ==
             userAddress);
     }
@@ -124,21 +150,27 @@ contract Candidate is User {
         string memory email,
         string memory password,
         string memory bio,
-        string memory profilepicture
+        string memory profilePicture
     ) public returns (uint256 index) {
         // if (isUser(userAddress)) throw;
-        require(userAddress != owner, "Permission Denied");
-        require(!isCandidate(userAddress), "Candidate Already Exists");
+        require(candidateInfo.userAddress != owner, "Permission Denied");
+        Voter deployedVoter = Voter(voterContractAddress);
+
+        require(
+            !deployedVoter.isVoter(candidateInfo.userAddress),
+            "User Already a Voter"
+        );
+        require(
+            !isCandidate(candidateInfo.userAddress),
+            "Candidate Already Exists"
+        );
         require(
             !findCandidateByStudentId(candidateInfo.studentId),
             "Candidate Already Exists"
         );
+        require(!findCandidateByEmail(email), "Candidate Already Exists");
         require(
-            !findCandidateByEmail(candidateInfo.candidateEmail),
-            "Candidate Already Exists"
-        );
-        require(
-            !findCandidateByFullName(
+            !findUserByFullName(
                 candidateInfo.fName,
                 candidateInfo.lName,
                 candidateInfo.gName
@@ -146,35 +178,45 @@ contract Candidate is User {
             "Candidate Already Exists"
         );
 
-        candidateStructsMapping[candidateInfo.userAddress].candidateInfo = candidateInfo;
-        candidateStructsMapping[candidateInfo.userAddress].candidateEmail = email;
-        candidateStructsMapping[candidateInfo.userAddress].candidatePassword = password;
+        candidateStructsMapping[candidateInfo.userAddress]
+            .candidateInfo = candidateInfo;
+        candidateStructsMapping[candidateInfo.userAddress]
+            .candidateEmail = email;
+        candidateStructsMapping[candidateInfo.userAddress]
+            .candidatePassword = password;
         candidateStructsMapping[candidateInfo.userAddress].candidateBio = bio;
-        candidateStructsMapping[candidateInfo.userAddress].candidateProfilePicture = profilepicture;
+        candidateStructsMapping[candidateInfo.userAddress]
+            .candidateProfilePicture = profilePicture;
         // userStructsMapping[userAddress].gName = gName;
         // userStructsMapping[userAddress].userAddress = userAddress;
         candidateIndex.push(candidateInfo.userAddress);
-        userStructsMapping[candidateInfo.userAddress].vindex =
+        candidateStructsMapping[candidateInfo.userAddress].vindex =
             candidateIndex.length -
             1;
         candidateValue.push(
             CandidateStruct(
                 candidateInfo,
-                userStructsMapping[candidateInfo.userAddress].vindex,
+                candidateStructsMapping[candidateInfo.userAddress].vindex,
                 email,
                 password,
                 bio,
-                profilepicture
+                profilePicture
             )
         );
-        emit LogNewCandidate(candidateInfo, email, password, bio, profilepicture);
+        emit LogNewCandidate(
+            candidateInfo,
+            email,
+            password,
+            bio,
+            profilePicture
+        );
         return candidateIndex.length - 1;
     }
 
     function getCandidate(address userAddress)
         public
         view
-        returns (UserStruct memory)
+        returns (CandidateStruct memory)
     {
         // if (!isUser(userAddress)) throw;
         require(isCandidate(userAddress), "Candidate Does not exist");
@@ -182,17 +224,21 @@ contract Candidate is User {
         return (candidateStructsMapping[userAddress]);
     }
 
-    function removeCandidate(address userAddress) public returns (bool success) {
+    function removeCandidate(address userAddress)
+        public
+        returns (bool success)
+    {
         require(isCandidate(userAddress), "Candidate Does not exist");
         uint256 rowToDelete = candidateStructsMapping[userAddress].vindex;
         address keyToMove = candidateIndex[candidateIndex.length - 1];
         candidateIndex[rowToDelete] = keyToMove;
         candidateStructsMapping[keyToMove].vindex = rowToDelete;
 
-        candidateValue[rowToDelete] = candidateValue[userValue.length - 1];
+        candidateValue[rowToDelete] = candidateValue[candidateValue.length - 1];
         candidateValue[rowToDelete].vindex = rowToDelete;
         candidateValue.pop();
         candidateIndex.pop();
+        delete candidateStructsMapping[userAddress];
         emit LogDeleteCandidate(userAddress, rowToDelete);
 
         return true;

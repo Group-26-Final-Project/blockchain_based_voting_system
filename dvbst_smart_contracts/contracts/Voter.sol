@@ -1,17 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "User.sol";
+import "./User.sol";
+import "./Candidate.sol";
 
 contract Voter is User {
     struct VoterStruct {
         UserStruct voterInfo;
-        uint32 vindex;
+        uint256 vindex;
         string voterEmail;
         string voterPassword;
     }
 
     address private owner;
+    address private userContractAddress;
+    address private candidateContractAddress;
 
     mapping(address => VoterStruct) private voterStructsMapping;
     address[] private voterIndex;
@@ -29,8 +32,21 @@ contract Voter is User {
     );
     event LogDeleteVoter(address indexed userAddress, uint256 index);
 
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
     constructor() {
         owner = msg.sender;
+    }
+
+    function setAddresses(
+        address _userContractAddress,
+        address _candidateContractAddress
+    ) public onlyOwner {
+        userContractAddress = _userContractAddress;
+        candidateContractAddress = _candidateContractAddress;
     }
 
     //   event (address indexed userAddress, uint index, bytes32 userEmail, uint userAge);
@@ -107,28 +123,33 @@ contract Voter is User {
     }
 
     function isVoter(address userAddress) public view returns (bool isIndeed) {
-        require(isUser(userAddress), "User Does not Exist");
+        User deployedUser = User(userContractAddress);
+        // UserStruct[] memory tempUsers = deployedUser.getAllUsers();
+        require(deployedUser.isUser(userAddress), "User Does not Exist");
         if (voterIndex.length == 0) return false;
         return (voterIndex[voterStructsMapping[userAddress].vindex] ==
             userAddress);
     }
 
-    function insertUser(
+    function insertVoter(
         UserStruct memory voterInfo,
         string memory email,
         string memory password
     ) public returns (uint256 index) {
         // if (isUser(userAddress)) throw;
-        require(userAddress != owner, "Permission Denied");
-        require(!isVoter(userAddress), "Voter Already Exists");
+        require(voterInfo.userAddress != owner, "Permission Denied");
+        Candidate deployedCandidate = Candidate(candidateContractAddress);
+
+        require(
+            !deployedCandidate.isCandidate(voterInfo.userAddress),
+            "User Already a Candidate"
+        );
+        require(!isVoter(voterInfo.userAddress), "Voter Already Exists");
         require(
             !findVoterByStudentId(voterInfo.studentId),
             "Voter Already Exists"
         );
-        require(
-            !findVoterByEmail(voterInfo.voterEmail),
-            "Voter Already Exists"
-        );
+        require(!findVoterByEmail(email), "Voter Already Exists");
         require(
             !findUserByFullName(
                 voterInfo.fName,
@@ -144,13 +165,13 @@ contract Voter is User {
         // userStructsMapping[userAddress].gName = gName;
         // userStructsMapping[userAddress].userAddress = userAddress;
         voterIndex.push(voterInfo.userAddress);
-        userStructsMapping[voterInfo.userAddress].vindex =
+        voterStructsMapping[voterInfo.userAddress].vindex =
             voterIndex.length -
             1;
         voterValue.push(
             VoterStruct(
                 voterInfo,
-                userStructsMapping[voterInfo.userAddress].vindex,
+                voterStructsMapping[voterInfo.userAddress].vindex,
                 email,
                 password
             )
@@ -162,7 +183,7 @@ contract Voter is User {
     function getVoter(address userAddress)
         public
         view
-        returns (UserStruct memory)
+        returns (VoterStruct memory)
     {
         // if (!isUser(userAddress)) throw;
         require(isVoter(userAddress), "Voter Does not exist");
@@ -177,10 +198,12 @@ contract Voter is User {
         voterIndex[rowToDelete] = keyToMove;
         voterStructsMapping[keyToMove].vindex = rowToDelete;
 
-        voterValue[rowToDelete] = voterValue[userValue.length - 1];
+        voterValue[rowToDelete] = voterValue[voterValue.length - 1];
         voterValue[rowToDelete].vindex = rowToDelete;
         voterValue.pop();
         voterIndex.pop();
+        delete voterStructsMapping[userAddress];
+
         emit LogDeleteVoter(userAddress, rowToDelete);
 
         return true;

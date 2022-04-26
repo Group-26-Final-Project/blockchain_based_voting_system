@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@opengsn/contracts/src/BaseRelayRecipient.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "dvbst_smart_contracts/node_modules/@opengsn/contracts/src/BaseRelayRecipient.sol";
+import "dvbst_smart_contracts/node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract AAiTVoteToken is ERC20, BaseRelayRecipient {
     address public owner;
