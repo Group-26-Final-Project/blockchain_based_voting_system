@@ -10,6 +10,7 @@ export default function NewUser() {
     const [sect, setSect] = useState("--Select--")
     const [year, setYear] = useState("--Select--")
     const [id, setId] = useState("")
+    const [phone, setPhone] = useState("")
     const [wallet, setWallet] = useState("")
     const [bio, setBio] = useState("")
     const [profile, setProfile] = useState()
@@ -128,6 +129,15 @@ export default function NewUser() {
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-3">
+                        <div class="w-full md:w-full px-3 mb-6 md:mb-0">
+                            <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-phone">
+                                Phone Number
+                            </label>
+                            <input class="appearance-none block w-full bg-white-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                            {/* <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> */}
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-3">
