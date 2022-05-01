@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const ideasApi = createApi({
     reducerPath: 'ideasApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8080/"
+        baseUrl: "https://9617-196-190-61-31.eu.ngrok.io"
     }),
     endpoints: (builder) => ({
         ideas: builder.query({
@@ -11,7 +11,7 @@ export const ideasApi = createApi({
         }),
         addIdea: builder.mutation({
             query: idea => ({
-                url: '/idea',
+                url: '/ideas',
                 method: 'POST',
                 body: idea
             })
@@ -19,7 +19,7 @@ export const ideasApi = createApi({
 
         updateIdea: builder.mutation({
             query: (id, ...rest) => ({
-                url: `/idea/${id}`,
+                url: `/ideas/${id}`,
                 method: 'PATCH',
                 body: rest
             })

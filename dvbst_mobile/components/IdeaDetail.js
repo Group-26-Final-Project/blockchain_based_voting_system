@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font';
 
 import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, Dimensions, TouchableHighlight } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import { AntDesign } from "@expo/vector-icons";
 
 const customFonts = {
     poppinsRegular: require('../assets/fonts/Poppins-Regular.ttf'),
@@ -14,29 +14,6 @@ const customFonts = {
 const IdeaDetail = (props) => {
     const [isLoaded] = useFonts(customFonts);
     const [vote, setVote] = useState(0);
-    const [voteCount, setVoteCount] = useState(0);
-
-    const upvote = () => {
-        setVote(vote === 1 ? 0 : 1)
-        if (vote === 1){
-            setVoteCount(voteCount - 1);
-        } else if (vote === 2){
-            setVoteCount(voteCount + 2);
-        } else {
-            setVoteCount(voteCount + 1);
-        }
-    }
-
-    const downvote = () => {
-        setVote(vote === 2 ? 0 : 2);
-        if (vote === 2){
-            setVoteCount(voteCount + 1);
-        } else if (vote === 1){
-            setVoteCount(voteCount - 2);
-        } else {
-            setVoteCount(voteCount - 1);
-        }
-    }
 
     if (!isLoaded) {
         return <AppLoading />;
@@ -45,28 +22,27 @@ const IdeaDetail = (props) => {
             <View style={styles.boxShadow}>
                 <View style={styles.box}>
                     <View>
-                        <Text style={styles.name}>User03729173</Text>
+                        {/* <Text style={styles.name}>User03729173</Text> */}
+                        <Text style={styles.name}>{props.userName}</Text>
                     </View>
                     <View style={{ alignSelf: 'flex-start' }}>
-                        <Text style={styles.title}>Lorem Ipsum Dolor</Text>
+                        <Text style={styles.title}>{props.title}</Text>
+                        {/* <Text style={styles.title}>Lorem Ipsum Dolor</Text> */}
                         <View style={styles.line}></View>
                     </View>
                     <View style={styles.description}>
                         <Text style={{ fontSize: 14, fontFamily: 'poppinsRegular' }}>
-                            {`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore `}
+                            {props.description}
+                            {/* {`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore `} */}
                         </Text>
                     </View>
                     <View style={styles.voting}>
-                        <TouchableHighlight
-                            onPress={() => upvote()}>
-                            <Icon name='caretup'
-                                style={[styles.icons, vote === 1 && styles.selected]} />
+                        <TouchableHighlight>
+                            {vote === 0 ? <AntDesign name='hearto' style={styles.icons}/> : <AntDesign name='heart' style={styles.selected}/>}
+                            {/* <Icon name='caretup'
+                                style={[styles.icons, vote === 1 && styles.selected]} /> */}
                         </TouchableHighlight>
-                        <Text style={{ fontSize: 16, fontFamily: 'poppinsRegular', color: 'rgba(35, 35, 35, 0.5)' }}>{voteCount}</Text>
-                        <TouchableHighlight
-                            onPress={() => downvote()}>
-                            <Icon name='caretdown' style={[styles.icons, vote === 2 && styles.selected]} />
-                        </TouchableHighlight>
+                        <Text style={{ fontSize: 16, fontFamily: 'poppinsRegular', color: 'rgba(35, 35, 35, 0.5)' }}>{props.voteCount}</Text>
                     </View>
                 </View>
             </View>
@@ -130,7 +106,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: 15,
         fontSize: 28,
-        color: '#00d05a',
+        color: 'red',
     }
 });
 
