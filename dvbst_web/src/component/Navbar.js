@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
+        color: "white",
+
     },
     appbar_styles: {
 
@@ -53,7 +55,7 @@ function Navbar() {
                     <Grid container>
                         <Grid item xs={12} className={classes.Navbar_styles}>
                             <Grid item xs={11} sm={9} md={6} lg={6} className={classes.left_bar} >
-                                <Grid item xs={4} >
+                                <Grid item xs={4}  >
                                     <Link to="/auth/homepage" color='white'>
                                         <Typography variant="h6" className={classes.title}>
                                             Home

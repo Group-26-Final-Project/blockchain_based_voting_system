@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 });
 
 function App() {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <Router>
@@ -38,7 +38,7 @@ function App() {
         <Route path="/auth/idea" element={<Idea />} />
         <Route path="/auth/ideas" element={<Ideas />} />
         <Route path="/candidate_list" element={<CandidateList />} />
-        <Route path="/Before_Voting" element={<Before_Voting />} />
+        <Route path="/auth/Before_Voting" element={<Before_Voting />} />
         <Route path="/Result" element={<Result />} />
       </Routes>
     </Router>

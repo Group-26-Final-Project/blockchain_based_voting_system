@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Container, Grid, makeStyles, Typography } from '@material-ui/core'
+import { Avatar, Box, Container, Grid, makeStyles, Typography } from '@material-ui/core'
 import { lightBlue, lightGreen } from '@material-ui/core/colors';
 import React from 'react'
 import Navbar from '../Navbar'
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     upper_part: {
         padding: theme.spacing(4)
-       
+
     },
     lower_part: {
         display: "flex",
@@ -41,7 +41,7 @@ function HomeScreen() {
     const classes = useStyles()
     return (
         <Grid container >
-           
+
             <Grid container xs={12} direction="row" justifyContent="center" className={classes.body} >
                 <Grid xs={12} sm={10} md={8} container >
                     <Grid item xs={6} direction='column' justifyContent='center'>
@@ -64,8 +64,8 @@ function HomeScreen() {
                                 bgcolor="#00D05A"
                             >
                                 <Link to="/auth/Voting_underway">
-                                
-                                Start Voting
+
+                                    Start Voting
                                 </Link>
                             </Box>
                         </Box>
@@ -86,7 +86,7 @@ function HomeScreen() {
                         alignItems='center'
                         justifyContent="space-around"
                         spacing={3}
-                    
+
 
                     >
                         <Avatar></Avatar>
@@ -108,7 +108,7 @@ function HomeScreen() {
                             </Typography>
                         </Grid>
                     </Grid>
-                    <Grid container xs={3} 
+                    <Grid container xs={3}
 
                     >
                         <Grid item container direction='column' alignItems='center' >
@@ -123,7 +123,6 @@ function HomeScreen() {
                 </Grid>
             </Grid>
 
-           
         </Grid>
     )
 }

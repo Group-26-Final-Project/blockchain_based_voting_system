@@ -1,18 +1,16 @@
 import { Box, Button, Grid, makeStyles, Typography } from '@material-ui/core'
 import React, { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import Link from '@mui/material/Link';
 import Voting_Svg from '../../Voting_Svg'
-import Navbar from '../Navbar'
+// import Navbar from '../Navbar'
 
 const useStyles = makeStyles((theme) => ({
 
     web_layout: {
-        [theme.breakpoints.down("sm")]: {
-            display: "none",
-        },
-        [theme.breakpoints.between("sm")]: {
-            display: "none",
-        },
+        [theme.breakpoints.down('sm')]: {
+            display: "none"
+        }
     },
     mobile_layout: {
         [theme.breakpoints.up("md")]: {
@@ -20,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     web_typogrphy: {
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("sm")]: {
             display: "none",
         },
         color: "white"
@@ -33,11 +31,6 @@ const useStyles = makeStyles((theme) => ({
             display: "none",
         },
         color: "white"
-    },
-    web_layout: {
-        [theme.breakpoints.down("md")]: {
-            display: "none",
-        },
     },
 
     body: {
@@ -93,12 +86,12 @@ function Voting_underway() {
     return (
         <Grid container className={classes.body}>
             <Grid container direction='row' >
-                <Grid xs={12} sm={9} md={12} lg={7} container justifyContent='center' alignContent='flex-start' >
+                <Grid xs={12} sm={9} md={7} lg={7} container justifyContent='center' alignContent='flex-start' >
                     <Box display="flex">
 
                         <Typography className={classes.web_typogrphy} color="white" variant='h1'  >
                             Section <span style={{ color: "#00D05A", fontFamily: "Poppins", fontWeight: "SemiBold" }}>
-                                Election</span><br /> is Underway
+                                Election</span><br /> is Underwayy
 
                         </Typography>
                         <Typography color="white" variant='h3' className={classes.mobile_typograpy}  >
@@ -136,25 +129,26 @@ function Voting_underway() {
 
                     </Grid>
                     <Box display="flex" ml={15}
-                     style={{  width: "100%" }}
-                      className={classes.web_layout}>
+                        style={{ width: "100%" }}
+                        className={classes.web_layout}>
 
                         <Button variant="outlined"
                             style={{
                                 borderRadius: 5,
-                                color: "#00D05A",
                                 padding: "10px 36px",
-                                fontSize: "14px"
+                                fontSize: "14px",
+                                borderColor: "#00D05A",
+                                minWidth: "150px"
                             }}
                         >
-                            <Link to="/candidate_list">
-                            Enter Election
+                            <Link href="#" underline="none" color="#00D05A">
+                                Enter Election
                             </Link>
                         </Button>
                     </Box>
 
                 </Grid>
-                <Grid container xs={12} sm={12} md={12} lg={5} alignContent="center" justifyContent='center'>
+                <Grid container xs={12} sm={12} md={5} lg={5} alignContent="center" justifyContent='center'>
                     <Voting_Svg />
                 </Grid>
                 <Grid item xs={12} className={classes.mobile_layout}>
@@ -191,40 +185,20 @@ function Voting_underway() {
                         <Button variant="outlined"
                             style={{
                                 borderRadius: 5,
-                                color: "#00D05A",
                                 padding: "10px 36px",
                                 fontSize: "14px",
-                                borderColor: "00D05A",
-                                minWidth: "500px"
+                                borderColor: "#00D05A",
+                                minWidth: "150px"
                             }}
                         >
-                            Enter Election
+                            <Link href="#" underline="none" color="#00D05A">
+                                Enter Election
+                            </Link>
                         </Button>
-                        {/* <Button variant="contained"
-                            style={{
-                                borderRadius: 5,
-                                color: "#fff",
-                                backgroundColor: "#00D05A",
-                                padding: "18px 36px",
-                                fontSize: "18px"
-                            }}
-                        >Enter Election</Button> */}
+
                     </Grid>
                 </Grid>
-                {/* <Box display="flex" ml={15} style={{ borderStyle: "dashed", width: "100%", borderColor: "black" }} className={classes.web_layout} > */}
 
-                {/* <Button variant="outlined"
-                        style={{
-                            borderRadius: 5,
-                            color: "#00D05A",
-                            padding: "10px 36px",
-                            fontSize: "14px"
-                        }}
-                    >
-                        Enter Election
-                    </Button> */}
-
-                {/* </Box> */}
             </Grid>
         </Grid>
     )
