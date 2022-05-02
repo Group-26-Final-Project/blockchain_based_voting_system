@@ -1,37 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { StyleSheet, SafeAreaView, ScrollView, View, Text, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Text, Button, ActivityIndicator } from 'react-native';
 import { FAB } from 'react-native-elements';
 import IdeaDetail from '../components/IdeaDetail';
 import SearchBar from '../components/searchbar';
 import SearchFilter from '../components/searchFilter';
 import { MaterialIcons } from "@expo/vector-icons";
-import { useIdeasQuery } from '../services/ideasApi';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { getIdeas } from '../features/ideasSlice';
 
 const IdeasScreen = (props) => {
     const navigation = useNavigation();
-    const { data, error, isError, isLoading, isSuccess } = useIdeasQuery();
-    console.log(data, error)
+    const dispatch = useDispatch()
+    const ideasState = useSelector((state) => state.ideasState)
+
+    useEffect(() => {
+        if (ideasState.getIdeasStatus === '') {
+            dispatch(getIdeas())
+        }
+    }, [dispatch, ideasState.getIdeasStatus])
+
     return (
-        <SafeAreaView style={{flex: 1}}>
-            {isLoading && (
-                <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
-                 <Text style={styles.text}> Loading... </Text>
-              </View>
+        <SafeAreaView style={{ flex: 1 }}>
+            {ideasState.getIdeasStatus === "pending" && (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" color='#00d05a' />
+                </View>
             )}
-            {isError && (
-                <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
-                 <Text style={styles.text}>Ooops something went wrong</Text>
-                 <Button title="Refresh">Refresh</Button>
-              </View>
+            {ideasState.getIdeasStatus === "failed" && (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={styles.text}>Ooops something went wrong</Text>
+                    <Button title="Refresh">Refresh</Button>
+                </View>
             )}
-            {isSuccess && (
+            {ideasState.getIdeasStatus === "success" && (
                 <View style={styles.container}>
                     <SearchBar />
                     <SearchFilter />
                     <ScrollView>
-                        {data.map((idea) => (
+                        {ideasState.ideas.map((idea) => (
                             <IdeaDetail
                                 key={idea._id}
                                 userName={idea.username}
@@ -41,9 +49,9 @@ const IdeasScreen = (props) => {
                             />
                         ))}
                     </ScrollView>
+                    <FAB onPress={() => navigation.navigate("Suggestion")} size='large' color='#00d05a' placement='right' icon={<MaterialIcons color='white' name='add' size={20} />} />
                 </View>
             )}
-            <FAB onPress={() => navigation.navigate("Suggestion")} size='large' color='#00d05a' placement='right' icon={<MaterialIcons color='white' name='add' size={20} />} />
         </SafeAreaView>
     );
 }

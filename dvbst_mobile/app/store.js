@@ -1,13 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import { ideasApi } from '../services/ideasApi';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import ideasReducer from '../features/ideasSlice';
 
 export const store = configureStore({
   reducer: {
-    [ideasApi.reducerPath]: ideasApi.reducer,
+    ideasState: ideasReducer 
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(ideasApi.middleware),
 });
-
-setupListeners(store.dispatch);

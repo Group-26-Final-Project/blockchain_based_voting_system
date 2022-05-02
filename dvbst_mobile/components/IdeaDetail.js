@@ -14,7 +14,6 @@ const customFonts = {
 const IdeaDetail = (props) => {
     const [isLoaded] = useFonts(customFonts);
     const [vote, setVote] = useState(0);
-
     if (!isLoaded) {
         return <AppLoading />;
     } else {

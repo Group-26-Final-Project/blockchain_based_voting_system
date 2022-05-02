@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 
-import { StyleSheet, Text, SafeAreaView, View, TextInput, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View, TextInput, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useFonts } from 'expo-font';
 
-import AppLoading from 'expo-app-loading';
-import { useAddIdeaMutation } from '../services/ideasApi';
+import AppLoading from 'expo-app-loading'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { addIdeas } from '../features/ideasSlice';
 
 const customFonts = {
     poppinsRegular: require('../assets/fonts/Poppins-Regular.ttf'),
@@ -14,15 +15,16 @@ const customFonts = {
 }
 
 const SuggestIdeaScreen = (props) => {
+    const dispatch = useDispatch()
+    const ideasState = useSelector((state) => state.ideasState)
     const navigation = useNavigation();
     const [isLoaded] = useFonts(customFonts);
+
     const [formdata, setFormdata] = useState({
         username: 'Aman',
         title: '',
         description: ''
     });
-
-    const [addIdea] = useAddIdeaMutation()
 
     const handleInputChange = (inputName, inputValue) => {
         setFormdata(prev => ({
@@ -32,9 +34,13 @@ const SuggestIdeaScreen = (props) => {
     }
 
     const handlsSubmit = async (e) => {
-        console.log("Here")
-        await addIdea(formdata)
-        navigation.pop()
+        await dispatch(addIdeas(formdata))
+        setFormdata({
+            username: 'Aman',
+            title: '',
+            description: ''
+        })
+        navigation.navigate('Ideas')
     }
 
     if (!isLoaded) {
@@ -68,7 +74,11 @@ const SuggestIdeaScreen = (props) => {
                 </View>
 
                 <TouchableOpacity style={styles.button} onPress={handlsSubmit}>
-                    <Text style={{ color: '#fff', fontSize: 20 }}>Post</Text>
+
+                    {ideasState.addIdeasStatus === 'pending' ?
+                        <ActivityIndicator animating={true} size='large' color='green' /> :
+                        <Text style={{ color: '#fff', fontSize: 20 }}>Post</Text>
+                    }
                 </TouchableOpacity>
             </SafeAreaView>
         );
@@ -129,6 +139,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 10
     },
+    snackbar: {
+        color: 'white',
+        backgroundColor: 'red',
+        fontFamily: 'poppinsRegular',
+        fontSize: 20
+    }
 });
 
 export default SuggestIdeaScreen;
