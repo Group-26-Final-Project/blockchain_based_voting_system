@@ -19,20 +19,25 @@ contract AAiTVoteToken is ERC20, BaseRelayRecipient {
         _mint(_msgSender(), supply);
     }
 
-    function transferToken(address to)
+    function transfer(address to, uint256 amount)
         public
+        override
         onlyOwner
         returns (bool)
     {
-        _transfer(owner, to, 1);
+        require(amount == 1, "Invalid Operation");
+
+        _transfer(owner, to, amount);
         return true;
     }
 
-    function transferTokenFrom(
+    function transferFrom(
         address from,
-        address to
-    ) public onlyOwner returns (bool) {
-        _transfer(from, to, 1);
+        address to,
+        uint256 amount
+    ) public override onlyOwner returns (bool) {
+        require(amount == 1, "Invalid Operation");
+        _transfer(from, to, amount);
         return true;
     }
 
