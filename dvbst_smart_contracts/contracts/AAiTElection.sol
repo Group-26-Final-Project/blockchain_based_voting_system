@@ -167,15 +167,23 @@ contract AAiTElection {
         );
         // uint256 rowToDelete = electionStructsMapping[name].index;
         // string memory keyToMove = electionIndex[electionIndex.length - 1];
-        electionIndex[electionStructsMapping[name].index] = electionIndex[electionIndex.length - 1];
-        electionStructsMapping[electionIndex[electionIndex.length - 1]].index = electionStructsMapping[name].index;
+        electionIndex[electionStructsMapping[name].index] = electionIndex[
+            electionIndex.length - 1
+        ];
+        electionStructsMapping[electionIndex[electionIndex.length - 1]]
+            .index = electionStructsMapping[name].index;
 
-        electionValue[electionStructsMapping[name].index] = electionValue[electionValue.length - 1];
-        electionValue[electionStructsMapping[name].index].index = electionStructsMapping[name].index;
+        electionValue[electionStructsMapping[name].index] = electionValue[
+            electionValue.length - 1
+        ];
+        electionValue[electionStructsMapping[name].index]
+            .index = electionStructsMapping[name].index;
         electionValue.pop();
         electionIndex.pop();
         delete allElections[electionStructsMapping[name].index];
-        previousElections.push(electionStructsMapping[electionIndex[electionIndex.length - 1]]);
+        previousElections.push(
+            electionStructsMapping[electionIndex[electionIndex.length - 1]]
+        );
         delete electionStructsMapping[electionIndex[electionIndex.length - 1]];
     }
 
@@ -187,12 +195,10 @@ contract AAiTElection {
             voterAddress != owner || candidateAddress != owner,
             "Invalid Operation"
         );
-        require(tempToken.balanceOf(msg.sender) > 0, "You have no tokens");
-        require(
-            tempStudent.isVoter(voterAddress),
-            "You can not vote"
-        );
-        tempToken.transferTokenFrom(voterAddress, candidateAddress);
+        require(tempStudent.isVoter(voterAddress), "You can not vote");
+        require(tempToken.balanceOf(voterAddress) > 0, "Insufficient Token");
+
+        tempToken.transferFrom(voterAddress, candidateAddress, 1);
         moveToVoted(voterAddress, "electionName");
     }
 
@@ -242,7 +248,6 @@ contract AAiTElection {
 
     // GET FUNCTIONS
 
-    
     function getAllElections() public view returns (ElectionStruct[] memory) {
         return allElections;
     }
