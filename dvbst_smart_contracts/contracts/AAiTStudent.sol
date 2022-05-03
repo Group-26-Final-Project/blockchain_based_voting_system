@@ -320,6 +320,7 @@ contract AAiTStudent {
         // require(isUser(userAddress), "User Does not Exist");
 
         if (voterIndex.length == 0) return false;
+        if (candidateIndex.length == 0) return false;
         return (voterIndex[voterStructsMapping[userAddress].vindex] ==
             userAddress);
     }
@@ -332,7 +333,7 @@ contract AAiTStudent {
         // if (isUser(userAddress)) throw;
         require(voterInfo.userAddress != owner, "Permission Denied");
 
-        require(isCandidate(voterInfo.userAddress), "User Already a Candidate");
+        require(!isCandidate(voterInfo.userAddress), "User Already a Candidate");
         require(!isVoter(voterInfo.userAddress), "Voter Already Exists");
         require(
             !findVoterByStudentId(voterInfo.studentId),
@@ -468,8 +469,9 @@ contract AAiTStudent {
     {
         // UserStruct[] memory tempUsers = deployedUser.getAllUsers();
         // require(isUser(userAddress), "User Does not Exist");
-
         if (candidateIndex.length == 0) return false;
+
+        if (voterIndex.length == 0) return false;
         // require(candidateIndex[candidateStructsMapping[userAddress].vindex] ==
         //     userAddress,"index out of bounds error over here");
         return (candidateIndex[candidateStructsMapping[userAddress].vindex] ==
@@ -486,7 +488,7 @@ contract AAiTStudent {
         // if (isUser(userAddress)) throw;
         require(candidateInfo.userAddress != owner, "Permission Denied");
 
-        require(isVoter(candidateInfo.userAddress), "User Already a Voter");
+        require(!isVoter(candidateInfo.userAddress), "User Already a Voter");
         require(
             !isCandidate(candidateInfo.userAddress),
             "Candidate Already Exists"
