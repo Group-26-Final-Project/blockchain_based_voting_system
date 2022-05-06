@@ -7,6 +7,7 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 // Screens
 import HomeScreen from '../screens/HomeScreen';
 import IdeasScreen from '../screens/IdeasScreen';
+import SuggestionScreen from '../screens/SuggestIdeaScreen';
 import VotingScreen from '../screens/VotingScreen';
 import ResultScreen from '../screens/ResultScreen';
 import CandidatesScreen from '../screens/CandidateScreen';
@@ -14,6 +15,7 @@ import CandidatesScreen from '../screens/CandidateScreen';
 //Screen names
 const homeName = "Home";
 const ideaName = "Ideas";
+const suggestName = "Suggestion";
 const votingName = "Voting";
 const resultName = "Results";
 const candidateName = "Candidates";
@@ -41,6 +43,28 @@ function VotingStack() {
     </Stack.Navigator>
   )
 }
+
+function IdeaStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName={ideaName}
+      screenOptions={{
+        headerTitle: "",
+        headerTransparent: true
+      }}
+    >
+      <Stack.Screen
+        name={ideaName}
+        component={IdeasScreen}
+      />
+      <Stack.Screen
+        name={suggestName}
+        component={SuggestionScreen}
+      />
+    </Stack.Navigator>
+  )
+}
+
 
 function MainContainer() {
   return (
@@ -79,7 +103,7 @@ function MainContainer() {
 
         <Tab.Screen name={homeName} component={HomeScreen} />
         <Tab.Screen name={votingName} component={VotingStack} />
-        <Tab.Screen name={ideaName} component={IdeasScreen} />
+        <Tab.Screen name={ideaName} component={IdeaStack} />
         <Tab.Screen name={resultName} component={ResultScreen} />
 
       </Tab.Navigator>

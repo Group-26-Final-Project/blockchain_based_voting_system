@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { StyleSheet, Text, SafeAreaView, View, TextInput, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View, TextInput, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useFonts } from 'expo-font';
 
-import AppLoading from 'expo-app-loading';
+import AppLoading from 'expo-app-loading'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { addIdeas } from '../features/ideasSlice';
 
 const customFonts = {
     poppinsRegular: require('../assets/fonts/Poppins-Regular.ttf'),
@@ -12,7 +15,33 @@ const customFonts = {
 }
 
 const SuggestIdeaScreen = (props) => {
+    const dispatch = useDispatch()
+    const ideasState = useSelector((state) => state.ideasState)
+    const navigation = useNavigation();
     const [isLoaded] = useFonts(customFonts);
+
+    const [formdata, setFormdata] = useState({
+        username: 'Aman',
+        title: '',
+        description: ''
+    });
+
+    const handleInputChange = (inputName, inputValue) => {
+        setFormdata(prev => ({
+            ...prev,
+            [inputName]: inputValue
+        }))
+    }
+
+    const handlsSubmit = async (e) => {
+        await dispatch(addIdeas(formdata))
+        setFormdata({
+            username: 'Aman',
+            title: '',
+            description: ''
+        })
+        navigation.navigate('Ideas')
+    }
 
     if (!isLoaded) {
         return <AppLoading />;
@@ -27,25 +56,29 @@ const SuggestIdeaScreen = (props) => {
                 </View>
                 <View style={styles.suggestionbox}>
                     <View style={styles.title}>
-                        <TextInput 
+                        <TextInput
                             style={styles.input}
-                            // onChangeText={}
-                            placeholder = "Write the title here..." 
-                            placeholderTextColor = 'rgba(35, 35, 35, 0.5)'
+                            onChangeText={value => handleInputChange('title', value)}
+                            placeholder="Write the title here..."
+                            placeholderTextColor='rgba(35, 35, 35, 0.5)'
                         />
                     </View>
                     <View style={styles.suggestions}>
                         <TextInput
                             style={styles.input}
-                            // onChangeText={}
-                            placeholder = "Write your suggestion here..."
-                            placeholderTextColor = 'rgba(35, 35, 35, 0.5)'
+                            onChangeText={value => handleInputChange('description', value)}
+                            placeholder="Write your suggestion here..."
+                            placeholderTextColor='rgba(35, 35, 35, 0.5)'
                         />
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.button}>
-                    <Text style={{ color: '#fff', fontSize: 20 }}>Post</Text>
+                <TouchableOpacity style={styles.button} onPress={handlsSubmit}>
+
+                    {ideasState.addIdeasStatus === 'pending' ?
+                        <ActivityIndicator animating={true} size='large' color='green' /> :
+                        <Text style={{ color: '#fff', fontSize: 20 }}>Post</Text>
+                    }
                 </TouchableOpacity>
             </SafeAreaView>
         );
@@ -54,6 +87,7 @@ const SuggestIdeaScreen = (props) => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         backgroundColor: '#fff',
         alignItems: 'flex-start',
         justifyContent: 'center',
@@ -105,6 +139,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 10
     },
+    snackbar: {
+        color: 'white',
+        backgroundColor: 'red',
+        fontFamily: 'poppinsRegular',
+        fontSize: 20
+    }
 });
 
 export default SuggestIdeaScreen;
