@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios'
 
-const baseURL = "https://9593-197-156-86-9.eu.ngrok.io"
+const baseURL = "https://1d10-197-156-103-47.eu.ngrok.io"
 
 const initialState = {
     ideas: [],
@@ -9,6 +9,8 @@ const initialState = {
     addIdeasError: "",
     getIdeasStatus: "",
     getIdeasError: "",
+    voteIdeaStatus: "",
+    voteIdeaError: "",
 }
 
 function timeout(ms) {
@@ -36,6 +38,17 @@ export const getIdeas = createAsyncThunk("ideas/getIdeas", async (id=null, {
             return rejectWithValue(error.response.data)
         }
 })
+
+export const voteIdea = createAsyncThunk("ideas/voteIdea", async (idea_id, {
+    rejectWithValue})=>{
+        try{
+            const response = await axios.patch(baseURL+"/ideas/"+idea_id, {"user_id": 1})
+            return response.data
+        } catch(err){
+            return rejectWithValue(error.response.data)
+        }
+})
+
 
 const ideasSlice = createSlice({
     name: "ideas",
@@ -82,6 +95,28 @@ const ideasSlice = createSlice({
                 getIdeasError: action.payload,
             }
         },
+        [voteIdea.pending]: (state, action) => {
+            return {
+                ...state,
+                voteIdeaStatus: "pending",
+            }
+        },
+        [voteIdea.fulfilled]: (state, action) => {
+            const updatedIdea = state.ideas.map((idea) => idea._id === action.payload._id && idea.likeCount !== action.payload.likeCount ? action.payload : idea)
+            return {
+                ...state,
+                ideas: updatedIdea,
+                voteIdeaStatus: "success"
+            }
+        },
+        [voteIdea.rejected]: (state, action) => {
+            return {
+                ...state,
+                voteIdeaStatus: "failed",
+                voteIdeaError: action.payload
+            }
+        },
+        
     }
 })
 

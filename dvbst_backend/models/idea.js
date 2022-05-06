@@ -13,10 +13,20 @@ const ideaSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    voteCount: {
-        type: Number,
+    likes: {
+        type: Array,
         required: true, 
+        default: []
+    },
+    likeCount: {
+        type: Number,
+        required: true,
         default: 0
+    },
+    likedUser: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 })
 

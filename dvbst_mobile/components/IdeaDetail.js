@@ -3,17 +3,26 @@ import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
 
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, Dimensions, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
+import { useDispatch } from 'react-redux';
+import { voteIdea } from '../features/ideasSlice';
+
 
 const customFonts = {
     poppinsRegular: require('../assets/fonts/Poppins-Regular.ttf'),
     poppinsBold: require('../assets/fonts/Poppins-Bold.ttf'),
     poppinsSemi: require('../assets/fonts/Poppins-SemiBold.ttf'),
 }
+
 const IdeaDetail = (props) => {
+    const dispatch = useDispatch()
     const [isLoaded] = useFonts(customFonts);
-    const [vote, setVote] = useState(0);
+
+    const clickHandler = () => {
+        dispatch(voteIdea(props.id))
+    }
+    
     if (!isLoaded) {
         return <AppLoading />;
     } else {
@@ -36,11 +45,7 @@ const IdeaDetail = (props) => {
                         </Text>
                     </View>
                     <View style={styles.voting}>
-                        <TouchableHighlight>
-                            {vote === 0 ? <AntDesign name='hearto' style={styles.icons}/> : <AntDesign name='heart' style={styles.selected}/>}
-                            {/* <Icon name='caretup'
-                                style={[styles.icons, vote === 1 && styles.selected]} /> */}
-                        </TouchableHighlight>
+                        {props.liked ? <AntDesign onPress={clickHandler} name='heart' style={styles.selected}/> : <AntDesign onPress={clickHandler} name='hearto' style={styles.icons}/>}
                         <Text style={{ fontSize: 16, fontFamily: 'poppinsRegular', color: 'rgba(35, 35, 35, 0.5)' }}>{props.voteCount}</Text>
                     </View>
                 </View>

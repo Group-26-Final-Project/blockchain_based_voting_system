@@ -3,6 +3,6 @@ import ideasReducer from '../features/ideasSlice';
 
 export const store = configureStore({
   reducer: {
-    ideasState: ideasReducer 
+    ideasState: ideasReducer
   },
 });
