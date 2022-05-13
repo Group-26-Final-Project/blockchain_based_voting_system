@@ -7,10 +7,14 @@ import "./AAiTVoteToken.sol";
 import "./AAiTStudent.sol";
 
 contract AAiTElection {
+
+    enum DEPTARTMENT_TYPE { SITE, ELEC }
+    enum ELECTION_TYPE { DEPARTMENT, BATCH, SECTION }
+
     struct ElectionStruct {
         uint256 index;
         string name;
-        string electionType;
+        ELECTION_TYPE electionType;
         string startDate;
         string endDate;
         address[] candidates;
@@ -19,7 +23,7 @@ contract AAiTElection {
         address[] voted;
         uint256 year;
         uint256 section;
-        string department;
+        DEPTARTMENT_TYPE department;
     }
 
     address private owner;
@@ -35,7 +39,7 @@ contract AAiTElection {
     event LogNewElection(
         uint256 index,
         string name,
-        string electionType,
+        ELECTION_TYPE electionType,
         string startDate,
         string endDate,
         address[] candidates,
@@ -44,12 +48,12 @@ contract AAiTElection {
         address[] voted,
         uint256 year,
         uint256 section,
-        string department
+        DEPTARTMENT_TYPE department
     );
     event LogUpdateElection(
         uint256 index,
         string name,
-        string electionType,
+        ELECTION_TYPE electionType,
         string startDate,
         string endDate,
         address[] candidates,
@@ -58,7 +62,7 @@ contract AAiTElection {
         address[] voted,
         uint256 year,
         uint256 section,
-        string department
+        DEPTARTMENT_TYPE department
     );
 
     modifier onlyOwner() {
@@ -94,7 +98,7 @@ contract AAiTElection {
     function findElectionByType(
         uint256 year,
         uint256 section,
-        string memory department
+        DEPTARTMENT_TYPE department
     ) private view returns (bool) {
         ElectionStruct[] memory temp = allElections;
         for (uint256 i = 0; i < temp.length; i++) {
@@ -112,14 +116,14 @@ contract AAiTElection {
 
     function addElection(
         string memory name,
-        string memory electionType,
+        ELECTION_TYPE electionType,
         string memory startDate,
         string memory endDate,
         address[] memory candidates,
         address[] memory voters,
         uint256 year,
         uint256 section,
-        string memory department
+        DEPTARTMENT_TYPE department
     ) public {
         require(!findElectionByName(name), "Election already exists");
         require(
