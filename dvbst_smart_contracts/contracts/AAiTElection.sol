@@ -29,6 +29,7 @@ contract AAiTElection {
     address private owner;
     address private AAiTVoteTokenAddress;
     address private AAiTStudentAddress;
+    address private AAiTElectionTimerAddress;
 
     mapping(string => ElectionStruct) private electionStructsMapping;
     string[] private electionIndex;
@@ -70,10 +71,11 @@ contract AAiTElection {
         _;
     }
 
-    constructor(address _AAiTVoteTokenAddress, address _AAiTStudentAddress) {
+    constructor(address _AAiTVoteTokenAddress, address _AAiTStudentAddress, address _AAiTElectionTimerAddress) {
         owner = msg.sender;
         AAiTVoteTokenAddress = _AAiTVoteTokenAddress;
         AAiTStudentAddress = _AAiTStudentAddress;
+        AAiTElectionTimerAddress = _AAiTElectionTimerAddress;
     }
 
     // ELECTION FUNCTIONS
