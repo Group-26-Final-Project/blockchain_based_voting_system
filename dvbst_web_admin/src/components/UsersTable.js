@@ -5,7 +5,7 @@ import { Button, PageButton } from '../shared/Buttons'
 import { classNames } from '../shared/Utils';
 import { useNavigate } from "react-router-dom";
 
-const UsersTable = ({ columns, data }) => {
+const UsersTable = ({ columns, data, childFunc }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -34,6 +34,9 @@ const UsersTable = ({ columns, data }) => {
       let path = window.location.pathname + '/newuser'; 
       navigate(path);
     }
+    
+
+   
 
     return (
         <div className="h-full w-full">
@@ -52,6 +55,9 @@ const UsersTable = ({ columns, data }) => {
                             </div>
                             <div class="bg-[#00D05A] text-white mt-1 p-3 rounded-xl font-body font-light text-sm">
                                 <button onClick={routeChange}>Add User</button>
+                            </div>
+                            <div class="bg-[#00D05A] text-white mt-1 p-3 rounded-xl font-body font-light text-sm">
+                                <button onClick={childFunc}>Add Voter</button>
                             </div>
                         </div>
                         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
