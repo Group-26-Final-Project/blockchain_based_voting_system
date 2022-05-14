@@ -43,7 +43,7 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.0;\n\n/**\n * a contract must implement this interface in order to support relayed transaction.\n * It is better to inherit the BaseRelayRecipient as its implementation.\n */\nabstract contract IRelayRecipient {\n\n    /**\n     * return if the forwarder is trusted to forward relayed transactions to us.\n     * the forwarder is required to verify the sender's signature, and verify\n     * the call is not a replay.\n     */\n    function isTrustedForwarder(address forwarder) public virtual view returns(bool);\n\n    /**\n     * return the sender of this call.\n     * if the call came through our trusted forwarder, then the real sender is appended as the last 20 bytes\n     * of the msg.data.\n     * otherwise, return `msg.sender`\n     * should be used in the contract anywhere instead of msg.sender\n     */\n    function _msgSender() internal virtual view returns (address);\n\n    /**\n     * return the msg.data of this call.\n     * if the call came through our trusted forwarder, then the real sender was appended as the last 20 bytes\n     * of the msg.data - so this method will strip those 20 bytes off.\n     * otherwise (if the call was made directly and not through the forwarder), return `msg.data`\n     * should be used in the contract instead of msg.data, where this difference matters.\n     */\n    function _msgData() internal virtual view returns (bytes calldata);\n\n    function versionRecipient() external virtual view returns (string memory);\n}\n",
-  "sourcePath": "@opengsn\\contracts\\src\\interfaces\\IRelayRecipient.sol",
+  "sourcePath": "@opengsn/contracts/src/interfaces/IRelayRecipient.sol",
   "ast": {
     "absolutePath": "@opengsn/contracts/src/interfaces/IRelayRecipient.sol",
     "exportedSymbols": {
@@ -684,7 +684,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-05-11T22:57:46.312Z",
+  "updatedAt": "2022-05-14T08:28:24.929Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
