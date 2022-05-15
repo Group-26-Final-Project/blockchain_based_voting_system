@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import UsersTable, { Detail } from "./UsersTable";
 // import { UsersData } from './UsersData';
 import { SpinnerCircularFixed } from "spinners-react";
@@ -7,9 +7,8 @@ import StudentContract from "../contracts/AAiTStudent.json";
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 
 export default function Users() {
-  const { isInitialized, isWeb3Enabled, account } =
+  const { isInitialized, isWeb3Enabled, account, enableWeb3, Moralis } =
     useMoralis();
-  const { Moralis } = useMoralis();
 
   const {
     data: data1,
@@ -54,7 +53,7 @@ export default function Users() {
   });
 
   const addVoter = async () => {
-    await Moralis.enableWeb3();
+    await enableWeb3();
     await fetch2();
     console.log("fetch2", data2);
     await fetch1();
@@ -85,7 +84,7 @@ export default function Users() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await Moralis.enableWeb3();
+      await enableWeb3();
       await fetch1();
       console.log(data1);
     };
@@ -93,7 +92,7 @@ export default function Users() {
     if (isInitialized && isWeb3Enabled) {
       fetchData();
     } else {
-      Moralis.enableWeb3();
+      enableWeb3();
       // authenticate();
     }
   }, [isInitialized, isWeb3Enabled]);
