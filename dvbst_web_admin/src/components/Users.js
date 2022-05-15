@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import UsersTable, { Detail } from "./UsersTable";
 // import { UsersData } from './UsersData';
 import { SpinnerCircularFixed } from "spinners-react";
@@ -7,9 +7,8 @@ import StudentContract from "../contracts/AAiTStudent.json";
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 
 export default function Users() {
-  const { isInitialized, isWeb3Enabled, account } =
+  const { isInitialized, isWeb3Enabled, account, enableWeb3, Moralis } =
     useMoralis();
-  const { Moralis } = useMoralis();
 
   const {
     data: data1,
@@ -19,7 +18,7 @@ export default function Users() {
     isLoading: isLoading1,
   } = useWeb3ExecuteFunction({
     //   chain: "eth",
-    contractAddress: "0x051d8ceA67B51Ed411AAfb3b7D2E11A6Ae0aDD58",
+    contractAddress: process.env.REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS,
     functionName: "getAllVoters",
     abi: StudentContract.abi,
   });
@@ -32,7 +31,7 @@ export default function Users() {
     isLoading: isLoading2,
   } = useWeb3ExecuteFunction({
     //   chain: "eth",
-    contractAddress: "0x051d8ceA67B51Ed411AAfb3b7D2E11A6Ae0aDD58",
+    contractAddress: process.env.REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS,
     functionName: "insertVoter",
     abi: StudentContract.abi,
     params: {
@@ -54,9 +53,10 @@ export default function Users() {
   });
 
   const addVoter = async () => {
-    await Moralis.enableWeb3();
+    await enableWeb3();
     await fetch2();
     console.log("fetch2", data2);
+    console.log("error2", eror2);
     await fetch1();
     console.log("fetch1", data1);
   };
@@ -85,7 +85,7 @@ export default function Users() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await Moralis.enableWeb3();
+      await enableWeb3();
       await fetch1();
       console.log(data1);
     };
@@ -93,7 +93,7 @@ export default function Users() {
     if (isInitialized && isWeb3Enabled) {
       fetchData();
     } else {
-      Moralis.enableWeb3();
+      enableWeb3();
       // authenticate();
     }
   }, [isInitialized, isWeb3Enabled]);

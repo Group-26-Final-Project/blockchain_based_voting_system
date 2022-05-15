@@ -2,6 +2,9 @@
 pragma solidity ^0.8.9;
 
 contract AAiTStudent {
+
+    enum DEPTARTMENT_TYPE { SITE, ELEC }
+
     struct UserStruct {
         uint256 index;
         string studentId;
@@ -11,7 +14,7 @@ contract AAiTStudent {
         uint256 DOB;
         uint256 currentYear;
         uint256 currentSection;
-        string currentDepartment;
+        DEPTARTMENT_TYPE currentDepartment;
         address userAddress;
     }
 
