@@ -2,7 +2,8 @@
 pragma solidity ^0.8.9;
 
 contract AAiTElectionTimer {
-    uint256 private end;
+    uint256 private votingDuration;
+    uint256 private breakDuration;
     address public immutable owner;
     string private val;
 
@@ -26,6 +27,11 @@ contract AAiTElectionTimer {
 
     event LogCurrentElectionPhase(string currentPhase);
 
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
     constructor() {
         owner = msg.sender;
         phase = ElectionPhase(PHASE_NAME.COMPLETED, 0, 0);
@@ -38,12 +44,27 @@ contract AAiTElectionTimer {
     //     // IERC20(token).transferFrom(msg.sender, address(this), amount);
     // }
 
-    function getPhaseEnd() public view returns (uint256) {
-        return end;
+    // function getPhaseEnd() public view returns (uint256) {
+    //     return end;
+    // }
+
+    function startTimer(uint256 _votingDuration, uint256 _breakDuration)
+        public
+        onlyOwner
+    {
+        if (phase.phaseName == PHASE_NAME.COMPLETED) {
+            votingDuration = _votingDuration;
+            breakDuration = _breakDuration;
+            phase = ElectionPhase(
+                PHASE_NAME.REGISTRATION,
+                block.timestamp,
+                block.timestamp + votingDuration
+            );
+        }
     }
 
-    function setPhaseEnd(uint256 _newEnd) public {
-        end = _newEnd;
+    function stopTimer() public onlyOwner {
+        phase = ElectionPhase(PHASE_NAME.COMPLETED, 0, 0);
     }
 
     function changePhase(uint256 _newEnd) internal {
@@ -60,6 +81,9 @@ contract AAiTElectionTimer {
     }
 
     function getRemainingTime() external view returns (uint256) {
+        if (phase.phaseName == PHASE_NAME.COMPLETED) {
+            return 0;
+        }
         return phase.end - block.timestamp;
     }
 
@@ -86,69 +110,111 @@ contract AAiTElectionTimer {
     //     return "ON UNKNOWN";
     // }
 
-    function getCurrentPhase() public returns (ElectionPhase memory){
-        return checkCurrentPhase();
+    function getCurrentPhase() public view returns (ElectionPhase memory) {
+        return phase;
     }
 
-    function checkCurrentPhase() internal returns (ElectionPhase memory) {
+    function checkCurrentPhase() external {
         // require(msg.sender == owner, "only owner");
         if (phase.phaseName == PHASE_NAME.REGISTRATION) {
             if (block.timestamp >= phase.end) {
+                changePhase(votingDuration);
+                return;
                 // return "ON REGISTRATION";
-                return phase;
+                // return phase;
             }
-            changePhase(20);
+            phase = ElectionPhase(
+                PHASE_NAME.REGISTRATION,
+                block.timestamp,
+                phase.end
+            );
             // return "SECTION ELECTION INITIATED";
-            return phase;
+            // return phase;
 
             // changeVal("initial phase");
         } else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION) {
             if (block.timestamp >= phase.end) {
+                changePhase(breakDuration);
+                return;
+
                 // return "ON SECTION_ELECTION";
-                return phase;
+                // return phase;
             }
-            changePhase(20);
+            phase = ElectionPhase(
+                PHASE_NAME.SECTION_ELECTION,
+                block.timestamp,
+                phase.end
+            );
             // return "SECTION ELECTION DONE";
-            return phase;
+            // return phase;
         } else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION_BREAK) {
             if (block.timestamp >= phase.end) {
+                changePhase(votingDuration);
+                return;
+
                 // return "ON SECTION ELECTION BREAK";
-                return phase;
+                // return phase;
             }
-            changePhase(20);
+            phase = ElectionPhase(
+                PHASE_NAME.SECTION_ELECTION_BREAK,
+                block.timestamp,
+                phase.end
+            );
             // return "BATCH ELECTION INITIATED";
-            return phase;
+            // return phase;
 
             // changeVal("initial phase");
         } else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION) {
             if (block.timestamp >= phase.end) {
+                changePhase(breakDuration);
+                return;
+
                 // return "ON BATCH ELECTION";
             }
-            changePhase(20);
-            return phase;
+            phase = ElectionPhase(
+                PHASE_NAME.BATCH_ELECTION,
+                block.timestamp,
+                phase.end
+            );
+            // return phase;
             // return "BATCH ELECTION DONE";
         } else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION_BREAK) {
             if (block.timestamp >= phase.end) {
-                return phase;
+                changePhase(votingDuration);
+                return;
+
+                // return phase;
                 // return "ON BATCH ELECTION BREAK";
             }
-            changePhase(20);
-            return phase;
+            phase = ElectionPhase(
+                PHASE_NAME.BATCH_ELECTION_BREAK,
+                block.timestamp,
+                phase.end
+            );
+            // return phase;
             // return "DEPARTMENT ELECTION INITIATED";
             // changeVal("initial phase");
         } else if (phase.phaseName == PHASE_NAME.DEPARTMENT_ELECTION) {
             if (block.timestamp >= phase.end) {
-                return phase;
+                stopTimer();
+                return;
+
+                // return phase;
                 // return "ON DEPARTMENT ELECTION";
             }
-            changePhase(0);
-            return phase;
+            phase = ElectionPhase(
+                PHASE_NAME.DEPARTMENT_ELECTION,
+                block.timestamp,
+                phase.end
+            );
+            // return phase;
             // return "DEPARTMENT ELECTION DONE";
         } else {
             phase = ElectionPhase(PHASE_NAME.COMPLETED, 0, 0);
+            return;
 
             // return "UNKNOWN PHASE";
-            return phase;
+            // return phase;
         }
         // changeVal("to this");
         // if(token == address(0)) {

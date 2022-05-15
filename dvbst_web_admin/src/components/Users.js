@@ -18,7 +18,7 @@ export default function Users() {
     isLoading: isLoading1,
   } = useWeb3ExecuteFunction({
     //   chain: "eth",
-    contractAddress: "0x051d8ceA67B51Ed411AAfb3b7D2E11A6Ae0aDD58",
+    contractAddress: process.env.REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS,
     functionName: "getAllVoters",
     abi: StudentContract.abi,
   });
@@ -31,7 +31,7 @@ export default function Users() {
     isLoading: isLoading2,
   } = useWeb3ExecuteFunction({
     //   chain: "eth",
-    contractAddress: "0x051d8ceA67B51Ed411AAfb3b7D2E11A6Ae0aDD58",
+    contractAddress: process.env.REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS,
     functionName: "insertVoter",
     abi: StudentContract.abi,
     params: {
@@ -56,6 +56,7 @@ export default function Users() {
     await enableWeb3();
     await fetch2();
     console.log("fetch2", data2);
+    console.log("error2", eror2);
     await fetch1();
     console.log("fetch1", data1);
   };
