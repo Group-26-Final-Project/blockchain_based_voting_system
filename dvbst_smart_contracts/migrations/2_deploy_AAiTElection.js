@@ -12,7 +12,7 @@ module.exports = function (deployer, network) {
   //     console.log("No Biconomy Forwarder Found in the desired network!");
   //   }
   deployer.deploy(AAiTElectionTimer).then(function () {
-    console.log("AAiTElectionTimer deployed at: " + AAiTStudent.address);
+    console.log("AAiTElectionTimer deployed at: " + AAiTElectionTimer.address);
     return deployer.deploy(AAiTStudent).then(function () {
       console.log("AAiTStudent deployed at: " + AAiTStudent.address);
       return deployer.deploy(AAiTVoteToken).then(function () {
