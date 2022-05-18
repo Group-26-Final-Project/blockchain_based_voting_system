@@ -5,36 +5,103 @@ import "./AAiTElection.sol";
 import "./AAiTVoteToken.sol";
 import "./AAiTStudent.sol";
 import "./AAiTElectionTimer.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract AAiTElectionHandler{
- address private owner;
+contract AAiTElectionHandler {
+    address private owner;
     address private AAiTVoteTokenAddress;
     address private AAiTStudentAddress;
     address private AAiTElectionTimerAddress;
+    string[] private deptTypes = [
+        "Biomedical Engineering",
+        "Chemical Engineering",
+        "Civil Engineering",
+        "Electrical Engineering",
+        "Mechanical Engineering",
+        "Software Engineering"
+    ];
     // address private AAiTElectionAddress;
 
-     modifier onlyOwner() {
+    modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
-
 
     constructor(
         address _AAiTVoteTokenAddress,
         address _AAiTStudentAddress,
         address _AAiTElectionTimerAddress
-        // address _AAiTElectionAddress
-    ) {
+    ) // address _AAiTElectionAddress
+    {
         owner = msg.sender;
         AAiTVoteTokenAddress = _AAiTVoteTokenAddress;
         AAiTStudentAddress = _AAiTStudentAddress;
         AAiTElectionTimerAddress = _AAiTElectionTimerAddress;
         // AAiTElectionAddress = _AAiTElectionAddress;
     }
+
+    function createElection(
+        uint256 index,
+        uint256 year,
+        uint256 section,
+        AAiTElection.DEPTARTMENT_TYPE department
+    ) public onlyOwner returns (AAiTElection.ElectionStruct) {
+        if (year == 0 && section == 0) {
+            // return AAiTElection.ElectionStruct(0, 0, 0, AAiTElection.DEPTARTMENT_TYPE.NONE);
+            // allElections.push(
+            ElectionStruct({
+                index: index,
+                name: name,
+                electionType: electionType,
+                startDate: startDate,
+                endDate: endDate,
+                candidates: candidates,
+                winners: empty,
+                voters: voters,
+                voted: empty,
+                year: year,
+                section: section,
+                department: department
+            });
+            // );
+            AAiTElection.ElectionStruct memory electionStruct = AAiTElection
+                .ElectionStruct(
+                    AAiTVoteTokenAddress,
+                    AAiTStudentAddress,
+                    AAiTElectionTimerAddress,
+                    year,
+                    section,
+                    department
+                );
+        }
+        //     AAiTElection election = AAiTElection(
+        //         AAiTVoteTokenAddress,
+        //         AAiTStudentAddress,
+        //         AAiTElectionTimerAddress,
+        //         _electionName,
+        //         _electionDescription
+        //     );
+        //     election.createElection(_votingDuration, _breakDuration);
+        AAiTElectionLibrary.bytes32ToString(
+            keccak256(
+                abi.encodePacked(
+                    deptTypes[department],
+                    " Year ",
+                    Strings.toString(year),
+                    " Section ",
+                    Strings.toString(section)
+                )
+            )
+        );
+        Strings.toString(year);
+        Strings.toString(section);
+    }
+
     function burnAllTokens() public onlyOwner {
         AAiTVoteToken tempToken = AAiTVoteToken(AAiTVoteTokenAddress);
         AAiTStudent tempStudent = AAiTStudent(AAiTStudentAddress);
-        AAiTStudent.CandidateStruct[] memory tempCandidate = tempStudent.getAllCandidates();
+        AAiTStudent.CandidateStruct[] memory tempCandidate = tempStudent
+            .getAllCandidates();
         AAiTStudent.VoterStruct[] memory tempVoter = tempStudent.getAllVoters();
         for (uint256 i = 0; i < tempCandidate.length; i++) {
             tempToken.burn(tempCandidate[i].candidateAddress);
@@ -87,16 +154,16 @@ contract AAiTElectionHandler{
         //         }
         //     }
         // } else {
-            for (uint256 i = 0; i < tempVoters.length; i++) {
-                if (
-                    tempVoters[i].voterInfo.voterInfo.currentYear == year &&
-                    tempVoters[i].voterInfo.voterInfo.currentSection == section &&
-                    uint256(tempVoters[i].voterInfo.voterInfo.currentDepartment) ==
-                    uint256(department)
-                ) {
-                    newVoters[i] = tempVoters[i].voterAddress;
-                }
+        for (uint256 i = 0; i < tempVoters.length; i++) {
+            if (
+                tempVoters[i].voterInfo.voterInfo.currentYear == year &&
+                tempVoters[i].voterInfo.voterInfo.currentSection == section &&
+                uint256(tempVoters[i].voterInfo.voterInfo.currentDepartment) ==
+                uint256(department)
+            ) {
+                newVoters[i] = tempVoters[i].voterAddress;
             }
+        }
         // }
         return newVoters;
     }
@@ -133,18 +200,23 @@ contract AAiTElectionHandler{
         //         }
         //     }
         // } else {
-            for (uint256 i = 0; i < tempCandidates.length; i++) {
-                if (
-                    tempCandidates[i].candidateInfo.candidateInfo.currentYear == year &&
-                    tempCandidates[i].candidateInfo.candidateInfo.currentSection == section &&
-                    uint256(
-                        tempCandidates[i].candidateInfo.candidateInfo.currentDepartment
-                    ) ==
-                    uint256(department)
-                ) {
-                    newCandidates[i] = tempCandidates[i].candidateAddress;
-                }
+        for (uint256 i = 0; i < tempCandidates.length; i++) {
+            if (
+                tempCandidates[i].candidateInfo.candidateInfo.currentYear ==
+                year &&
+                tempCandidates[i].candidateInfo.candidateInfo.currentSection ==
+                section &&
+                uint256(
+                    tempCandidates[i]
+                        .candidateInfo
+                        .candidateInfo
+                        .currentDepartment
+                ) ==
+                uint256(department)
+            ) {
+                newCandidates[i] = tempCandidates[i].candidateAddress;
             }
+        }
         // }
         return newCandidates;
     }
@@ -239,6 +311,4 @@ contract AAiTElectionHandler{
 
         return newVoters;
     }
-
-
 }

@@ -15207,7 +15207,27 @@
                   ]
                 },
                 {
-                  "expression": {
+                  "body": {
+                    "nodeType": "YulBlock",
+                    "src": "30452:22:12",
+                    "statements": [
+                      {
+                        "expression": {
+                          "arguments": [],
+                          "functionName": {
+                            "name": "panic_error_0x11",
+                            "nodeType": "YulIdentifier",
+                            "src": "30454:16:12"
+                          },
+                          "nodeType": "YulFunctionCall",
+                          "src": "30454:18:12"
+                        },
+                        "nodeType": "YulExpressionStatement",
+                        "src": "30454:18:12"
+                      }
+                    ]
+                  },
+                  "condition": {
                     "arguments": [
                       {
                         "name": "value",
@@ -15436,7 +15456,29 @@
                         "nodeType": "YulLiteral",
                         "src": "30157:1:12",
                         "type": "",
-                        "value": "0"
+                        "value": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "eq",
+                      "nodeType": "YulIdentifier",
+                      "src": "30374:2:12"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "30374:77:12"
+                  },
+                  "nodeType": "YulIf",
+                  "src": "30371:103:12"
+                },
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "30483:20:12",
+                  "value": {
+                    "arguments": [
+                      {
+                        "name": "value",
+                        "nodeType": "YulIdentifier",
+                        "src": "30494:5:12"
                       },
                       {
                         "kind": "number",
@@ -15837,7 +15879,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "array_storeLengthForEncoding_t_string_memory_ptr_fromStack",
+                      "name": "add",
                       "nodeType": "YulIdentifier",
                       "src": "31037:58:12"
                     },
@@ -15846,12 +15888,39 @@
                   },
                   "variableNames": [
                     {
-                      "name": "pos",
+                      "name": "end",
                       "nodeType": "YulIdentifier",
                       "src": "31030:3:12"
                     }
                   ]
-                },
+                }
+              ]
+            },
+            "name": "abi_encode_t_stringliteral_01e37c7ed6a06a994c20fbd2f42bf29a9f5d6c8e3fc27051e5e2335817ef219a_to_t_string_memory_ptr_fromStack",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "pos",
+                "nodeType": "YulTypedName",
+                "src": "30986:3:12",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "end",
+                "nodeType": "YulTypedName",
+                "src": "30994:3:12",
+                "type": ""
+              }
+            ],
+            "src": "30852:365:12"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "31394:248:12",
+              "statements": [
                 {
                   "expression": {
                     "arguments": [
@@ -29664,7 +29733,8 @@
                       "typeString": "string"
                     }
                   },
-                  "visibility": "internal"
+                  "nodeType": "YulExpressionStatement",
+                  "src": "39459:93:12"
                 },
                 {
                   "constant": false,
@@ -29698,8 +29768,41 @@
                       "typeString": "enum AAiTElection.ELECTION_TYPE"
                     }
                   },
-                  "visibility": "internal"
-                },
+                  "variableNames": [
+                    {
+                      "name": "end",
+                      "nodeType": "YulIdentifier",
+                      "src": "39561:3:12"
+                    }
+                  ]
+                }
+              ]
+            },
+            "name": "abi_encode_t_stringliteral_00b44a83c5e77bfadee08fb75b07b02820c022e1378ff594b970f0a72d12226d_to_t_string_memory_ptr_fromStack",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "pos",
+                "nodeType": "YulTypedName",
+                "src": "39354:3:12",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "end",
+                "nodeType": "YulTypedName",
+                "src": "39362:3:12",
+                "type": ""
+              }
+            ],
+            "src": "39220:366:12"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "39763:248:12",
+              "statements": [
                 {
                   "constant": false,
                   "id": 1206,
@@ -29724,8 +29827,7 @@
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
                     }
-                  },
-                  "visibility": "internal"
+                  ]
                 },
                 {
                   "constant": false,
@@ -29752,7 +29854,8 @@
                       "typeString": "string"
                     }
                   },
-                  "visibility": "internal"
+                  "nodeType": "YulExpressionStatement",
+                  "src": "39809:47:12"
                 },
                 {
                   "constant": false,
@@ -29788,9 +29891,35 @@
                       "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
                       "typeString": "address[]"
                     }
-                  },
-                  "visibility": "internal"
-                },
+                  ]
+                }
+              ]
+            },
+            "name": "cleanup_t_rational_1_by_1",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "value",
+                "nodeType": "YulTypedName",
+                "src": "40052:5:12",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "cleaned",
+                "nodeType": "YulTypedName",
+                "src": "40062:7:12",
+                "type": ""
+              }
+            ],
+            "src": "40017:85:12"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "40140:28:12",
+              "statements": [
                 {
                   "constant": false,
                   "id": 1214,
@@ -29817,6 +29946,11 @@
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
+                    ],
+                    "functionName": {
+                      "name": "cleanup_t_uint256",
+                      "nodeType": "YulIdentifier",
+                      "src": "40265:17:12"
                     },
                     "id": 1213,
                     "nodeType": "ArrayTypeName",
@@ -29879,9 +30013,35 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
-                  },
-                  "visibility": "internal"
-                },
+                  ]
+                }
+              ]
+            },
+            "name": "convert_t_rational_1_by_1_to_t_uint256",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "value",
+                "nodeType": "YulTypedName",
+                "src": "40222:5:12",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "converted",
+                "nodeType": "YulTypedName",
+                "src": "40232:9:12",
+                "type": ""
+              }
+            ],
+            "src": "40174:158:12"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "40411:74:12",
+              "statements": [
                 {
                   "constant": false,
                   "id": 1221,
@@ -29914,7 +30074,8 @@
                       "typeString": "enum AAiTElection.DEPTARTMENT_TYPE"
                     }
                   },
-                  "visibility": "internal"
+                  "nodeType": "YulExpressionStatement",
+                  "src": "40421:58:12"
                 }
               ],
               "src": "5066:288:6"
@@ -30219,6 +30380,11 @@
                         "typeIdentifier": "t_string_storage",
                         "typeString": "string storage ref"
                       }
+                    ],
+                    "functionName": {
+                      "name": "abi_encode_t_address_to_t_address_fromStack",
+                      "nodeType": "YulIdentifier",
+                      "src": "40780:43:12"
                     },
                     "src": "6721:113:6",
                     "typeDescriptions": {
@@ -30680,6 +30846,11 @@
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "40923:3:12"
                         },
                         "isConstant": false,
                         "isLValue": true,
@@ -30848,6 +31019,11 @@
                         "typeIdentifier": "t_function_arraypop_nonpayable$_t_array$_t_string_storage_$dyn_storage_ptr_$returns$__$bound_to$_t_array$_t_string_storage_$dyn_storage_ptr_$",
                         "typeString": "function (string storage ref[] storage pointer)"
                       }
+                    ],
+                    "functionName": {
+                      "name": "allocate_memory",
+                      "nodeType": "YulIdentifier",
+                      "src": "41238:15:12"
                     },
                     "id": 1369,
                     "isConstant": false,
@@ -31066,6 +31242,11 @@
                             "typeIdentifier": "t_string_storage",
                             "typeString": "string storage ref"
                           }
+                        ],
+                        "functionName": {
+                          "name": "mstore",
+                          "nodeType": "YulIdentifier",
+                          "src": "41697:6:12"
                         },
                         "isConstant": false,
                         "isLValue": true,
@@ -31228,6 +31409,11 @@
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
+                        ],
+                        "functionName": {
+                          "name": "mload",
+                          "nodeType": "YulIdentifier",
+                          "src": "41861:5:12"
                         },
                         "isConstant": false,
                         "isLValue": true,
@@ -31580,6 +31766,11 @@
                                     "typeIdentifier": "t_bool",
                                     "typeString": "bool"
                                   }
+                                ],
+                                "functionName": {
+                                  "name": "add",
+                                  "nodeType": "YulIdentifier",
+                                  "src": "42097:3:12"
                                 },
                                 "src": "7882:73:6",
                                 "typeDescriptions": {
@@ -31636,6 +31827,11 @@
                                 "typeIdentifier": "t_bool",
                                 "typeString": "bool"
                               }
+                            ],
+                            "functionName": {
+                              "name": "abi_decode_t_string_memory_ptr_fromMemory",
+                              "nodeType": "YulIdentifier",
+                              "src": "42055:41:12"
                             },
                             "nodeType": "BinaryOperation",
                             "operator": "||",
@@ -31701,6 +31897,11 @@
                                 "typeIdentifier": "t_bool",
                                 "typeString": "bool"
                               }
+                            ],
+                            "functionName": {
+                              "name": "add",
+                              "nodeType": "YulIdentifier",
+                              "src": "42221:3:12"
                             },
                             "src": "7882:385:6",
                             "typeDescriptions": {
@@ -32500,6 +32701,11 @@
                                 "typeIdentifier": "t_struct$_VoterStruct_$4310_memory_ptr",
                                 "typeString": "struct AAiTUser.VoterStruct memory"
                               }
+                            ],
+                            "functionName": {
+                              "name": "add",
+                              "nodeType": "YulIdentifier",
+                              "src": "42391:3:12"
                             },
                             "id": 1490,
                             "isConstant": false,
@@ -33239,6 +33445,11 @@
                             "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
                             "typeString": "address[] memory"
                           }
+                        ],
+                        "functionName": {
+                          "name": "mload",
+                          "nodeType": "YulIdentifier",
+                          "src": "42879:5:12"
                         },
                         "id": 1548,
                         "isConstant": false,
@@ -33658,6 +33869,11 @@
                             "typeIdentifier": "t_struct$_ElectionStruct_$997_memory_ptr",
                             "typeString": "struct AAiTElection.ElectionStruct memory"
                           }
+                        ],
+                        "functionName": {
+                          "name": "mstore",
+                          "nodeType": "YulIdentifier",
+                          "src": "43047:6:12"
                         },
                         "id": 1570,
                         "isConstant": false,
@@ -33862,6 +34078,11 @@
                         "typeIdentifier": "t_function_internal_pure$_t_array$_t_uint256_$dyn_memory_ptr_$returns$_t_uint256_$",
                         "typeString": "function (uint256[] memory) pure returns (uint256)"
                       }
+                    ],
+                    "functionName": {
+                      "name": "slt",
+                      "nodeType": "YulIdentifier",
+                      "src": "43497:3:12"
                     },
                     "id": 1595,
                     "isConstant": false,
@@ -34513,6 +34734,11 @@
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_struct$_CandidateStruct_$3268_memory_ptr_$",
                             "typeString": "function (address) view external returns (struct AAiTStudent.CandidateStruct memory)"
                           }
+                        ],
+                        "functionName": {
+                          "name": "lt",
+                          "nodeType": "YulIdentifier",
+                          "src": "45325:2:12"
                         },
                         "id": 1657,
                         "isConstant": false,
@@ -34561,6 +34787,11 @@
                         "typeIdentifier": "t_function_arraypush_nonpayable$_t_array$_t_struct$_CandidateStruct_$3268_storage_$dyn_storage_ptr_$_t_struct$_CandidateStruct_$3268_storage_$returns$__$bound_to$_t_array$_t_struct$_CandidateStruct_$3268_storage_$dyn_storage_ptr_$",
                         "typeString": "function (struct AAiTStudent.CandidateStruct storage ref[] storage pointer,struct AAiTStudent.CandidateStruct storage ref)"
                       }
+                    ],
+                    "functionName": {
+                      "name": "slt",
+                      "nodeType": "YulIdentifier",
+                      "src": "45703:3:12"
                     },
                     "id": 1658,
                     "isConstant": false,
@@ -35241,6 +35472,11 @@
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
+                        ],
+                        "functionName": {
+                          "name": "mstore",
+                          "nodeType": "YulIdentifier",
+                          "src": "46123:6:12"
                         },
                         "visibility": "internal"
                       }
@@ -35410,6 +35646,11 @@
                         "typeIdentifier": "t_function_internal_view$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (string memory) view"
                       }
+                    ],
+                    "functionName": {
+                      "name": "slt",
+                      "nodeType": "YulIdentifier",
+                      "src": "46525:3:12"
                     },
                     "id": 1727,
                     "isConstant": false,
@@ -35769,6 +36010,11 @@
                           "typeString": "struct AAiTElection.ElectionResultStruct[]"
                         }
                       }
+                    ],
+                    "functionName": {
+                      "name": "shl",
+                      "nodeType": "YulIdentifier",
+                      "src": "46897:3:12"
                     },
                     "id": 1763,
                     "isConstant": false,
@@ -36529,6 +36775,11 @@
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
+                    ],
+                    "functionName": {
+                      "name": "abi_encode_t_enum$_DEPTARTMENT_TYPE_$849_to_t_uint8_nonPadded_inplace_fromStack",
+                      "nodeType": "YulIdentifier",
+                      "src": "47379:79:12"
                     },
                     "nodeType": "BinaryOperation",
                     "operator": "<",
@@ -36597,6 +36848,11 @@
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
+                    ],
+                    "functionName": {
+                      "name": "add",
+                      "nodeType": "YulIdentifier",
+                      "src": "47488:3:12"
                     },
                     "src": "13761:58:6",
                     "typeDescriptions": {
@@ -36791,6 +37047,11 @@
                         "typeIdentifier": "t_struct$_ElectionResultStruct_$1008_storage_ptr",
                         "typeString": "struct AAiTElection.ElectionResultStruct"
                       }
+                    ],
+                    "functionName": {
+                      "name": "mstore",
+                      "nodeType": "YulIdentifier",
+                      "src": "47648:6:12"
                     },
                     "id": 1746,
                     "nodeType": "ArrayTypeName",
@@ -37574,6 +37835,11 @@
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "48294:3:12"
                         },
                         "src": "17647:181:6",
                         "typeDescriptions": {
@@ -39989,6 +40255,23 @@
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             }
+                          ],
+                          "id": 1814,
+                          "initialValue": {
+                            "hexValue": "30",
+                            "id": 1813,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "14642:1:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
                           },
                           "nodeType": "BinaryOperation",
                           "operator": ">",
@@ -40277,7 +40560,7 @@
                   "scope": 958,
                   "src": "885:22:6",
                   "stateVariable": false,
-                  "storageLocation": "memory",
+                  "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
                     "typeString": "uint256[]"
@@ -41203,7 +41486,17 @@
                 "typeString": "struct AAiTElection.ElectionStruct[]"
               }
             },
-            "visibility": "private"
+            "returnParameters": {
+              "id": 950,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2494:0:6"
+            },
+            "scope": 1949,
+            "src": "2357:338:6",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
           },
           {
             "constant": false,
@@ -41289,6 +41582,10 @@
                 "typeString": "struct AAiTStudent.CandidateStruct[]"
               }
             },
+            "scope": 1949,
+            "src": "2728:400:6",
+            "stateMutability": "view",
+            "virtual": false,
             "visibility": "private"
           },
           {
@@ -43286,7 +43583,9 @@
                       "typeString": "enum AAiTElection.DEPTARTMENT_TYPE"
                     }
                   },
-                  "visibility": "internal"
+                  "id": 1164,
+                  "nodeType": "ExpressionStatement",
+                  "src": "4583:495:6"
                 }
               ],
               "src": "4513:90:6"
@@ -45417,8 +45716,8 @@
                       "referencedDeclaration": 968,
                       "src": "7168:34:6",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_array$_t_struct$_ElectionStruct_$884_storage_$dyn_storage_ptr_$_t_struct$_ElectionStruct_$884_storage_$returns$__$bound_to$_t_array$_t_struct$_ElectionStruct_$884_storage_$dyn_storage_ptr_$",
+                        "typeString": "function (struct AAiTElection.ElectionStruct storage ref[] storage pointer,struct AAiTElection.ElectionStruct storage ref)"
                       }
                     },
                     "src": "7097:105:6",
@@ -45602,8 +45901,8 @@
                         "referencedDeclaration": 968,
                         "src": "7290:34:6",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
                         }
                       },
                       "isConstant": false,
@@ -46962,6 +47261,12 @@
                           "typeString": "address"
                         }
                       },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1291,
+                  "initialValue": {
+                    "arguments": [
                       {
                         "hexValue": "31",
                         "id": 1478,
@@ -47024,7 +47329,7 @@
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
-                    "kind": "functionCall",
+                    "kind": "typeConversion",
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
@@ -47696,8 +48001,24 @@
                       "typeString": "address"
                     }
                   },
-                  "visibility": "internal"
-                },
+                  "id": 1393,
+                  "nodeType": "ExpressionStatement",
+                  "src": "7624:310:6"
+                }
+              ]
+            },
+            "functionSelector": "1afa74e5",
+            "id": 1395,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "vote",
+            "nameLocation": "6194:4:6",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1283,
+              "nodeType": "ParameterList",
+              "parameters": [
                 {
                   "constant": false,
                   "id": 1407,
@@ -47783,6 +48104,17 @@
                           "typeIdentifier": "t_struct$_ElectionStruct_$997_storage_ptr",
                           "typeString": "struct AAiTElection.ElectionStruct"
                         }
+                      ],
+                      "id": 1421,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "8200:13:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_uint256_$dyn_memory_ptr_$",
+                        "typeString": "function (uint256) pure returns (uint256[] memory)"
                       },
                       "visibility": "internal"
                     }
@@ -47910,8 +48242,8 @@
                         "nodeType": "MemberAccess",
                         "src": "10348:22:6",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                          "typeString": "address[] memory"
                         }
                       }
                     ],
@@ -48426,8 +48758,8 @@
                         "referencedDeclaration": 1565,
                         "src": "10503:1:6",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
+                          "typeIdentifier": "t_struct$_ElectionStruct_$884_memory_ptr",
+                          "typeString": "struct AAiTElection.ElectionStruct memory"
                         }
                       },
                       "typeDescriptions": {
@@ -48777,7 +49109,7 @@
                         },
                         "id": 1603,
                         "isConstant": false,
-                        "isLValue": true,
+                        "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "candidates",
@@ -50362,6 +50694,7 @@
                           "isConstant": false,
                           "isLValue": true,
                           "isPure": false,
+                          "kind": "structConstructorCall",
                           "lValueRequested": false,
                           "memberName": "candidates",
                           "nodeType": "MemberAccess",
@@ -50571,16 +50904,8 @@
                               "nodeType": "IndexAccess",
                               "src": "13971:50:6",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_address",
-                                "typeString": "address"
-                              }
-                            }
-                          ],
-                          "expression": {
-                            "argumentTypes": [
-                              {
-                                "typeIdentifier": "t_address",
-                                "typeString": "address"
+                                "typeIdentifier": "t_array$_t_struct$_ElectionResultStruct_$895_memory_ptr_$dyn_memory_ptr",
+                                "typeString": "struct AAiTElection.ElectionResultStruct memory[] memory"
                               }
                             ],
                             "expression": {
@@ -50597,7 +50922,7 @@
                             },
                             "id": 1785,
                             "isConstant": false,
-                            "isLValue": false,
+                            "isLValue": true,
                             "isPure": false,
                             "lValueRequested": false,
                             "memberName": "getCandidate",
@@ -51731,6 +52056,7 @@
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
+                          "kind": "functionCall",
                           "lValueRequested": false,
                           "memberName": "PHASE_NAME",
                           "nodeType": "MemberAccess",
@@ -51892,8 +52218,8 @@
                           },
                           "id": 1910,
                           "isConstant": false,
-                          "isLValue": true,
-                          "isPure": false,
+                          "isLValue": false,
+                          "isPure": true,
                           "lValueRequested": false,
                           "memberName": "phaseName",
                           "nodeType": "MemberAccess",
@@ -53346,6 +53672,12 @@
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             }
+                          ]
+                        },
+                        "condition": {
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
                           },
                           "src": "16927:23:6",
                           "typeDescriptions": {
