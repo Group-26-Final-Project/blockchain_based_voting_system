@@ -1,7 +1,9 @@
 const AAiTVoteToken = artifacts.require("AAiTVoteToken");
 const AAiTElection = artifacts.require("AAiTElection");
 const AAiTStudent = artifacts.require("AAiTStudent");
+const AAiTUser = artifacts.require("AAiTUser");
 const AAiTElectionTimer = artifacts.require("AAiTElectionTimer");
+const AAiTElectionHandler = artifacts.require("AAiTElectionHandler");
 // const biconomyForwarder = require("../list/biconomyForwarder.json");
 
 module.exports = function (deployer, network) {

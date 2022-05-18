@@ -142,19 +142,19 @@
     "1554": [
       {
         "length": 32,
-        "start": 1752
+        "start": 2636
       },
       {
         "length": 32,
-        "start": 1930
+        "start": 2814
       },
       {
         "length": 32,
-        "start": 2140
+        "start": 3024
       },
       {
         "length": 32,
-        "start": 2537
+        "start": 3421
       }
     ]
   },
@@ -700,7 +700,7 @@
                             "nodeType": "YulLiteral",
                             "src": "867:1:11",
                             "type": "",
-                            "value": "7"
+                            "value": "11"
                           }
                         ],
                         "functionName": {
@@ -6001,7 +6001,7 @@
                         "isLValue": false,
                         "isPure": true,
                         "lValueRequested": false,
-                        "memberName": "SECTION_ELECTION",
+                        "memberName": "REGISTRATION_BREAK",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 1558,
                         "src": "4128:27:7",
@@ -6074,7 +6074,7 @@
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
-                          "memberName": "SECTION_ELECTION_BREAK",
+                          "memberName": "SECTION_ELECTION",
                           "nodeType": "MemberAccess",
                           "referencedDeclaration": 1559,
                           "src": "4655:33:7",
@@ -6147,7 +6147,7 @@
                             "isLValue": false,
                             "isPure": true,
                             "lValueRequested": false,
-                            "memberName": "BATCH_ELECTION",
+                            "memberName": "SECTION_ELECTION_DONE",
                             "nodeType": "MemberAccess",
                             "referencedDeclaration": 1560,
                             "src": "5250:25:7",
@@ -6220,7 +6220,7 @@
                               "isLValue": false,
                               "isPure": true,
                               "lValueRequested": false,
-                              "memberName": "BATCH_ELECTION_BREAK",
+                              "memberName": "SECTION_ELECTION_BREAK",
                               "nodeType": "MemberAccess",
                               "referencedDeclaration": 1561,
                               "src": "5735:31:7",
@@ -6293,7 +6293,7 @@
                                 "isLValue": false,
                                 "isPure": true,
                                 "lValueRequested": false,
-                                "memberName": "DEPARTMENT_ELECTION",
+                                "memberName": "BATCH_ELECTION",
                                 "nodeType": "MemberAccess",
                                 "referencedDeclaration": 1562,
                                 "src": "6327:30:7",
@@ -6466,8 +6466,8 @@
                                 {
                                   "condition": {
                                     "commonType": {
-                                      "typeIdentifier": "t_uint256",
-                                      "typeString": "uint256"
+                                      "typeIdentifier": "t_enum$_PHASE_NAME_$2919",
+                                      "typeString": "enum AAiTElectionTimer.PHASE_NAME"
                                     },
                                     "id": 1909,
                                     "isConstant": false,
@@ -6483,25 +6483,25 @@
                                         "referencedDeclaration": 4294967292,
                                         "src": "6378:5:7",
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_magic_block",
-                                          "typeString": "block"
+                                          "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                          "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
                                         }
                                       },
                                       "id": 1906,
                                       "isConstant": false,
-                                      "isLValue": false,
+                                      "isLValue": true,
                                       "isPure": false,
                                       "lValueRequested": false,
-                                      "memberName": "timestamp",
+                                      "memberName": "phaseName",
                                       "nodeType": "MemberAccess",
                                       "src": "6378:15:7",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_uint256",
-                                        "typeString": "uint256"
+                                        "typeIdentifier": "t_enum$_PHASE_NAME_$2919",
+                                        "typeString": "enum AAiTElectionTimer.PHASE_NAME"
                                       }
                                     },
                                     "nodeType": "BinaryOperation",
-                                    "operator": ">=",
+                                    "operator": "==",
                                     "rightExpression": {
                                       "expression": {
                                         "id": 1907,
@@ -6517,16 +6517,16 @@
                                       },
                                       "id": 1908,
                                       "isConstant": false,
-                                      "isLValue": true,
-                                      "isPure": false,
+                                      "isLValue": false,
+                                      "isPure": true,
                                       "lValueRequested": false,
-                                      "memberName": "end",
+                                      "memberName": "DEPARTMENT_ELECTION",
                                       "nodeType": "MemberAccess",
                                       "referencedDeclaration": 1571,
                                       "src": "6397:9:7",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_uint256",
-                                        "typeString": "uint256"
+                                        "typeIdentifier": "t_enum$_PHASE_NAME_$2919",
+                                        "typeString": "enum AAiTElectionTimer.PHASE_NAME"
                                       }
                                     },
                                     "src": "6378:28:7",
@@ -6570,8 +6570,8 @@
                                           "src": "6427:11:7",
                                           "tryCall": false,
                                           "typeDescriptions": {
-                                            "typeIdentifier": "t_tuple$__$",
-                                            "typeString": "tuple()"
+                                            "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                            "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
                                           }
                                         },
                                         "id": 1912,
@@ -6606,10 +6606,11 @@
                                         "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
                                       }
                                     },
-                                    "nodeType": "Assignment",
-                                    "operator": "=",
-                                    "rightHandSide": {
-                                      "arguments": [
+                                    "falseBody": {
+                                      "id": 3409,
+                                      "nodeType": "Block",
+                                      "src": "8916:163:8",
+                                      "statements": [
                                         {
                                           "expression": {
                                             "id": 1918,
@@ -6626,7 +6627,7 @@
                                           "id": 1919,
                                           "isConstant": false,
                                           "isLValue": false,
-                                          "isPure": true,
+                                          "isPure": false,
                                           "lValueRequested": false,
                                           "memberName": "DEPARTMENT_ELECTION",
                                           "nodeType": "MemberAccess",
@@ -6637,7 +6638,33 @@
                                             "typeString": "enum AAiTElectionTimer.PHASE_NAME"
                                           }
                                         },
-                                        {
+                                        "id": 3368,
+                                        "nodeType": "ExpressionStatement",
+                                        "src": "8136:143:8"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "id": 3412,
+                                "nodeType": "IfStatement",
+                                "src": "7290:1789:8",
+                                "trueBody": {
+                                  "id": 3341,
+                                  "nodeType": "Block",
+                                  "src": "7346:514:8",
+                                  "statements": [
+                                    {
+                                      "condition": {
+                                        "commonType": {
+                                          "typeIdentifier": "t_uint256",
+                                          "typeString": "uint256"
+                                        },
+                                        "id": 3322,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": false,
+                                        "lValueRequested": false,
+                                        "leftExpression": {
                                           "expression": {
                                             "id": 1920,
                                             "name": "block",
@@ -6663,7 +6690,9 @@
                                             "typeString": "uint256"
                                           }
                                         },
-                                        {
+                                        "nodeType": "BinaryOperation",
+                                        "operator": ">=",
+                                        "rightExpression": {
                                           "expression": {
                                             "id": 1922,
                                             "name": "phase",
@@ -6689,21 +6718,177 @@
                                             "typeIdentifier": "t_uint256",
                                             "typeString": "uint256"
                                           }
+                                        },
+                                        "src": "7364:28:8",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_bool",
+                                          "typeString": "bool"
                                         }
-                                      ],
-                                      "expression": {
-                                        "argumentTypes": [
+                                      },
+                                      "id": 3329,
+                                      "nodeType": "IfStatement",
+                                      "src": "7360:205:8",
+                                      "trueBody": {
+                                        "id": 3328,
+                                        "nodeType": "Block",
+                                        "src": "7394:171:8",
+                                        "statements": [
                                           {
                                             "typeIdentifier": "t_enum$_PHASE_NAME_$1564",
                                             "typeString": "enum AAiTElectionTimer.PHASE_NAME"
                                           },
                                           {
-                                            "typeIdentifier": "t_uint256",
-                                            "typeString": "uint256"
+                                            "functionReturnParameters": 3109,
+                                            "id": 3327,
+                                            "nodeType": "Return",
+                                            "src": "7457:7:8"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "expression": {
+                                        "id": 3339,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": false,
+                                        "lValueRequested": false,
+                                        "leftHandSide": {
+                                          "id": 3330,
+                                          "name": "phase",
+                                          "nodeType": "Identifier",
+                                          "overloadedDeclarations": [],
+                                          "referencedDeclaration": 2930,
+                                          "src": "7578:5:8",
+                                          "typeDescriptions": {
+                                            "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                            "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
+                                          }
+                                        },
+                                        "nodeType": "Assignment",
+                                        "operator": "=",
+                                        "rightHandSide": {
+                                          "arguments": [
+                                            {
+                                              "expression": {
+                                                "id": 3332,
+                                                "name": "PHASE_NAME",
+                                                "nodeType": "Identifier",
+                                                "overloadedDeclarations": [],
+                                                "referencedDeclaration": 2919,
+                                                "src": "7617:10:8",
+                                                "typeDescriptions": {
+                                                  "typeIdentifier": "t_type$_t_enum$_PHASE_NAME_$2919_$",
+                                                  "typeString": "type(enum AAiTElectionTimer.PHASE_NAME)"
+                                                }
+                                              },
+                                              "id": 3333,
+                                              "isConstant": false,
+                                              "isLValue": false,
+                                              "isPure": true,
+                                              "lValueRequested": false,
+                                              "memberName": "BATCH_ELECTION_BREAK",
+                                              "nodeType": "MemberAccess",
+                                              "referencedDeclaration": 2914,
+                                              "src": "7617:31:8",
+                                              "typeDescriptions": {
+                                                "typeIdentifier": "t_enum$_PHASE_NAME_$2919",
+                                                "typeString": "enum AAiTElectionTimer.PHASE_NAME"
+                                              }
+                                            },
+                                            {
+                                              "expression": {
+                                                "id": 3334,
+                                                "name": "block",
+                                                "nodeType": "Identifier",
+                                                "overloadedDeclarations": [],
+                                                "referencedDeclaration": 4294967292,
+                                                "src": "7666:5:8",
+                                                "typeDescriptions": {
+                                                  "typeIdentifier": "t_magic_block",
+                                                  "typeString": "block"
+                                                }
+                                              },
+                                              "id": 3335,
+                                              "isConstant": false,
+                                              "isLValue": false,
+                                              "isPure": false,
+                                              "lValueRequested": false,
+                                              "memberName": "timestamp",
+                                              "nodeType": "MemberAccess",
+                                              "src": "7666:15:8",
+                                              "typeDescriptions": {
+                                                "typeIdentifier": "t_uint256",
+                                                "typeString": "uint256"
+                                              }
+                                            },
+                                            {
+                                              "expression": {
+                                                "id": 3336,
+                                                "name": "phase",
+                                                "nodeType": "Identifier",
+                                                "overloadedDeclarations": [],
+                                                "referencedDeclaration": 2930,
+                                                "src": "7699:5:8",
+                                                "typeDescriptions": {
+                                                  "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                                  "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
+                                                }
+                                              },
+                                              "id": 3337,
+                                              "isConstant": false,
+                                              "isLValue": true,
+                                              "isPure": false,
+                                              "lValueRequested": false,
+                                              "memberName": "end",
+                                              "nodeType": "MemberAccess",
+                                              "referencedDeclaration": 2926,
+                                              "src": "7699:9:8",
+                                              "typeDescriptions": {
+                                                "typeIdentifier": "t_uint256",
+                                                "typeString": "uint256"
+                                              }
+                                            }
+                                          ],
+                                          "expression": {
+                                            "argumentTypes": [
+                                              {
+                                                "typeIdentifier": "t_enum$_PHASE_NAME_$2919",
+                                                "typeString": "enum AAiTElectionTimer.PHASE_NAME"
+                                              },
+                                              {
+                                                "typeIdentifier": "t_uint256",
+                                                "typeString": "uint256"
+                                              },
+                                              {
+                                                "typeIdentifier": "t_uint256",
+                                                "typeString": "uint256"
+                                              }
+                                            ],
+                                            "id": 3331,
+                                            "name": "ElectionPhase",
+                                            "nodeType": "Identifier",
+                                            "overloadedDeclarations": [],
+                                            "referencedDeclaration": 2927,
+                                            "src": "7586:13:8",
+                                            "typeDescriptions": {
+                                              "typeIdentifier": "t_type$_t_struct$_ElectionPhase_$2927_storage_ptr_$",
+                                              "typeString": "type(struct AAiTElectionTimer.ElectionPhase storage pointer)"
+                                            }
                                           },
-                                          {
-                                            "typeIdentifier": "t_uint256",
-                                            "typeString": "uint256"
+                                          "id": 3338,
+                                          "isConstant": false,
+                                          "isLValue": false,
+                                          "isPure": false,
+                                          "kind": "structConstructorCall",
+                                          "lValueRequested": false,
+                                          "names": [],
+                                          "nodeType": "FunctionCall",
+                                          "src": "7586:136:8",
+                                          "tryCall": false,
+                                          "typeDescriptions": {
+                                            "typeIdentifier": "t_struct$_ElectionPhase_$2927_memory_ptr",
+                                            "typeString": "struct AAiTElectionTimer.ElectionPhase memory"
                                           }
                                         ],
                                         "id": 1917,
@@ -6721,7 +6906,6 @@
                                       "isConstant": false,
                                       "isLValue": false,
                                       "isPure": false,
-                                      "kind": "structConstructorCall",
                                       "lValueRequested": false,
                                       "names": [],
                                       "nodeType": "FunctionCall",
@@ -6852,6 +7036,14 @@
                                         "expression": {
                                           "argumentTypes": [
                                             {
+                                              "typeIdentifier": "t_enum$_PHASE_NAME_$2919",
+                                              "typeString": "enum AAiTElectionTimer.PHASE_NAME"
+                                            },
+                                            {
+                                              "typeIdentifier": "t_uint256",
+                                              "typeString": "uint256"
+                                            },
+                                            {
                                               "typeIdentifier": "t_uint256",
                                               "typeString": "uint256"
                                             }
@@ -6863,23 +7055,23 @@
                                           "referencedDeclaration": 1722,
                                           "src": "5836:11:7",
                                           "typeDescriptions": {
-                                            "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
-                                            "typeString": "function (uint256)"
+                                            "typeIdentifier": "t_type$_t_struct$_ElectionPhase_$2927_storage_ptr_$",
+                                            "typeString": "type(struct AAiTElectionTimer.ElectionPhase storage pointer)"
                                           }
                                         },
                                         "id": 1883,
                                         "isConstant": false,
                                         "isLValue": false,
                                         "isPure": false,
-                                        "kind": "functionCall",
+                                        "kind": "structConstructorCall",
                                         "lValueRequested": false,
                                         "names": [],
                                         "nodeType": "FunctionCall",
                                         "src": "5836:27:7",
                                         "tryCall": false,
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_tuple$__$",
-                                          "typeString": "tuple()"
+                                          "typeIdentifier": "t_struct$_ElectionPhase_$2927_memory_ptr",
+                                          "typeString": "struct AAiTElectionTimer.ElectionPhase memory"
                                         }
                                       },
                                       "id": 1884,
@@ -6967,10 +7159,38 @@
                                         "nodeType": "MemberAccess",
                                         "src": "6098:15:7",
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_uint256",
-                                          "typeString": "uint256"
+                                          "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                          "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
                                         }
                                       },
+                                      "id": 3263,
+                                      "isConstant": false,
+                                      "isLValue": true,
+                                      "isPure": false,
+                                      "lValueRequested": false,
+                                      "memberName": "end",
+                                      "nodeType": "MemberAccess",
+                                      "referencedDeclaration": 2926,
+                                      "src": "6375:9:8",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                      }
+                                    },
+                                    "src": "6356:28:8",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_bool",
+                                      "typeString": "bool"
+                                    }
+                                  },
+                                  "id": 3271,
+                                  "nodeType": "IfStatement",
+                                  "src": "6352:165:8",
+                                  "trueBody": {
+                                    "id": 3270,
+                                    "nodeType": "Block",
+                                    "src": "6386:131:8",
+                                    "statements": [
                                       {
                                         "expression": {
                                           "id": 1894,
@@ -7160,6 +7380,14 @@
                                       "expression": {
                                         "argumentTypes": [
                                           {
+                                            "typeIdentifier": "t_enum$_PHASE_NAME_$2919",
+                                            "typeString": "enum AAiTElectionTimer.PHASE_NAME"
+                                          },
+                                          {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                          },
+                                          {
                                             "typeIdentifier": "t_uint256",
                                             "typeString": "uint256"
                                           }
@@ -7171,23 +7399,23 @@
                                         "referencedDeclaration": 1722,
                                         "src": "5345:11:7",
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
-                                          "typeString": "function (uint256)"
+                                          "typeIdentifier": "t_type$_t_struct$_ElectionPhase_$2927_storage_ptr_$",
+                                          "typeString": "type(struct AAiTElectionTimer.ElectionPhase storage pointer)"
                                         }
                                       },
                                       "id": 1854,
                                       "isConstant": false,
                                       "isLValue": false,
                                       "isPure": false,
-                                      "kind": "functionCall",
+                                      "kind": "structConstructorCall",
                                       "lValueRequested": false,
                                       "names": [],
                                       "nodeType": "FunctionCall",
                                       "src": "5345:26:7",
                                       "tryCall": false,
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_tuple$__$",
-                                        "typeString": "tuple()"
+                                        "typeIdentifier": "t_struct$_ElectionPhase_$2927_memory_ptr",
+                                        "typeString": "struct AAiTElectionTimer.ElectionPhase memory"
                                       }
                                     },
                                     "id": 1855,
@@ -7561,7 +7789,12 @@
                                       "typeString": "enum AAiTElectionTimer.PHASE_NAME"
                                     }
                                   },
-                                  {
+                                  "id": 3235,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "leftExpression": {
                                     "expression": {
                                       "id": 1834,
                                       "name": "block",
@@ -7587,7 +7820,9 @@
                                       "typeString": "uint256"
                                     }
                                   },
-                                  {
+                                  "nodeType": "BinaryOperation",
+                                  "operator": ">=",
+                                  "rightExpression": {
                                     "expression": {
                                       "id": 1836,
                                       "name": "phase",
@@ -7613,6 +7848,11 @@
                                       "typeIdentifier": "t_uint256",
                                       "typeString": "uint256"
                                     }
+                                  },
+                                  "src": "5786:28:8",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_bool",
+                                    "typeString": "bool"
                                   }
                                 ],
                                 "expression": {
@@ -7622,12 +7862,63 @@
                                       "typeString": "enum AAiTElectionTimer.PHASE_NAME"
                                     },
                                     {
-                                      "typeIdentifier": "t_uint256",
-                                      "typeString": "uint256"
+                                      "expression": {
+                                        "arguments": [
+                                          {
+                                            "id": 3237,
+                                            "name": "votingDuration",
+                                            "nodeType": "Identifier",
+                                            "overloadedDeclarations": [],
+                                            "referencedDeclaration": 2901,
+                                            "src": "5846:14:8",
+                                            "typeDescriptions": {
+                                              "typeIdentifier": "t_uint256",
+                                              "typeString": "uint256"
+                                            }
+                                          }
+                                        ],
+                                        "expression": {
+                                          "argumentTypes": [
+                                            {
+                                              "typeIdentifier": "t_uint256",
+                                              "typeString": "uint256"
+                                            }
+                                          ],
+                                          "id": 3236,
+                                          "name": "changePhase",
+                                          "nodeType": "Identifier",
+                                          "overloadedDeclarations": [],
+                                          "referencedDeclaration": 3077,
+                                          "src": "5834:11:8",
+                                          "typeDescriptions": {
+                                            "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
+                                            "typeString": "function (uint256)"
+                                          }
+                                        },
+                                        "id": 3238,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": false,
+                                        "kind": "functionCall",
+                                        "lValueRequested": false,
+                                        "names": [],
+                                        "nodeType": "FunctionCall",
+                                        "src": "5834:27:8",
+                                        "tryCall": false,
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_tuple$__$",
+                                          "typeString": "tuple()"
+                                        }
+                                      },
+                                      "id": 3239,
+                                      "nodeType": "ExpressionStatement",
+                                      "src": "5834:27:8"
                                     },
                                     {
-                                      "typeIdentifier": "t_uint256",
-                                      "typeString": "uint256"
+                                      "functionReturnParameters": 3109,
+                                      "id": 3240,
+                                      "nodeType": "Return",
+                                      "src": "5879:7:8"
                                     }
                                   ],
                                   "id": 1831,
@@ -7933,9 +8224,10 @@
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   },
-                                  {
-                                    "typeIdentifier": "t_uint256",
-                                    "typeString": "uint256"
+                                  "src": "6002:146:8",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                    "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
                                   }
                                 ],
                                 "id": 1802,
@@ -8076,16 +8368,8 @@
                                     "referencedDeclaration": 1550,
                                     "src": "3668:14:7",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_uint256",
-                                      "typeString": "uint256"
-                                    }
-                                  }
-                                ],
-                                "expression": {
-                                  "argumentTypes": [
-                                    {
-                                      "typeIdentifier": "t_uint256",
-                                      "typeString": "uint256"
+                                      "typeIdentifier": "t_magic_block",
+                                      "typeString": "block"
                                     }
                                   ],
                                   "id": 1765,
@@ -8095,8 +8379,8 @@
                                   "referencedDeclaration": 1722,
                                   "src": "3656:11:7",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
-                                    "typeString": "function (uint256)"
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
                                   }
                                 },
                                 "id": 1767,
@@ -8177,7 +8461,33 @@
                                   "typeString": "enum AAiTElectionTimer.PHASE_NAME"
                                 }
                               },
-                              {
+                              "id": 3224,
+                              "nodeType": "ExpressionStatement",
+                              "src": "5441:145:8"
+                            }
+                          ]
+                        }
+                      },
+                      "id": 3417,
+                      "nodeType": "IfStatement",
+                      "src": "4631:4448:8",
+                      "trueBody": {
+                        "id": 3196,
+                        "nodeType": "Block",
+                        "src": "4683:467:8",
+                        "statements": [
+                          {
+                            "condition": {
+                              "commonType": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              },
+                              "id": 3177,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "leftExpression": {
                                 "expression": {
                                   "id": 1776,
                                   "name": "block",
@@ -8203,7 +8513,9 @@
                                   "typeString": "uint256"
                                 }
                               },
-                              {
+                              "nodeType": "BinaryOperation",
+                              "operator": ">=",
+                              "rightExpression": {
                                 "expression": {
                                   "id": 1778,
                                   "name": "phase",
@@ -8229,6 +8541,11 @@
                                   "typeIdentifier": "t_uint256",
                                   "typeString": "uint256"
                                 }
+                              },
+                              "src": "4701:28:8",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_bool",
+                                "typeString": "bool"
                               }
                             ],
                             "expression": {
@@ -10930,7 +11247,7 @@
                         "isLValue": false,
                         "isPure": true,
                         "lValueRequested": false,
-                        "memberName": "SECTION_ELECTION",
+                        "memberName": "REGISTRATION_BREAK",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 1558,
                         "src": "4128:27:7",
@@ -11003,7 +11320,7 @@
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
-                          "memberName": "SECTION_ELECTION_BREAK",
+                          "memberName": "SECTION_ELECTION",
                           "nodeType": "MemberAccess",
                           "referencedDeclaration": 1559,
                           "src": "4655:33:7",
@@ -11076,7 +11393,7 @@
                             "isLValue": false,
                             "isPure": true,
                             "lValueRequested": false,
-                            "memberName": "BATCH_ELECTION",
+                            "memberName": "SECTION_ELECTION_DONE",
                             "nodeType": "MemberAccess",
                             "referencedDeclaration": 1560,
                             "src": "5250:25:7",
@@ -11149,7 +11466,7 @@
                               "isLValue": false,
                               "isPure": true,
                               "lValueRequested": false,
-                              "memberName": "BATCH_ELECTION_BREAK",
+                              "memberName": "SECTION_ELECTION_BREAK",
                               "nodeType": "MemberAccess",
                               "referencedDeclaration": 1561,
                               "src": "5735:31:7",
@@ -11260,12 +11577,29 @@
                                         "typeIdentifier": "t_struct$_ElectionPhase_$1572_storage",
                                         "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
                                       }
-                                    },
-                                    "nodeType": "Assignment",
-                                    "operator": "=",
-                                    "rightHandSide": {
-                                      "arguments": [
-                                        {
+                                    ]
+                                  }
+                                },
+                                "id": 3412,
+                                "nodeType": "IfStatement",
+                                "src": "7290:1789:8",
+                                "trueBody": {
+                                  "id": 3341,
+                                  "nodeType": "Block",
+                                  "src": "7346:514:8",
+                                  "statements": [
+                                    {
+                                      "condition": {
+                                        "commonType": {
+                                          "typeIdentifier": "t_uint256",
+                                          "typeString": "uint256"
+                                        },
+                                        "id": 3322,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": false,
+                                        "lValueRequested": false,
+                                        "leftExpression": {
                                           "expression": {
                                             "id": 1930,
                                             "name": "PHASE_NAME",
@@ -11281,9 +11615,9 @@
                                           "id": 1931,
                                           "isConstant": false,
                                           "isLValue": false,
-                                          "isPure": true,
+                                          "isPure": false,
                                           "lValueRequested": false,
-                                          "memberName": "COMPLETED",
+                                          "memberName": "timestamp",
                                           "nodeType": "MemberAccess",
                                           "referencedDeclaration": 1563,
                                           "src": "6865:20:7",
@@ -11296,48 +11630,295 @@
                                           "hexValue": "30",
                                           "id": 1932,
                                           "isConstant": false,
-                                          "isLValue": false,
-                                          "isPure": true,
-                                          "kind": "number",
+                                          "isLValue": true,
+                                          "isPure": false,
                                           "lValueRequested": false,
                                           "nodeType": "Literal",
                                           "src": "6887:1:7",
                                           "typeDescriptions": {
-                                            "typeIdentifier": "t_rational_0_by_1",
-                                            "typeString": "int_const 0"
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                          }
+                                        },
+                                        "src": "7364:28:8",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_bool",
+                                          "typeString": "bool"
+                                        }
+                                      },
+                                      "id": 3329,
+                                      "nodeType": "IfStatement",
+                                      "src": "7360:205:8",
+                                      "trueBody": {
+                                        "id": 3328,
+                                        "nodeType": "Block",
+                                        "src": "7394:171:8",
+                                        "statements": [
+                                          {
+                                            "expression": {
+                                              "arguments": [
+                                                {
+                                                  "id": 3324,
+                                                  "name": "votingDuration",
+                                                  "nodeType": "Identifier",
+                                                  "overloadedDeclarations": [],
+                                                  "referencedDeclaration": 2901,
+                                                  "src": "7424:14:8",
+                                                  "typeDescriptions": {
+                                                    "typeIdentifier": "t_uint256",
+                                                    "typeString": "uint256"
+                                                  }
+                                                }
+                                              ],
+                                              "expression": {
+                                                "argumentTypes": [
+                                                  {
+                                                    "typeIdentifier": "t_uint256",
+                                                    "typeString": "uint256"
+                                                  }
+                                                ],
+                                                "id": 3323,
+                                                "name": "changePhase",
+                                                "nodeType": "Identifier",
+                                                "overloadedDeclarations": [],
+                                                "referencedDeclaration": 3077,
+                                                "src": "7412:11:8",
+                                                "typeDescriptions": {
+                                                  "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
+                                                  "typeString": "function (uint256)"
+                                                }
+                                              },
+                                              "id": 3325,
+                                              "isConstant": false,
+                                              "isLValue": false,
+                                              "isPure": false,
+                                              "kind": "functionCall",
+                                              "lValueRequested": false,
+                                              "names": [],
+                                              "nodeType": "FunctionCall",
+                                              "src": "7412:27:8",
+                                              "tryCall": false,
+                                              "typeDescriptions": {
+                                                "typeIdentifier": "t_tuple$__$",
+                                                "typeString": "tuple()"
+                                              }
+                                            },
+                                            "id": 3326,
+                                            "nodeType": "ExpressionStatement",
+                                            "src": "7412:27:8"
                                           },
-                                          "value": "0"
+                                          {
+                                            "functionReturnParameters": 3109,
+                                            "id": 3327,
+                                            "nodeType": "Return",
+                                            "src": "7457:7:8"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "expression": {
+                                        "id": 3339,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": false,
+                                        "lValueRequested": false,
+                                        "leftHandSide": {
+                                          "id": 3330,
+                                          "name": "phase",
+                                          "nodeType": "Identifier",
+                                          "overloadedDeclarations": [],
+                                          "referencedDeclaration": 2930,
+                                          "src": "7578:5:8",
+                                          "typeDescriptions": {
+                                            "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                            "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
+                                          }
                                         },
                                         {
                                           "hexValue": "30",
                                           "id": 1933,
                                           "isConstant": false,
                                           "isLValue": false,
-                                          "isPure": true,
-                                          "kind": "number",
+                                          "isPure": false,
+                                          "kind": "structConstructorCall",
                                           "lValueRequested": false,
                                           "nodeType": "Literal",
                                           "src": "6890:1:7",
                                           "typeDescriptions": {
-                                            "typeIdentifier": "t_rational_0_by_1",
-                                            "typeString": "int_const 0"
-                                          },
-                                          "value": "0"
+                                            "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                            "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
+                                          }
+                                        },
+                                        "id": 3292,
+                                        "isConstant": false,
+                                        "isLValue": true,
+                                        "isPure": false,
+                                        "lValueRequested": false,
+                                        "memberName": "end",
+                                        "nodeType": "MemberAccess",
+                                        "referencedDeclaration": 2926,
+                                        "src": "6850:9:8",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_uint256",
+                                          "typeString": "uint256"
                                         }
-                                      ],
-                                      "expression": {
-                                        "argumentTypes": [
+                                      },
+                                      "src": "6831:28:8",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_bool",
+                                        "typeString": "bool"
+                                      }
+                                    },
+                                    "id": 3300,
+                                    "nodeType": "IfStatement",
+                                    "src": "6827:200:8",
+                                    "trueBody": {
+                                      "id": 3299,
+                                      "nodeType": "Block",
+                                      "src": "6861:166:8",
+                                      "statements": [
+                                        {
+                                          "expression": {
+                                            "arguments": [
+                                              {
+                                                "id": 3295,
+                                                "name": "breakDuration",
+                                                "nodeType": "Identifier",
+                                                "overloadedDeclarations": [],
+                                                "referencedDeclaration": 2903,
+                                                "src": "6891:13:8",
+                                                "typeDescriptions": {
+                                                  "typeIdentifier": "t_uint256",
+                                                  "typeString": "uint256"
+                                                }
+                                              }
+                                            ],
+                                            "expression": {
+                                              "argumentTypes": [
+                                                {
+                                                  "typeIdentifier": "t_uint256",
+                                                  "typeString": "uint256"
+                                                }
+                                              ],
+                                              "id": 3294,
+                                              "name": "changePhase",
+                                              "nodeType": "Identifier",
+                                              "overloadedDeclarations": [],
+                                              "referencedDeclaration": 3077,
+                                              "src": "6879:11:8",
+                                              "typeDescriptions": {
+                                                "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
+                                                "typeString": "function (uint256)"
+                                              }
+                                            },
+                                            "id": 3296,
+                                            "isConstant": false,
+                                            "isLValue": false,
+                                            "isPure": false,
+                                            "kind": "functionCall",
+                                            "lValueRequested": false,
+                                            "names": [],
+                                            "nodeType": "FunctionCall",
+                                            "src": "6879:26:8",
+                                            "tryCall": false,
+                                            "typeDescriptions": {
+                                              "typeIdentifier": "t_tuple$__$",
+                                              "typeString": "tuple()"
+                                            }
+                                          },
+                                          "id": 3297,
+                                          "nodeType": "ExpressionStatement",
+                                          "src": "6879:26:8"
+                                        },
+                                        {
+                                          "functionReturnParameters": 3109,
+                                          "id": 3298,
+                                          "nodeType": "Return",
+                                          "src": "6923:7:8"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "expression": {
+                                      "id": 3310,
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": false,
+                                      "lValueRequested": false,
+                                      "leftHandSide": {
+                                        "id": 3301,
+                                        "name": "phase",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 2930,
+                                        "src": "7040:5:8",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                          "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
+                                        }
+                                      },
+                                      "nodeType": "Assignment",
+                                      "operator": "=",
+                                      "rightHandSide": {
+                                        "arguments": [
                                           {
                                             "typeIdentifier": "t_enum$_PHASE_NAME_$1564",
                                             "typeString": "enum AAiTElectionTimer.PHASE_NAME"
                                           },
                                           {
-                                            "typeIdentifier": "t_rational_0_by_1",
-                                            "typeString": "int_const 0"
+                                            "expression": {
+                                              "id": 3305,
+                                              "name": "block",
+                                              "nodeType": "Identifier",
+                                              "overloadedDeclarations": [],
+                                              "referencedDeclaration": 4294967292,
+                                              "src": "7127:5:8",
+                                              "typeDescriptions": {
+                                                "typeIdentifier": "t_magic_block",
+                                                "typeString": "block"
+                                              }
+                                            },
+                                            "id": 3306,
+                                            "isConstant": false,
+                                            "isLValue": false,
+                                            "isPure": false,
+                                            "lValueRequested": false,
+                                            "memberName": "timestamp",
+                                            "nodeType": "MemberAccess",
+                                            "src": "7127:15:8",
+                                            "typeDescriptions": {
+                                              "typeIdentifier": "t_uint256",
+                                              "typeString": "uint256"
+                                            }
                                           },
                                           {
-                                            "typeIdentifier": "t_rational_0_by_1",
-                                            "typeString": "int_const 0"
+                                            "expression": {
+                                              "id": 3307,
+                                              "name": "phase",
+                                              "nodeType": "Identifier",
+                                              "overloadedDeclarations": [],
+                                              "referencedDeclaration": 2930,
+                                              "src": "7160:5:8",
+                                              "typeDescriptions": {
+                                                "typeIdentifier": "t_struct$_ElectionPhase_$2927_storage",
+                                                "typeString": "struct AAiTElectionTimer.ElectionPhase storage ref"
+                                              }
+                                            },
+                                            "id": 3308,
+                                            "isConstant": false,
+                                            "isLValue": true,
+                                            "isPure": false,
+                                            "lValueRequested": false,
+                                            "memberName": "end",
+                                            "nodeType": "MemberAccess",
+                                            "referencedDeclaration": 2926,
+                                            "src": "7160:9:8",
+                                            "typeDescriptions": {
+                                              "typeIdentifier": "t_uint256",
+                                              "typeString": "uint256"
+                                            }
                                           }
                                         ],
                                         "id": 1929,
@@ -11474,7 +12055,20 @@
                                     "statements": [
                                       {
                                         "expression": {
-                                          "arguments": [],
+                                          "arguments": [
+                                            {
+                                              "id": 3266,
+                                              "name": "breakDuration",
+                                              "nodeType": "Identifier",
+                                              "overloadedDeclarations": [],
+                                              "referencedDeclaration": 2903,
+                                              "src": "6416:13:8",
+                                              "typeDescriptions": {
+                                                "typeIdentifier": "t_uint256",
+                                                "typeString": "uint256"
+                                              }
+                                            }
+                                          ],
                                           "expression": {
                                             "argumentTypes": [],
                                             "id": 1910,
@@ -11484,8 +12078,8 @@
                                             "referencedDeclaration": 1661,
                                             "src": "6427:9:7",
                                             "typeDescriptions": {
-                                              "typeIdentifier": "t_function_internal_nonpayable$__$returns$__$",
-                                              "typeString": "function ()"
+                                              "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
+                                              "typeString": "function (uint256)"
                                             }
                                           },
                                           "id": 1911,
@@ -11557,7 +12151,7 @@
                                           "isLValue": false,
                                           "isPure": true,
                                           "lValueRequested": false,
-                                          "memberName": "DEPARTMENT_ELECTION",
+                                          "memberName": "BATCH_ELECTION",
                                           "nodeType": "MemberAccess",
                                           "referencedDeclaration": 1562,
                                           "src": "6622:30:7",
@@ -11865,7 +12459,7 @@
                                         "isLValue": false,
                                         "isPure": true,
                                         "lValueRequested": false,
-                                        "memberName": "BATCH_ELECTION_BREAK",
+                                        "memberName": "SECTION_ELECTION_BREAK",
                                         "nodeType": "MemberAccess",
                                         "referencedDeclaration": 1561,
                                         "src": "6048:31:7",
@@ -12173,7 +12767,7 @@
                                       "isLValue": false,
                                       "isPure": true,
                                       "lValueRequested": false,
-                                      "memberName": "BATCH_ELECTION",
+                                      "memberName": "SECTION_ELECTION_DONE",
                                       "nodeType": "MemberAccess",
                                       "referencedDeclaration": 1560,
                                       "src": "5516:25:7",
@@ -12481,7 +13075,7 @@
                                     "isLValue": false,
                                     "isPure": true,
                                     "lValueRequested": false,
-                                    "memberName": "SECTION_ELECTION_BREAK",
+                                    "memberName": "SECTION_ELECTION",
                                     "nodeType": "MemberAccess",
                                     "referencedDeclaration": 1559,
                                     "src": "4972:33:7",
@@ -12789,7 +13383,7 @@
                                   "isLValue": false,
                                   "isPure": true,
                                   "lValueRequested": false,
-                                  "memberName": "SECTION_ELECTION",
+                                  "memberName": "REGISTRATION_BREAK",
                                   "nodeType": "MemberAccess",
                                   "referencedDeclaration": 1558,
                                   "src": "4432:27:7",

@@ -41,13 +41,15 @@ contract AAiTVoteToken is ERC20, BaseRelayRecipient {
         return true;
     }
 
-    function burnRemainingTokens(address tokenOwner) public onlyOwner {
-        _burn(owner, balanceOf(tokenOwner));
+    function burn(address tokenOwner) public onlyOwner {
+        if (balanceOf(tokenOwner) > 0) {
+            _burn(tokenOwner, balanceOf(tokenOwner));
+        }
     }
 
-    function getRemainingToken(address voter) public view returns (uint256) {
-        return balanceOf(voter);
-    }
+    // function getRemainingToken(address voter) public view returns (uint256) {
+    //     return balanceOf(voter);
+    // }
 
     // constructor(address _trustedForwarder) ERC20("AAiT Vote", "VOT") {
     //     _mint(msg.sender, 1000);

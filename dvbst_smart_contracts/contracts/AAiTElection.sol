@@ -5,11 +5,20 @@ pragma solidity ^0.8.9;
 // import "./Voter.sol";
 import "./AAiTVoteToken.sol";
 import "./AAiTStudent.sol";
+import "./AAiTElectionTimer.sol";
+import "./AAiTElectionHandler.sol";
+
 
 contract AAiTElection {
-
-    enum DEPTARTMENT_TYPE { SITE, ELEC }
-    enum ELECTION_TYPE { DEPARTMENT, BATCH, SECTION }
+    enum DEPTARTMENT_TYPE {
+        SITE,
+        ELEC
+    }
+    enum ELECTION_TYPE {
+        DEPARTMENT,
+        BATCH,
+        SECTION
+    }
 
     struct ElectionStruct {
         uint256 index;
@@ -26,6 +35,14 @@ contract AAiTElection {
         DEPTARTMENT_TYPE department;
     }
 
+    struct ElectionResultStruct {
+        string candidateFName;
+        string candidateLName;
+        string candidateGName;
+        address candidateAddress;
+        uint256 votes;
+    }
+
     address private owner;
     address private AAiTVoteTokenAddress;
     address private AAiTStudentAddress;
@@ -35,43 +52,49 @@ contract AAiTElection {
     string[] private electionIndex;
     ElectionStruct[] private electionValue;
     ElectionStruct[] private allElections;
+    ElectionStruct[] private midTransistionElections;
     ElectionStruct[] private previousElections;
+    AAiTStudent.CandidateStruct[] private blacklistedCandidates;
 
-    event LogNewElection(
-        uint256 index,
-        string name,
-        ELECTION_TYPE electionType,
-        string startDate,
-        string endDate,
-        address[] candidates,
-        address[] winners,
-        address[] voters,
-        address[] voted,
-        uint256 year,
-        uint256 section,
-        DEPTARTMENT_TYPE department
-    );
-    event LogUpdateElection(
-        uint256 index,
-        string name,
-        ELECTION_TYPE electionType,
-        string startDate,
-        string endDate,
-        address[] candidates,
-        address[] winners,
-        address[] voters,
-        address[] voted,
-        uint256 year,
-        uint256 section,
-        DEPTARTMENT_TYPE department
-    );
+    // event LogNewElection(
+    //     uint256 index,
+    //     string name,
+    //     ELECTION_TYPE electionType,
+    //     string startDate,
+    //     string endDate,
+    //     address[] candidates,
+    //     address[] winners,
+    //     address[] voters,
+    //     address[] voted,
+    //     uint256 year,
+    //     uint256 section,
+    //     DEPTARTMENT_TYPE department
+    // );
+    // event LogUpdateElection(
+    //     uint256 index,
+    //     string name,
+    //     ELECTION_TYPE electionType,
+    //     string startDate,
+    //     string endDate,
+    //     address[] candidates,
+    //     address[] winners,
+    //     address[] voters,
+    //     address[] voted,
+    //     uint256 year,
+    //     uint256 section,
+    //     DEPTARTMENT_TYPE department
+    // );
 
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
 
-    constructor(address _AAiTVoteTokenAddress, address _AAiTStudentAddress, address _AAiTElectionTimerAddress) {
+    constructor(
+        address _AAiTVoteTokenAddress,
+        address _AAiTStudentAddress,
+        address _AAiTElectionTimerAddress
+    ) {
         owner = msg.sender;
         AAiTVoteTokenAddress = _AAiTVoteTokenAddress;
         AAiTStudentAddress = _AAiTStudentAddress;
@@ -85,10 +108,9 @@ contract AAiTElection {
         view
         returns (bool)
     {
-        ElectionStruct[] memory temp = allElections;
-        for (uint256 i = 0; i < temp.length; i++) {
+        for (uint256 i = 0; i < allElections.length; i++) {
             if (
-                keccak256(abi.encodePacked(temp[i].name)) ==
+                keccak256(abi.encodePacked(allElections[i].name)) ==
                 keccak256(abi.encodePacked(_name))
             ) {
                 return true;
@@ -102,12 +124,11 @@ contract AAiTElection {
         uint256 section,
         DEPTARTMENT_TYPE department
     ) private view returns (bool) {
-        ElectionStruct[] memory temp = allElections;
-        for (uint256 i = 0; i < temp.length; i++) {
+        for (uint256 i = 0; i < allElections.length; i++) {
             if (
-                temp[i].year == year &&
-                temp[i].section == section &&
-                keccak256(abi.encodePacked(temp[i].department)) ==
+                allElections[i].year == year &&
+                allElections[i].section == section &&
+                keccak256(abi.encodePacked(allElections[i].department)) ==
                 keccak256(abi.encodePacked(department))
             ) {
                 return true;
@@ -127,15 +148,16 @@ contract AAiTElection {
         uint256 section,
         DEPTARTMENT_TYPE department
     ) public {
-        require(!findElectionByName(name), "Election already exists");
         require(
-            !findElectionByType(year, section, department),
-            "Election already exists"
+            !findElectionByName(name) ||
+                !findElectionByType(year, section, department),
+            "exists"
         );
+
         uint256 index = allElections.length;
         address[] memory empty;
         electionStructsMapping[name] = ElectionStruct(
-            index,
+            allElections.length,
             name,
             electionType,
             startDate,
@@ -150,7 +172,7 @@ contract AAiTElection {
         );
         allElections.push(
             ElectionStruct({
-                index: index,
+                index: allElections.length,
                 name: name,
                 electionType: electionType,
                 startDate: startDate,
@@ -167,10 +189,7 @@ contract AAiTElection {
     }
 
     function removeElection(string memory name) internal onlyOwner {
-        require(
-            findElectionByName(name),
-            "Election with this name does not exist"
-        );
+        require(findElectionByName(name), "No Election");
         // uint256 rowToDelete = electionStructsMapping[name].index;
         // string memory keyToMove = electionIndex[electionIndex.length - 1];
         electionIndex[electionStructsMapping[name].index] = electionIndex[
@@ -196,29 +215,69 @@ contract AAiTElection {
     function vote(address voterAddress, address candidateAddress) public {
         AAiTVoteToken tempToken = AAiTVoteToken(AAiTVoteTokenAddress);
         AAiTStudent tempStudent = AAiTStudent(AAiTStudentAddress);
-        require(voterAddress != candidateAddress, "Permission Denied");
+        AAiTStudent.VoterStruct memory tempVoter = tempStudent.getVoter(
+            voterAddress
+        );
         require(
-            voterAddress != owner || candidateAddress != owner,
+            voterAddress != candidateAddress ||
+                voterAddress != owner ||
+                candidateAddress != owner||
+            tempStudent.isVoter(
+                // tempVoter.voterInfo.voterInfo.fName,
+                // tempVoter.voterInfo.voterInfo.lName,
+                // tempVoter.voterInfo.voterInfo.gName,
+                voterAddress
+            ) ||
+                tempToken.balanceOf(voterAddress) > 0 ||
+                !AAiTElectionLibrary.contains(
+                    getElectionByType(
+                        tempVoter.voterInfo.voterInfo.currentYear,
+                        tempVoter.voterInfo.voterInfo.currentSection,
+                        DEPTARTMENT_TYPE(
+                            uint256(tempVoter.voterInfo.voterInfo.currentDepartment)
+                        )
+                    ).voted,
+                    voterAddress
+                ),
             "Invalid Operation"
         );
-        require(tempStudent.isVoter(voterAddress), "You can not vote");
-        require(tempToken.balanceOf(voterAddress) > 0, "Insufficient Token");
 
+        // require(
+        //     ,
+        //     "You have already voted"
+        // );
         tempToken.transferFrom(voterAddress, candidateAddress, 1);
-        moveToVoted(voterAddress, "electionName");
+        moveToVoted(
+            voterAddress,
+            getElectionByType(
+                tempVoter.voterInfo.voterInfo.currentYear,
+                tempVoter.voterInfo.voterInfo.currentSection,
+                DEPTARTMENT_TYPE(uint256(tempVoter.voterInfo.voterInfo.currentDepartment))
+            ).name
+        );
     }
 
-    function burnAllTokens() public onlyOwner {
-        AAiTVoteToken temp = AAiTVoteToken(AAiTVoteTokenAddress);
-        temp.burnRemainingTokens(owner);
-    }
-
-    function declareWinner(string memory electionName, address[] memory winners)
-        public
-        view
-    {
+    function declareWinner(string memory electionName) public view {
+        AAiTVoteToken tempToken = AAiTVoteToken(AAiTVoteTokenAddress);
         ElectionStruct memory temp = electionStructsMapping[electionName];
+
+        uint256[] memory tempVoteCount = new uint256[](temp.candidates.length);
+        address[] memory winners = new address[](temp.candidates.length);
+        for (uint256 i = 0; i < temp.candidates.length; i++) {
+            tempVoteCount[i] = tempToken.balanceOf(temp.candidates[i]);
+            // tempVoteCount.push(tempToken.balanceOf(temp.candidates[i]));
+        }
+        uint256 max = AAiTElectionLibrary.findLargest(tempVoteCount);
+        for (uint256 i = 0; i < temp.candidates.length; i++) {
+            if (tempVoteCount[i] == max) {
+                winners[i] = temp.candidates[i];
+            }
+        }
+
         temp.winners = winners;
+
+        // sort candidates
+        // uint256[] memory sortedCandidates = temp.candidates;
 
         // removeElection(electionName);
 
@@ -227,34 +286,171 @@ contract AAiTElection {
         // electionStructsMapping[electionName].winners.push(electionStructsMapping[electionName].candidates[winnerIndex]);
     }
 
+    function blacklistCandidate(address candidateAddress) public onlyOwner {
+        AAiTStudent tempStudent = AAiTStudent(AAiTStudentAddress);
+        AAiTStudent.CandidateStruct memory tempCandidate = tempStudent
+            .getCandidate(candidateAddress);
+        blacklistedCandidates.push(tempStudent.getCandidate(candidateAddress));
+        // ElectionStruct[] memory tempElection = allElections;
+        for (uint256 i = 0; i < allElections.length; i++) {
+            if (
+                AAiTElectionLibrary.contains(
+                    allElections[i].candidates,
+                    candidateAddress
+                )
+            ) {
+                delete allElections[i].candidates[
+                    AAiTElectionLibrary.indexOf(
+                        allElections[i].candidates,
+                        candidateAddress
+                    )
+                ];
+
+                electionStructsMapping[allElections[i].name]
+                    .candidates = allElections[i].candidates;
+
+                tempStudent.removeCandidate(
+                    // tempCandidate.candidateInfo.candidateInfo.fName,
+                    // tempCandidate.candidateInfo.candidateInfo.lName,
+                    // tempCandidate.candidateInfo.candidateInfo.gName,
+                    candidateAddress
+                );
+            }
+        }
+    }
+
+    function endElection(string memory electionName) public onlyOwner {
+        declareWinner(electionName);
+        removeElection(electionName);
+    }
+
+    function endAllOngoingElections() public onlyOwner {
+        // ElectionStruct[] memory temp = allElections;
+        // for (uint256 i = 0; i < temp.length; i++) {
+        //     if (temp[i].electionType == ELECTION_TYPE.ONGOING) {
+        //         endElection(temp[i].name);
+        //     }
+        // }
+    }
+
+    function getElectionResult(string memory electionName)
+        public
+        view
+        returns (ElectionResultStruct[] memory)
+    {
+        // ElectionStruct memory temp = electionStructsMapping[electionName];
+        ElectionResultStruct[] memory result = new ElectionResultStruct[](
+            electionStructsMapping[electionName].candidates.length
+        );
+        AAiTVoteToken tempToken = AAiTVoteToken(AAiTVoteTokenAddress);
+        AAiTStudent tempStudent = AAiTStudent(AAiTStudentAddress);
+
+        for (
+            uint256 i = 0;
+            i < electionStructsMapping[electionName].candidates.length;
+            i++
+        ) {
+            AAiTStudent.CandidateStruct memory tempCandidate = tempStudent
+                .getCandidate(
+                    electionStructsMapping[electionName].candidates[i]
+                );
+            ElectionResultStruct memory tempResult = ElectionResultStruct(
+                tempCandidate.candidateInfo.candidateInfo.fName,
+                tempCandidate.candidateInfo.candidateInfo.lName,
+                tempCandidate.candidateInfo.candidateInfo.gName,
+                electionStructsMapping[electionName].candidates[i],
+                tempToken.balanceOf(
+                    electionStructsMapping[electionName].candidates[i]
+                )
+            );
+            result[i] = tempResult;
+        }
+        return result;
+    }
+
     function moveToVoted(address voterAddress, string memory electionName)
         private
     {
-        uint256 index = electionStructsMapping[electionName].index;
+        // uint256 index = electionStructsMapping[electionName].index;
 
         electionStructsMapping[electionName].voted.push(voterAddress);
-        delete electionStructsMapping[electionName].voters[index];
+        // delete electionStructsMapping[electionName].voters[index];
         // uint256 index = electionStructsMapping[electionName].index;
-        electionValue[index] = electionStructsMapping[electionName];
-        emit LogUpdateElection(
-            index,
-            electionStructsMapping[electionName].name,
-            electionStructsMapping[electionName].electionType,
-            electionStructsMapping[electionName].startDate,
-            electionStructsMapping[electionName].endDate,
-            electionStructsMapping[electionName].candidates,
-            electionStructsMapping[electionName].winners,
-            electionStructsMapping[electionName].voters,
-            electionStructsMapping[electionName].voted,
-            electionStructsMapping[electionName].year,
-            electionStructsMapping[electionName].section,
-            electionStructsMapping[electionName].department
-        );
+        electionValue[electionStructsMapping[electionName].index]
+            .voted = electionStructsMapping[electionName].voted;
+        // emit LogUpdateElection(
+        //     index,
+        //     electionStructsMapping[electionName].name,
+        //     electionStructsMapping[electionName].electionType,
+        //     electionStructsMapping[electionName].startDate,
+        //     electionStructsMapping[electionName].endDate,
+        //     electionStructsMapping[electionName].candidates,
+        //     electionStructsMapping[electionName].winners,
+        //     electionStructsMapping[electionName].voters,
+        //     electionStructsMapping[electionName].voted,
+        //     electionStructsMapping[electionName].year,
+        //     electionStructsMapping[electionName].section,
+        //     electionStructsMapping[electionName].department
+        // );
     }
 
     // GET FUNCTIONS
 
     function getAllElections() public view returns (ElectionStruct[] memory) {
         return allElections;
+    }
+
+    function getElectionByType(
+        uint256 year,
+        uint256 section,
+        AAiTElection.DEPTARTMENT_TYPE department
+    ) public view returns (AAiTElection.ElectionStruct memory) {
+        AAiTElectionTimer tempTimer = AAiTElectionTimer(
+            AAiTElectionTimerAddress
+        );
+        // AAiTElection tempElection = AAiTElection(AAiTElectionAddress);
+        // AAiTElection.ElectionStruct[] memory allElections = tempElection
+        //     .getAllElections();
+        if (
+            tempTimer.getCurrentPhase().phaseName ==
+            AAiTElectionTimer.PHASE_NAME.DEPARTMENT_ELECTION ||
+            tempTimer.getCurrentPhase().phaseName ==
+            AAiTElectionTimer.PHASE_NAME.DEPARTMENT_ELECTION_DONE
+        ) {
+            for (uint256 i = 0; i < allElections.length; i++) {
+                if (allElections[i].department == department) {
+                    return allElections[i];
+                }
+            }
+        } else if (
+            tempTimer.getCurrentPhase().phaseName ==
+            AAiTElectionTimer.PHASE_NAME.BATCH_ELECTION ||
+            tempTimer.getCurrentPhase().phaseName ==
+            AAiTElectionTimer.PHASE_NAME.BATCH_ELECTION_DONE
+        ) {
+            for (uint256 i = 0; i < allElections.length; i++) {
+                if (
+                    allElections[i].department == department &&
+                    allElections[i].year == year
+                ) {
+                    return allElections[i];
+                }
+            }
+        } else if (
+            tempTimer.getCurrentPhase().phaseName ==
+            AAiTElectionTimer.PHASE_NAME.SECTION_ELECTION ||
+            tempTimer.getCurrentPhase().phaseName ==
+            AAiTElectionTimer.PHASE_NAME.SECTION_ELECTION_DONE
+        ) {
+            for (uint256 i = 0; i < allElections.length; i++) {
+                if (
+                    allElections[i].department == department &&
+                    allElections[i].year == year &&
+                    allElections[i].section == section
+                ) {
+                    return allElections[i];
+                }
+            }
+        }
     }
 }
