@@ -242,8 +242,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -9848,7 +9847,7 @@
                           }
                         ],
                         "functionName": {
-                          "name": "sub",
+                          "name": "mstore",
                           "nodeType": "YulIdentifier",
                           "src": "22766:3:12"
                         },
@@ -11569,7 +11568,40 @@
                       "src": "19688:63:12"
                     }
                   ]
-                },
+                }
+              ]
+            },
+            "name": "abi_encode_t_struct$_CandidateStruct_$3294_memory_ptr_to_t_struct$_CandidateStruct_$3294_memory_ptr",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "value",
+                "nodeType": "YulTypedName",
+                "src": "15742:5:12",
+                "type": ""
+              },
+              {
+                "name": "pos",
+                "nodeType": "YulTypedName",
+                "src": "15749:3:12",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "end",
+                "nodeType": "YulTypedName",
+                "src": "15758:3:12",
+                "type": ""
+              }
+            ],
+            "src": "15633:679:12"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "16464:142:12",
+              "statements": [
                 {
                   "nodeType": "YulAssignment",
                   "src": "19771:11:12",
@@ -11580,7 +11612,7 @@
                   },
                   "variableNames": [
                     {
-                      "name": "end",
+                      "name": "updatedPos",
                       "nodeType": "YulIdentifier",
                       "src": "19771:3:12"
                     }
@@ -11592,7 +11624,7 @@
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
-                "name": "value",
+                "name": "value0",
                 "nodeType": "YulTypedName",
                 "src": "19242:5:12",
                 "type": ""
@@ -11606,7 +11638,7 @@
             ],
             "returnVariables": [
               {
-                "name": "end",
+                "name": "updatedPos",
                 "nodeType": "YulTypedName",
                 "src": "19258:3:12",
                 "type": ""
@@ -11751,7 +11783,7 @@
                   "value": {
                     "arguments": [
                       {
-                        "name": "pos",
+                        "name": "value",
                         "nodeType": "YulIdentifier",
                         "src": "26846:3:12"
                       },
@@ -12808,9 +12840,54 @@
                         "nodeType": "YulExpressionStatement",
                         "src": "22797:79:12"
                       }
-                    ]
+                    ],
+                    "functionName": {
+                      "name": "add",
+                      "nodeType": "YulIdentifier",
+                      "src": "19048:3:12"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "19048:14:12"
                   },
-                  "condition": {
+                  "variableNames": [
+                    {
+                      "name": "data",
+                      "nodeType": "YulIdentifier",
+                      "src": "19040:4:12"
+                    }
+                  ]
+                }
+              ]
+            },
+            "name": "array_dataslot_t_array$_t_struct$_VoterStruct_$3288_memory_ptr_$dyn_memory_ptr",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "ptr",
+                "nodeType": "YulTypedName",
+                "src": "18996:3:12",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "data",
+                "nodeType": "YulTypedName",
+                "src": "19004:4:12",
+                "type": ""
+              }
+            ],
+            "src": "18908:161:12"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "19263:525:12",
+              "statements": [
+                {
+                  "nodeType": "YulVariableDeclaration",
+                  "src": "19273:26:12",
+                  "value": {
                     "arguments": [
                       {
                         "arguments": [
@@ -12842,7 +12919,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "slt",
+                      "name": "add",
                       "nodeType": "YulIdentifier",
                       "src": "22762:3:12"
                     },
@@ -12864,7 +12941,7 @@
                           {
                             "arguments": [
                               {
-                                "name": "headStart",
+                                "name": "value",
                                 "nodeType": "YulIdentifier",
                                 "src": "22934:9:12"
                               },
@@ -12873,7 +12950,7 @@
                                 "nodeType": "YulLiteral",
                                 "src": "22945:1:12",
                                 "type": "",
-                                "value": "0"
+                                "value": "0x00"
                               }
                             ],
                             "functionName": {
@@ -12886,7 +12963,7 @@
                           }
                         ],
                         "functionName": {
-                          "name": "calldataload",
+                          "name": "mload",
                           "nodeType": "YulIdentifier",
                           "src": "22917:12:12"
                         },
@@ -12895,7 +12972,7 @@
                       },
                       "variables": [
                         {
-                          "name": "offset",
+                          "name": "memberValue0",
                           "nodeType": "YulTypedName",
                           "src": "22907:6:12",
                           "type": ""
@@ -12908,10 +12985,9 @@
                         "src": "22995:83:12",
                         "statements": [
                           {
-                            "expression": {
-                              "arguments": [],
-                              "functionName": {
-                                "name": "revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db",
+                            "arguments": [
+                              {
+                                "name": "pos",
                                 "nodeType": "YulIdentifier",
                                 "src": "22997:77:12"
                               },
@@ -12939,7 +13015,7 @@
                           }
                         ],
                         "functionName": {
-                          "name": "gt",
+                          "name": "mstore",
                           "nodeType": "YulIdentifier",
                           "src": "22964:2:12"
                         },
@@ -12976,7 +13052,7 @@
                             "src": "23133:22:12"
                           },
                           {
-                            "name": "dataEnd",
+                            "name": "tail",
                             "nodeType": "YulIdentifier",
                             "src": "23157:7:12"
                           }
@@ -12991,11 +13067,70 @@
                       },
                       "variableNames": [
                         {
-                          "name": "value0",
+                          "name": "tail",
                           "nodeType": "YulIdentifier",
                           "src": "23092:6:12"
                         }
                       ]
+                    },
+                    {
+                      "expression": {
+                        "arguments": [
+                          {
+                            "name": "memberValue0",
+                            "nodeType": "YulIdentifier",
+                            "src": "19722:12:12"
+                          },
+                          {
+                            "arguments": [
+                              {
+                                "name": "pos",
+                                "nodeType": "YulIdentifier",
+                                "src": "19740:3:12"
+                              },
+                              {
+                                "kind": "number",
+                                "nodeType": "YulLiteral",
+                                "src": "19745:4:12",
+                                "type": "",
+                                "value": "0x20"
+                              }
+                            ],
+                            "functionName": {
+                              "name": "add",
+                              "nodeType": "YulIdentifier",
+                              "src": "19736:3:12"
+                            },
+                            "nodeType": "YulFunctionCall",
+                            "src": "19736:14:12"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "abi_encode_t_uint256_to_t_uint256",
+                          "nodeType": "YulIdentifier",
+                          "src": "19688:33:12"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "19688:63:12"
+                      },
+                      "nodeType": "YulExpressionStatement",
+                      "src": "19688:63:12"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "19771:11:12",
+                  "value": {
+                    "name": "tail",
+                    "nodeType": "YulIdentifier",
+                    "src": "19778:4:12"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "end",
+                      "nodeType": "YulIdentifier",
+                      "src": "19771:3:12"
                     }
                   ]
                 }
@@ -13005,13 +13140,13 @@
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
-                "name": "headStart",
+                "name": "value",
                 "nodeType": "YulTypedName",
                 "src": "22719:9:12",
                 "type": ""
               },
               {
-                "name": "dataEnd",
+                "name": "pos",
                 "nodeType": "YulTypedName",
                 "src": "22730:7:12",
                 "type": ""
@@ -13360,7 +13495,7 @@
                   "value": {
                     "arguments": [
                       {
-                        "name": "headStart",
+                        "name": "ptr",
                         "nodeType": "YulIdentifier",
                         "src": "24109:9:12"
                       },
@@ -13389,7 +13524,9 @@
                   ]
                 },
                 {
-                  "expression": {
+                  "nodeType": "YulVariableDeclaration",
+                  "src": "21221:97:12",
+                  "value": {
                     "arguments": [
                       {
                         "arguments": [
@@ -13437,7 +13574,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "mstore",
+                      "name": "array_length_t_array$_t_struct$_VoterStruct_$3288_memory_ptr_$dyn_memory_ptr",
                       "nodeType": "YulIdentifier",
                       "src": "24133:6:12"
                     },
@@ -13543,7 +13680,7 @@
                             "src": "24413:7:12"
                           },
                           {
-                            "name": "headStart",
+                            "name": "tail",
                             "nodeType": "YulIdentifier",
                             "src": "24422:9:12"
                           }
@@ -13624,6 +13761,10 @@
                             "nodeType": "YulFunctionCall",
                             "src": "24606:22:12"
                           },
+                          "nodeType": "YulFunctionCall",
+                          "src": "22103:14:12"
+                        },
+                        "variableNames": [
                           {
                             "name": "dataEnd",
                             "nodeType": "YulIdentifier",
@@ -13791,6 +13932,12 @@
                 "name": "value",
                 "nodeType": "YulTypedName",
                 "src": "24804:5:12",
+                "type": ""
+              },
+              {
+                "name": "value",
+                "nodeType": "YulTypedName",
+                "src": "21190:5:12",
                 "type": ""
               },
               {
@@ -14001,7 +14148,7 @@
                     "nodeType": "YulFunctionCall",
                     "src": "25352:21:12"
                   },
-                  "variableNames": [
+                  "variables": [
                     {
                       "name": "value",
                       "nodeType": "YulIdentifier",
@@ -14672,7 +14819,34 @@
                       "type": ""
                     }
                   ]
-                },
+                }
+              ]
+            },
+            "name": "cleanup_t_bool",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "value",
+                "nodeType": "YulTypedName",
+                "src": "24685:5:12",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "cleaned",
+                "nodeType": "YulTypedName",
+                "src": "24695:7:12",
+                "type": ""
+              }
+            ],
+            "src": "24661:90:12"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "24816:50:12",
+              "statements": [
                 {
                   "nodeType": "YulBlock",
                   "src": "26866:290:12",
@@ -14943,11 +15117,9 @@
                 "nodeType": "YulTypedName",
                 "src": "26806:3:12",
                 "type": ""
-              }
-            ],
-            "returnVariables": [
+              },
               {
-                "name": "end",
+                "name": "pos",
                 "nodeType": "YulTypedName",
                 "src": "26815:3:12",
                 "type": ""
@@ -14998,6 +15170,11 @@
                   "expression": {
                     "arguments": [
                       {
+                        "name": "value0",
+                        "nodeType": "YulIdentifier",
+                        "src": "25048:6:12"
+                      },
+                      {
                         "arguments": [
                           {
                             "name": "headStart",
@@ -15043,7 +15220,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "mstore",
+                      "name": "abi_encode_t_bool_to_t_bool_fromStack",
                       "nodeType": "YulIdentifier",
                       "src": "27585:6:12"
                     },
@@ -16587,6 +16764,34 @@
               "src": "31501:269:12",
               "statements": [
                 {
+                  "nodeType": "YulVariableDeclaration",
+                  "src": "32050:53:12",
+                  "value": {
+                    "arguments": [
+                      {
+                        "name": "value",
+                        "nodeType": "YulIdentifier",
+                        "src": "32097:5:12"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "array_length_t_string_memory_ptr",
+                      "nodeType": "YulIdentifier",
+                      "src": "32064:32:12"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "32064:39:12"
+                  },
+                  "variables": [
+                    {
+                      "name": "length",
+                      "nodeType": "YulTypedName",
+                      "src": "32054:6:12",
+                      "type": ""
+                    }
+                  ]
+                },
+                {
                   "nodeType": "YulAssignment",
                   "src": "31511:22:12",
                   "value": {
@@ -16979,7 +17184,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "add",
+                      "name": "revert",
                       "nodeType": "YulIdentifier",
                       "src": "32285:3:12"
                     },
@@ -17109,7 +17314,9 @@
               "src": "32622:152:12",
               "statements": [
                 {
-                  "expression": {
+                  "nodeType": "YulVariableDeclaration",
+                  "src": "33068:29:12",
+                  "value": {
                     "arguments": [
                       {
                         "kind": "number",
@@ -17214,7 +17421,7 @@
                     "nodeType": "YulIdentifier",
                     "src": "32852:3:12"
                   },
-                  "variableNames": [
+                  "variables": [
                     {
                       "name": "data",
                       "nodeType": "YulIdentifier",
@@ -17223,7 +17430,9 @@
                   ]
                 },
                 {
-                  "expression": {
+                  "nodeType": "YulAssignment",
+                  "src": "33165:96:12",
+                  "value": {
                     "arguments": [
                       {
                         "kind": "number",
@@ -17239,7 +17448,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "mstore",
+                      "name": "array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack",
                       "nodeType": "YulIdentifier",
                       "src": "32865:6:12"
                     },
@@ -19543,7 +19752,7 @@
                   "value": {
                     "arguments": [
                       {
-                        "name": "value1",
+                        "name": "pos",
                         "nodeType": "YulIdentifier",
                         "src": "38788:3:12"
                       },
@@ -19800,11 +20009,8 @@
               "src": "39469:45:12",
               "statements": [
                 {
-                  "body": {
-                    "id": 3219,
-                    "nodeType": "Block",
-                    "src": "284:91:9",
-                    "statements": [
+                  "expression": {
+                    "arguments": [
                       {
                         "arguments": [
                           {
@@ -19828,31 +20034,6 @@
                         "nodeType": "YulFunctionCall",
                         "src": "39487:14:12"
                       },
-                      "id": 3205,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": false,
-                      "lValueRequested": false,
-                      "memberName": "length",
-                      "nodeType": "MemberAccess",
-                      "src": "265:12:9",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "src": "261:16:9",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "id": 3220,
-                  "initializationExpression": {
-                    "assignments": [
-                      3200
-                    ],
-                    "declarations": [
                       {
                         "hexValue": "20",
                         "kind": "string",
@@ -19978,11 +20159,7 @@
                       "nodeType": "YulIdentifier",
                       "src": "39896:3:12"
                     }
-                  },
-                  "functionReturnParameters": 3233,
-                  "id": 3258,
-                  "nodeType": "Return",
-                  "src": "675:19:9"
+                  ]
                 }
               ]
             },
@@ -20175,11 +20352,9 @@
                       "nodeType": "YulIdentifier",
                       "src": "41037:3:12"
                     }
-                  },
-                  "visibility": "internal"
+                  ]
                 }
-              ],
-              "src": "511:9:9"
+              ]
             },
             "name": "abi_encode_tuple_packed_t_string_memory_ptr_t_stringliteral_681afa780d17da29203322b473d3f210a7d621259a4e6ce9e403f5a266ff719a_t_string_memory_ptr_t_stringliteral_681afa780d17da29203322b473d3f210a7d621259a4e6ce9e403f5a266ff719a_t_string_memory_ptr__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed",
             "nodeType": "YulFunctionDefinition",
@@ -20340,25 +20515,8 @@
                       "nodeType": "YulIdentifier",
                       "src": "41878:3:12"
                     }
-                  },
-                  "functionReturnParameters": 3267,
-                  "id": 3299,
-                  "nodeType": "Return",
-                  "src": "1002:14:9"
-                }
-              ]
-            },
-            "id": 3301,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "findLargest",
-            "nameLocation": "716:11:9",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 3264,
-              "nodeType": "ParameterList",
-              "parameters": [
+                  ]
+                },
                 {
                   "nodeType": "YulAssignment",
                   "src": "42043:99:12",
@@ -20389,16 +20547,8 @@
                       "nodeType": "YulIdentifier",
                       "src": "42043:3:12"
                     }
-                  },
-                  "visibility": "internal"
-                }
-              ],
-              "src": "727:24:9"
-            },
-            "returnParameters": {
-              "id": 3267,
-              "nodeType": "ParameterList",
-              "parameters": [
+                  ]
+                },
                 {
                   "nodeType": "YulAssignment",
                   "src": "42152:10:12",
@@ -20413,11 +20563,9 @@
                       "nodeType": "YulIdentifier",
                       "src": "42152:3:12"
                     }
-                  },
-                  "visibility": "internal"
+                  ]
                 }
-              ],
-              "src": "798:9:9"
+              ]
             },
             "name": "abi_encode_tuple_packed_t_string_storage_t_stringliteral_681afa780d17da29203322b473d3f210a7d621259a4e6ce9e403f5a266ff719a_t_string_storage_t_stringliteral_681afa780d17da29203322b473d3f210a7d621259a4e6ce9e403f5a266ff719a_t_string_storage__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed",
             "nodeType": "YulFunctionDefinition",
@@ -29370,16 +29518,16 @@
                               "referencedDeclaration": 3943,
                               "src": "12736:11:9",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_string_memory_ptr",
-                                "typeString": "string memory"
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
                               }
                             }
                           ],
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_string_memory_ptr",
-                                "typeString": "string memory"
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
                               }
                             ],
                             "id": 3964,
@@ -29389,8 +29537,8 @@
                             "referencedDeclaration": 3938,
                             "src": "12560:11:9",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_internal_view$_t_string_memory_ptr_$returns$_t_bool_$",
-                              "typeString": "function (string memory) view returns (bool)"
+                              "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_bool_$",
+                              "typeString": "function (address) view returns (bool)"
                             }
                           },
                           "id": 3966,
@@ -29522,7 +29670,7 @@
                               "isLValue": true,
                               "isPure": false,
                               "lValueRequested": false,
-                              "memberName": "email",
+                              "memberName": "studentId",
                               "nodeType": "MemberAccess",
                               "referencedDeclaration": 4312,
                               "src": "12868:32:9",
@@ -29694,14 +29842,6 @@
                               {
                                 "typeIdentifier": "t_string_memory_ptr",
                                 "typeString": "string memory"
-                              },
-                              {
-                                "typeIdentifier": "t_string_memory_ptr",
-                                "typeString": "string memory"
-                              },
-                              {
-                                "typeIdentifier": "t_string_memory_ptr",
-                                "typeString": "string memory"
                               }
                             ],
                             "id": 3982,
@@ -29711,8 +29851,8 @@
                             "referencedDeclaration": 3838,
                             "src": "12983:20:9",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_internal_view$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_bool_$",
-                              "typeString": "function (string memory,string memory,string memory) view returns (bool)"
+                              "typeIdentifier": "t_function_internal_view$_t_string_memory_ptr_$returns$_t_bool_$",
+                              "typeString": "function (string memory) view returns (bool)"
                             }
                           },
                           "id": 3986,
@@ -29796,83 +29936,6 @@
                   "nodeType": "ExpressionStatement",
                   "src": "12961:122:9"
                 },
-                {
-                  "constant": false,
-                  "id": 3966,
-                  "mutability": "mutable",
-                  "name": "userAddress",
-                  "nameLocation": "13044:11:9",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 4076,
-                  "src": "13036:19:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 3965,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "13036:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "visibility": "internal"
-                }
-              ],
-              "src": "12838:223:9"
-            },
-            "returnParameters": {
-              "id": 3970,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 3969,
-                  "mutability": "mutable",
-                  "name": "index",
-                  "nameLocation": "13086:5:9",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 4076,
-                  "src": "13078:13:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 3968,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "13078:7:9",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "visibility": "internal"
-                }
-              ],
-              "src": "13077:15:9"
-            },
-            "scope": 4326,
-            "src": "12814:2571:9",
-            "stateMutability": "nonpayable",
-            "virtual": false,
-            "visibility": "public"
-          },
-          {
-            "body": {
-              "id": 4170,
-              "nodeType": "Block",
-              "src": "15586:1182:9",
-              "statements": [
                 {
                   "expression": {
                     "arguments": [
@@ -30037,8 +30100,8 @@
                             "referencedDeclaration": 3905,
                             "src": "13115:23:9",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_address",
-                              "typeString": "address"
+                              "typeIdentifier": "t_function_internal_view$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_bool_$",
+                              "typeString": "function (string memory,string memory,string memory) view returns (bool)"
                             }
                           },
                           "id": 4002,
@@ -30052,20 +30115,10 @@
                           "src": "13115:175:9",
                           "tryCall": false,
                           "typeDescriptions": {
-                            "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_bool_$",
-                            "typeString": "function (address) view returns (bool)"
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
                           }
                         },
-                        "id": 4086,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": false,
-                        "kind": "functionCall",
-                        "lValueRequested": false,
-                        "names": [],
-                        "nodeType": "FunctionCall",
-                        "src": "15617:24:9",
-                        "tryCall": false,
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -30082,10 +30135,10 @@
                         "nodeType": "Literal",
                         "src": "13304:26:9",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_stringliteral_229abca17dde415ed624750b2721207bae6db9b6841c86ea5250251a842624cb",
-                          "typeString": "literal_string \"Candidate Does not exist\""
+                          "typeIdentifier": "t_stringliteral_82894a6377ad93b46257fd7b809e84288dc6d0a4e4143b9c184f5b02c7f9a6ba",
+                          "typeString": "literal_string \"Candidate Already Exists\""
                         },
-                        "value": "Candidate Does not exist"
+                        "value": "Candidate Already Exists"
                       }
                     ],
                     "expression": {
@@ -30095,8 +30148,8 @@
                           "typeString": "bool"
                         },
                         {
-                          "typeIdentifier": "t_stringliteral_229abca17dde415ed624750b2721207bae6db9b6841c86ea5250251a842624cb",
-                          "typeString": "literal_string \"Candidate Does not exist\""
+                          "typeIdentifier": "t_stringliteral_82894a6377ad93b46257fd7b809e84288dc6d0a4e4143b9c184f5b02c7f9a6ba",
+                          "typeString": "literal_string \"Candidate Already Exists\""
                         }
                       ],
                       "id": 3991,
@@ -30245,11 +30298,23 @@
                           "referencedDeclaration": 3943,
                           "src": "13940:11:9",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_CandidateStruct_$3317_storage",
-                            "typeString": "struct AAiTStudent.CandidateStruct storage ref"
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CandidateStruct_$3294_storage_$",
+                            "typeString": "mapping(address => struct AAiTStudent.CandidateStruct storage ref)"
                           }
                         },
-                        "id": 4113,
+                        "id": 4016,
+                        "indexExpression": {
+                          "id": 4015,
+                          "name": "userAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 3943,
+                          "src": "13940:11:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -30330,21 +30395,21 @@
                         "referencedDeclaration": 3314,
                         "src": "13993:14:9",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_CandidateStruct_$4369_storage",
-                          "typeString": "struct AAiTUser.CandidateStruct storage ref"
+                          "typeIdentifier": "t_array$_t_address_$dyn_storage",
+                          "typeString": "address[] storage ref"
                         }
                       },
                       "id": 4023,
                       "isConstant": false,
-                      "isLValue": true,
+                      "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberName": "vindex",
+                      "memberName": "push",
                       "nodeType": "MemberAccess",
                       "src": "13993:19:9",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_array$_t_address_$dyn_storage_ptr_$_t_address_$returns$__$bound_to$_t_array$_t_address_$dyn_storage_ptr_$",
+                        "typeString": "function (address[] storage pointer,address)"
                       }
                     },
                     "id": 4025,
@@ -30358,8 +30423,8 @@
                     "src": "13993:32:9",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
                     }
                   },
                   "id": 4026,
@@ -30436,24 +30501,16 @@
                       "referencedDeclaration": 4341,
                       "src": "14035:57:9",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_CandidateStruct_$3317_storage",
-                        "typeString": "struct AAiTStudent.CandidateStruct storage ref"
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
                       }
                     },
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "baseExpression": {
-                        "id": 4129,
-                        "name": "candidateValue",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 3341,
-                        "src": "16271:14:9",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3317_storage_$dyn_storage",
-                          "typeString": "struct AAiTStudent.CandidateStruct storage ref[] storage ref"
-                        }
+                      "commonType": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
                       },
                       "id": 4035,
                       "isConstant": false,
@@ -30506,14 +30563,14 @@
                       },
                       "src": "14095:25:9",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_CandidateStruct_$3317_storage",
-                        "typeString": "struct AAiTStudent.CandidateStruct storage ref"
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
                       }
                     },
                     "src": "14035:85:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_CandidateStruct_$3317_storage",
-                      "typeString": "struct AAiTStudent.CandidateStruct storage ref"
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
                     }
                   },
                   "id": 4037,
@@ -30574,8 +30631,9 @@
                         },
                         "id": 4044,
                         "isConstant": false,
-                        "isLValue": true,
+                        "isLValue": false,
                         "isPure": false,
+                        "kind": "structConstructorCall",
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
@@ -30585,83 +30643,8 @@
                           "typeIdentifier": "t_struct$_CandidateStruct_$3294_memory_ptr",
                           "typeString": "struct AAiTStudent.CandidateStruct memory"
                         }
-                      },
-                      "id": 4150,
-                      "isConstant": false,
-                      "isLValue": true,
-                      "isPure": false,
-                      "lValueRequested": false,
-                      "memberName": "vindex",
-                      "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4364,
-                      "src": "16432:57:9",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
                       }
-                    },
-                    "src": "16322:167:9",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "id": 4152,
-                  "nodeType": "ExpressionStatement",
-                  "src": "16322:167:9"
-                },
-                {
-                  "expression": {
-                    "arguments": [],
-                    "expression": {
-                      "argumentTypes": [],
-                      "expression": {
-                        "id": 4153,
-                        "name": "candidateValue",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 3341,
-                        "src": "16499:14:9",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3317_storage_$dyn_storage",
-                          "typeString": "struct AAiTStudent.CandidateStruct storage ref[] storage ref"
-                        }
-                      },
-                      "id": 4155,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": false,
-                      "lValueRequested": false,
-                      "memberName": "pop",
-                      "nodeType": "MemberAccess",
-                      "src": "16499:18:9",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_function_arraypop_nonpayable$_t_array$_t_struct$_CandidateStruct_$3317_storage_$dyn_storage_ptr_$returns$__$bound_to$_t_array$_t_struct$_CandidateStruct_$3317_storage_$dyn_storage_ptr_$",
-                        "typeString": "function (struct AAiTStudent.CandidateStruct storage ref[] storage pointer)"
-                      }
-                    },
-                    "id": 4156,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "kind": "functionCall",
-                    "lValueRequested": false,
-                    "names": [],
-                    "nodeType": "FunctionCall",
-                    "src": "16499:20:9",
-                    "tryCall": false,
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_tuple$__$",
-                      "typeString": "tuple()"
-                    }
-                  },
-                  "id": 4157,
-                  "nodeType": "ExpressionStatement",
-                  "src": "16499:20:9"
-                },
-                {
-                  "expression": {
-                    "arguments": [],
+                    ],
                     "expression": {
                       "argumentTypes": [
                         {
@@ -30686,7 +30669,7 @@
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberName": "pop",
+                      "memberName": "push",
                       "nodeType": "MemberAccess",
                       "src": "14130:19:9",
                       "typeDescriptions": {
@@ -30886,10 +30869,10 @@
                   "scope": 4053,
                   "src": "12134:13:9",
                   "stateVariable": false,
-                  "storageLocation": "memory",
+                  "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_VoterStruct_$3311_memory_ptr",
-                    "typeString": "struct AAiTStudent.VoterStruct"
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   },
                   "typeName": {
                     "id": 3945,
@@ -30897,8 +30880,8 @@
                     "nodeType": "ElementaryTypeName",
                     "src": "12134:7:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_VoterStruct_$3311_storage_ptr",
-                      "typeString": "struct AAiTStudent.VoterStruct"
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
                     }
                   },
                   "visibility": "internal"
@@ -30931,14 +30914,19 @@
                             "referencedDeclaration": 4055,
                             "src": "14685:11:9",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_address",
-                              "typeString": "address"
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CandidateStruct_$3294_storage_$",
+                              "typeString": "mapping(address => struct AAiTStudent.CandidateStruct storage ref)"
                             }
-                          }
-                        ],
-                        "expression": {
-                          "argumentTypes": [
-                            {
+                          },
+                          "id": 4094,
+                          "indexExpression": {
+                            "id": 4093,
+                            "name": "userAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 4055,
+                            "src": "15185:11:9",
+                            "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
                             }
@@ -30950,23 +30938,22 @@
                           "referencedDeclaration": 3938,
                           "src": "14673:11:9",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_bool_$",
-                            "typeString": "function (address) view returns (bool)"
+                            "typeIdentifier": "t_struct$_CandidateStruct_$3294_storage",
+                            "typeString": "struct AAiTStudent.CandidateStruct storage ref"
                           }
                         },
                         "id": 4063,
                         "isConstant": false,
-                        "isLValue": false,
+                        "isLValue": true,
                         "isPure": false,
-                        "kind": "functionCall",
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
                         "src": "14673:24:9",
                         "tryCall": false,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_bool",
-                          "typeString": "bool"
+                          "typeIdentifier": "t_struct$_CandidateStruct_$4346_storage",
+                          "typeString": "struct AAiTUser.CandidateStruct storage ref"
                         }
                       },
                       {
@@ -31007,8 +30994,8 @@
                       "referencedDeclaration": 4294967278,
                       "src": "14652:7:9",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
-                        "typeString": "function (bool,string memory) pure"
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
                       }
                     },
                     "id": 4065,
@@ -31022,8 +31009,8 @@
                     "src": "14652:95:9",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_VoterStruct_$3311_storage_$dyn_storage",
-                      "typeString": "struct AAiTStudent.VoterStruct storage ref[] storage ref"
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
                     }
                   },
                   "id": 4066,
@@ -31046,8 +31033,8 @@
                         "referencedDeclaration": 3314,
                         "src": "14909:14:9",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_address_$dyn_storage",
-                          "typeString": "address[] storage ref"
+                          "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3294_storage_$dyn_storage",
+                          "typeString": "struct AAiTStudent.CandidateStruct storage ref[] storage ref"
                         }
                       },
                       "id": 4073,
@@ -31125,8 +31112,8 @@
                       "nodeType": "IndexAccess",
                       "src": "14909:95:9",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
+                        "typeIdentifier": "t_struct$_CandidateStruct_$3294_storage",
+                        "typeString": "struct AAiTStudent.CandidateStruct storage ref"
                       }
                     },
                     "nodeType": "Assignment",
@@ -31140,8 +31127,8 @@
                         "referencedDeclaration": 3314,
                         "src": "15007:14:9",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_address_$dyn_storage",
-                          "typeString": "address[] storage ref"
+                          "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3294_storage_$dyn_storage",
+                          "typeString": "struct AAiTStudent.CandidateStruct storage ref[] storage ref"
                         }
                       },
                       "id": 4079,
@@ -31164,8 +31151,8 @@
                             "referencedDeclaration": 3314,
                             "src": "15022:14:9",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_array$_t_address_$dyn_storage",
-                              "typeString": "address[] storage ref"
+                              "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3294_storage_$dyn_storage",
+                              "typeString": "struct AAiTStudent.CandidateStruct storage ref[] storage ref"
                             }
                           },
                           "id": 4076,
@@ -31212,14 +31199,14 @@
                       "nodeType": "IndexAccess",
                       "src": "15007:41:9",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_VoterStruct_$3311_storage_ptr",
-                        "typeString": "struct AAiTStudent.VoterStruct"
+                        "typeIdentifier": "t_struct$_CandidateStruct_$3294_storage",
+                        "typeString": "struct AAiTStudent.CandidateStruct storage ref"
                       }
                     },
                     "src": "14909:139:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_VoterStruct_$3311_storage_$dyn_storage_ptr",
-                      "typeString": "struct AAiTStudent.VoterStruct[]"
+                      "typeIdentifier": "t_struct$_CandidateStruct_$3294_storage",
+                      "typeString": "struct AAiTStudent.CandidateStruct storage ref"
                     }
                   },
                   "id": 4081,
@@ -32241,6 +32228,326 @@
                           "referencedDeclaration": 4150,
                           "src": "16200:11:9",
                           "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_CandidateStruct_$3294_storage",
+                            "typeString": "struct AAiTStudent.CandidateStruct storage ref"
+                          }
+                        },
+                        "id": 4126,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "16180:32:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_VoterStruct_$3288_storage",
+                          "typeString": "struct AAiTStudent.VoterStruct storage ref"
+                        }
+                      }
+                    },
+                    "src": "15378:167:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 4129,
+                  "nodeType": "ExpressionStatement",
+                  "src": "15378:167:9"
+                },
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "id": 4130,
+                        "name": "candidateValue",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3318,
+                        "src": "15555:14:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3294_storage_$dyn_storage",
+                          "typeString": "struct AAiTStudent.CandidateStruct storage ref[] storage ref"
+                        }
+                      },
+                      "id": 4132,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "pop",
+                      "nodeType": "MemberAccess",
+                      "src": "15555:18:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypop_nonpayable$_t_array$_t_struct$_CandidateStruct_$3294_storage_$dyn_storage_ptr_$returns$__$bound_to$_t_array$_t_struct$_CandidateStruct_$3294_storage_$dyn_storage_ptr_$",
+                        "typeString": "function (struct AAiTStudent.CandidateStruct storage ref[] storage pointer)"
+                      }
+                    },
+                    "id": 4133,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "15555:20:9",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4134,
+                  "nodeType": "ExpressionStatement",
+                  "src": "15555:20:9"
+                },
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "id": 4135,
+                        "name": "candidateIndex",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3314,
+                        "src": "15585:14:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_address_$dyn_storage",
+                          "typeString": "address[] storage ref"
+                        }
+                      },
+                      "id": 4137,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "pop",
+                      "nodeType": "MemberAccess",
+                      "src": "15585:18:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypop_nonpayable$_t_array$_t_address_$dyn_storage_ptr_$returns$__$bound_to$_t_array$_t_address_$dyn_storage_ptr_$",
+                        "typeString": "function (address[] storage pointer)"
+                      }
+                    },
+                    "id": 4138,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "15585:20:9",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4139,
+                  "nodeType": "ExpressionStatement",
+                  "src": "15585:20:9"
+                },
+                {
+                  "expression": {
+                    "id": 4143,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "UnaryOperation",
+                    "operator": "delete",
+                    "prefix": true,
+                    "src": "15615:43:9",
+                    "subExpression": {
+                      "baseExpression": {
+                        "id": 4140,
+                        "name": "candidateStructsMapping",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3311,
+                        "src": "15622:23:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_CandidateStruct_$3294_storage_$",
+                          "typeString": "mapping(address => struct AAiTStudent.CandidateStruct storage ref)"
+                        }
+                      },
+                      "id": 4142,
+                      "indexExpression": {
+                        "id": 4141,
+                        "name": "userAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 4055,
+                        "src": "15646:11:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "15622:36:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_CandidateStruct_$3294_storage",
+                        "typeString": "struct AAiTStudent.CandidateStruct storage ref"
+                      }
+                    },
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4144,
+                  "nodeType": "ExpressionStatement",
+                  "src": "15615:43:9"
+                },
+                {
+                  "expression": {
+                    "hexValue": "74727565",
+                    "id": 4145,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "bool",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "15813:4:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "value": "true"
+                  },
+                  "functionReturnParameters": 4059,
+                  "id": 4146,
+                  "nodeType": "Return",
+                  "src": "15806:11:9"
+                }
+              ]
+            },
+            "functionSelector": "6dd091f9",
+            "id": 4148,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "removeCandidate",
+            "nameLocation": "14456:15:9",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4056,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4055,
+                  "mutability": "mutable",
+                  "name": "userAddress",
+                  "nameLocation": "14594:11:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4148,
+                  "src": "14586:19:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4054,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "14586:7:9",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "14471:140:9"
+            },
+            "returnParameters": {
+              "id": 4059,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4058,
+                  "mutability": "mutable",
+                  "name": "success",
+                  "nameLocation": "14633:7:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4148,
+                  "src": "14628:12:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4057,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "14628:4:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "14627:14:9"
+            },
+            "scope": 4303,
+            "src": "14447:1377:9",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 4161,
+              "nodeType": "Block",
+              "src": "16051:169:9",
+              "statements": [
+                {
+                  "expression": {
+                    "components": [
+                      {
+                        "baseExpression": {
+                          "id": 4156,
+                          "name": "voterStructsMapping",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 3299,
+                          "src": "16180:19:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_VoterStruct_$3288_storage_$",
+                            "typeString": "mapping(address => struct AAiTStudent.VoterStruct storage ref)"
+                          }
+                        },
+                        "id": 4158,
+                        "indexExpression": {
+                          "id": 4157,
+                          "name": "userAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4150,
+                          "src": "16200:11:9",
+                          "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
@@ -32885,17 +33192,17 @@
                         "value": "Not found"
                       }
                     ],
-                    "id": 3202,
+                    "id": 4173,
                     "initialValue": {
                       "hexValue": "30",
-                      "id": 3201,
+                      "id": 4172,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "kind": "number",
                       "lValueRequested": false,
                       "nodeType": "Literal",
-                      "src": "258:1:9",
+                      "src": "16368:1:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_rational_0_by_1",
                         "typeString": "int_const 0"
@@ -32903,7 +33210,7 @@
                       "value": "0"
                     },
                     "nodeType": "VariableDeclarationStatement",
-                    "src": "246:13:9"
+                    "src": "16356:13:9"
                   },
                   "loopExpression": {
                     "expression": {
@@ -33287,7 +33594,7 @@
                   "scope": 4236,
                   "src": "16898:22:9",
                   "stateVariable": false,
-                  "storageLocation": "default",
+                  "storageLocation": "memory",
                   "typeDescriptions": {
                     "typeIdentifier": "t_struct$_CandidateStruct_$3294_memory_ptr",
                     "typeString": "struct AAiTStudent.CandidateStruct"
@@ -33671,12 +33978,6 @@
                           ]
                         }
                       }
-                    ]
-                  },
-                  "condition": {
-                    "commonType": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
                     },
                     "id": 4251,
                     "isConstant": false,
@@ -33725,8 +34026,8 @@
                     },
                     "src": "17266:25:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
+                      "typeIdentifier": "t_array$_t_struct$_VoterStruct_$3288_storage_$dyn_storage_ptr",
+                      "typeString": "struct AAiTStudent.VoterStruct[]"
                     }
                   },
                   "id": 4280,
@@ -33756,8 +34057,8 @@
                           "nodeType": "ElementaryTypeName",
                           "src": "17251:7:9",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
                           }
                         },
                         "visibility": "internal"
@@ -33935,8 +34236,8 @@
                   "constant": false,
                   "id": 4242,
                   "mutability": "mutable",
-                  "name": "array",
-                  "nameLocation": "745:5:9",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
                   "scope": 4286,
                   "src": "17208:22:9",
@@ -34028,7 +34329,7 @@
                   "scope": 4296,
                   "src": "17663:24:9",
                   "stateVariable": false,
-                  "storageLocation": "default",
+                  "storageLocation": "memory",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3294_memory_ptr_$dyn_memory_ptr",
                     "typeString": "struct AAiTStudent.CandidateStruct[]"
@@ -44414,36 +44715,51 @@
                           "referencedDeclaration": 3938,
                           "src": "14673:11:9",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_CandidateStruct_$3317_storage",
-                            "typeString": "struct AAiTStudent.CandidateStruct storage ref"
+                            "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_bool_$",
+                            "typeString": "function (address) view returns (bool)"
                           }
                         },
                         "id": 4063,
                         "isConstant": false,
-                        "isLValue": true,
+                        "isLValue": false,
                         "isPure": false,
+                        "kind": "functionCall",
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
                         "src": "14673:24:9",
                         "tryCall": false,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_CandidateStruct_$4369_storage",
-                          "typeString": "struct AAiTUser.CandidateStruct storage ref"
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
                         }
                       },
                       {
                         "hexValue": "43616e64696461746520446f6573206e6f74206578697374",
                         "id": 4064,
                         "isConstant": false,
-                        "isLValue": true,
-                        "isPure": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
                         "src": "14711:26:9",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_CandidateStruct_$4369_storage",
-                          "typeString": "struct AAiTUser.CandidateStruct storage ref"
+                          "typeIdentifier": "t_stringliteral_229abca17dde415ed624750b2721207bae6db9b6841c86ea5250251a842624cb",
+                          "typeString": "literal_string \"Candidate Does not exist\""
+                        },
+                        "value": "Candidate Does not exist"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_229abca17dde415ed624750b2721207bae6db9b6841c86ea5250251a842624cb",
+                          "typeString": "literal_string \"Candidate Does not exist\""
                         }
                       ],
                       "id": 4060,
@@ -44456,8 +44772,8 @@
                       "referencedDeclaration": 4294967278,
                       "src": "14652:7:9",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
                       }
                     },
                     "id": 4065,
@@ -44471,8 +44787,8 @@
                     "src": "14652:95:9",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
                     }
                   },
                   "id": 4066,
@@ -44495,8 +44811,8 @@
                         "referencedDeclaration": 3314,
                         "src": "14909:14:9",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3317_storage_$dyn_storage",
-                          "typeString": "struct AAiTStudent.CandidateStruct storage ref[] storage ref"
+                          "typeIdentifier": "t_array$_t_address_$dyn_storage",
+                          "typeString": "address[] storage ref"
                         }
                       },
                       "id": 4073,
@@ -44574,8 +44890,8 @@
                       "nodeType": "IndexAccess",
                       "src": "14909:95:9",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_CandidateStruct_$3317_storage",
-                        "typeString": "struct AAiTStudent.CandidateStruct storage ref"
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
                       }
                     },
                     "nodeType": "Assignment",
@@ -44589,8 +44905,8 @@
                         "referencedDeclaration": 3314,
                         "src": "15007:14:9",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3317_storage_$dyn_storage",
-                          "typeString": "struct AAiTStudent.CandidateStruct storage ref[] storage ref"
+                          "typeIdentifier": "t_array$_t_address_$dyn_storage",
+                          "typeString": "address[] storage ref"
                         }
                       },
                       "id": 4079,
@@ -44613,8 +44929,8 @@
                             "referencedDeclaration": 3314,
                             "src": "15022:14:9",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_array$_t_struct$_CandidateStruct_$3317_storage_$dyn_storage",
-                              "typeString": "struct AAiTStudent.CandidateStruct storage ref[] storage ref"
+                              "typeIdentifier": "t_array$_t_address_$dyn_storage",
+                              "typeString": "address[] storage ref"
                             }
                           },
                           "id": 4076,
@@ -44661,8 +44977,8 @@
                       "nodeType": "IndexAccess",
                       "src": "15007:41:9",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_CandidateStruct_$3317_storage",
-                        "typeString": "struct AAiTStudent.CandidateStruct storage ref"
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
                       }
                     },
                     "src": "14909:139:9",
@@ -44905,7 +45221,6 @@
                   "expression": {
                     "id": 4112,
                     "isConstant": false,
-                    "isInlineArray": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
@@ -45692,7 +46007,7 @@
                   "scope": 4162,
                   "src": "16027:18:9",
                   "stateVariable": false,
-                  "storageLocation": "memory",
+                  "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_struct$_VoterStruct_$3288_memory_ptr",
                     "typeString": "struct AAiTStudent.VoterStruct"
