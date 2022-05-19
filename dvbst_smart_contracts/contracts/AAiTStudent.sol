@@ -3,48 +3,6 @@ pragma solidity ^0.8.9;
 
 import "./AAiTUser.sol";
 
-library AAiTElectionLibrary {
-    function contains(address[] memory array, address value)
-        internal
-        pure
-        returns (bool)
-    {
-        for (uint256 i = 0; i < array.length; i++) {
-            if (array[i] == value) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function indexOf(address[] memory array, address value)
-        internal
-        pure
-        returns (uint256)
-    {
-        for (uint256 i = 0; i < array.length; i++) {
-            if (array[i] == value) {
-                return i;
-            }
-        }
-        return array.length;
-    }
-
-    function findLargest(uint256[] memory array)
-        internal
-        pure
-        returns (uint256)
-    {
-        uint256 largest = 0;
-        for (uint256 i = 0; i < array.length; i++) {
-            if (array[i] > largest) {
-                largest = array[i];
-            }
-        }
-        return largest;
-    }
-}
-
 
 contract AAiTStudent {
     enum DEPTARTMENT_TYPE {
