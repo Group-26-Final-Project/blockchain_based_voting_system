@@ -9,11 +9,15 @@ contract AAiTElectionTimer {
 
     enum PHASE_NAME {
         REGISTRATION,
+        REGISTRATION_BREAK,
         SECTION_ELECTION,
+        SECTION_ELECTION_DONE,
         SECTION_ELECTION_BREAK,
         BATCH_ELECTION,
         BATCH_ELECTION_BREAK,
+        BATCH_ELECTION_DONE,
         DEPARTMENT_ELECTION,
+        DEPARTMENT_ELECTION_DONE,
         COMPLETED
     }
 
@@ -132,7 +136,24 @@ contract AAiTElectionTimer {
             // return phase;
 
             // changeVal("initial phase");
-        } else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION) {
+        }else if (phase.phaseName == PHASE_NAME.REGISTRATION_BREAK) {
+            if (block.timestamp >= phase.end) {
+                changePhase(breakDuration);
+                return;
+
+                // return "ON SECTION_ELECTION";
+                // return phase;
+            }
+            phase = ElectionPhase(
+                PHASE_NAME.REGISTRATION_BREAK,
+                block.timestamp,
+                phase.end
+            );
+            
+            // return "SECTION ELECTION DONE";
+            // return phase;
+        }  
+        else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION) {
             if (block.timestamp >= phase.end) {
                 changePhase(breakDuration);
                 return;
@@ -145,9 +166,28 @@ contract AAiTElectionTimer {
                 block.timestamp,
                 phase.end
             );
+            
             // return "SECTION ELECTION DONE";
             // return phase;
-        } else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION_BREAK) {
+        }  else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION_DONE) {
+            if (block.timestamp >= phase.end) {
+                changePhase(breakDuration);
+                return;
+
+                // return "ON SECTION_ELECTION";
+                // return phase;
+            }
+            phase = ElectionPhase(
+                PHASE_NAME.SECTION_ELECTION_DONE,
+                block.timestamp,
+                phase.end
+            );
+            
+            // return "SECTION ELECTION DONE";
+            // return phase;
+        } 
+        
+        else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION_BREAK) {
             if (block.timestamp >= phase.end) {
                 changePhase(votingDuration);
                 return;
@@ -178,7 +218,23 @@ contract AAiTElectionTimer {
             );
             // return phase;
             // return "BATCH ELECTION DONE";
-        } else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION_BREAK) {
+        }else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION_DONE) {
+            if (block.timestamp >= phase.end) {
+                changePhase(breakDuration);
+                return;
+
+                // return "ON SECTION_ELECTION";
+                // return phase;
+            }
+            phase = ElectionPhase(
+                PHASE_NAME.BATCH_ELECTION_DONE,
+                block.timestamp,
+                phase.end
+            );
+            
+            // return "SECTION ELECTION DONE";
+            // return phase;
+        }  else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION_BREAK) {
             if (block.timestamp >= phase.end) {
                 changePhase(votingDuration);
                 return;
@@ -209,7 +265,23 @@ contract AAiTElectionTimer {
             );
             // return phase;
             // return "DEPARTMENT ELECTION DONE";
-        } else {
+        }else if (phase.phaseName == PHASE_NAME.DEPARTMENT_ELECTION_DONE) {
+            if (block.timestamp >= phase.end) {
+                changePhase(breakDuration);
+                return;
+
+                // return "ON SECTION_ELECTION";
+                // return phase;
+            }
+            phase = ElectionPhase(
+                PHASE_NAME.DEPARTMENT_ELECTION_DONE,
+                block.timestamp,
+                phase.end
+            );
+            
+            // return "SECTION ELECTION DONE";
+            // return phase;
+        }  else {
             phase = ElectionPhase(PHASE_NAME.COMPLETED, 0, 0);
             return;
 
