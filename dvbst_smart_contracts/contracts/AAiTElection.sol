@@ -48,7 +48,6 @@ library AAiTElectionLibrary {
         }
         return largest;
     }
-
     function bytes32ToString(bytes32 _bytes32)
         internal
         pure
