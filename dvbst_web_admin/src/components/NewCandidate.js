@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { SpinnerCircularFixed } from "spinners-react";
-import StudentContract from "../contracts/AAiTStudent.json";
 import UserContract from "../contracts/AAiTUser.json";
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 import { useNavigate } from "react-router";
@@ -54,8 +53,8 @@ export default function NewCandidate() {
       fullName:
         formValues.name + " " + formValues.fname + " " + formValues.gname,
 
-      currentYear: 1,
-      currentSection: 1,
+      currentYear: formValues.year,
+      currentSection: formValues.section,
       currentDepartment: 1,
       email: formValues.email,
       phone: formValues.phone,
@@ -66,9 +65,6 @@ export default function NewCandidate() {
   });
 
   const addCandidate = async () => {
-    // await enableWeb3();
-    // await Moralis.enableWeb3();
-
     await addNewCandidate();
     console.log("error2", addNewCandidateError);
   };
@@ -93,20 +89,13 @@ export default function NewCandidate() {
     e.preventDefault();
     setFormErrors(validate(formValues));
     setIsSubmit(true);
-    // console.log(isInitialized, isWeb3Enabled);
-    console.log("abt to add em candidates");
-    console.log(formValues);
-    console.log(parseInt(formValues.currentYear));
-    await addCandidate();
-    console.log("nigga added", addNewCandidateData);
-    // navigate("/voters");
-    // setFormValues(initialValues);
-    // if (isInitialized && isWeb3Enabled) {
-
-    // } else {
-    //   enableWeb3();
-    // }
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      await addCandidate();
+      navigate("/voters");
+      setFormValues(initialValues);
+    }
   };
+  
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log("Successful Login");

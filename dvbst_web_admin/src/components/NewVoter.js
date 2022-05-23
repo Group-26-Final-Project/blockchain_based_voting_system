@@ -68,17 +68,17 @@ export default function NewVoter() {
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             console.log("Successful Login");
-          } else {
+        } else {
             console.log(formErrors);
-          }
-      
+        }
+
         if (isInitialized && isWeb3Enabled && isAuthenticated) {
             // fetchData();
             console.log(account);
             console.log(user);
-          } else {
+        } else {
             enableWeb3();
-          }
+        }
     }, [isWeb3Enabled, isInitialized, isAuthenticated, account, user, isSubmit, formErrors]);
 
     const validate = (values) => {
@@ -152,12 +152,12 @@ export default function NewVoter() {
                     <h2>{addNewVoterError.message}</h2>
                 </div>
             )}
-                {voter && (
-        <div>
-          <h2>{"we got em boys"}</h2>
-          <h2>{voter.toString()}</h2>
-        </div>
-      )}
+            {voter && (
+                <div>
+                    <h2>{"we got em boys"}</h2>
+                    <h2>{voter.toString()}</h2>
+                </div>
+            )}
 
             <div class="w-[50vw]">
                 <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -296,4 +296,5 @@ export default function NewVoter() {
             </div >
         </div >
     );
+
 }
