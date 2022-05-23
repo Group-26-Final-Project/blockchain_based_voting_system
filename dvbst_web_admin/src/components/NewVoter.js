@@ -1,45 +1,77 @@
 import React, { useEffect, useState } from 'react'
 // import User from '../models/user.model'
 
+<<<<<<< HEAD:dvbst_web_admin/src/components/NewUser.js
 export default function NewUser() {
+=======
+export default function NewVoter() {
+    const { isInitialized, isWeb3Enabled, account, enableWeb3, Moralis } = useMoralis();
+    const navigate = useNavigate();
+
+>>>>>>> 89d96a1 (Fix merge conflicts):dvbst_web_admin/src/components/NewVoter.js
     const initialValues = {
         name: "", fname: "", gname: "",
         dept: "", section: "", year: "",
-        id: "", phone: "", wallet: "", bio: "", profile: null
+        id: "", phone: "", wallet: ""
     }
+    
     const [formValues, setFormValues] = useState(initialValues)
     const [formErrors, setFormErrors] = useState({})
-    const [isFilePicked, setIsFilePicked] = useState(false);
-    const [candidate, setCandidate] = useState(false)
     const [isSubmit, setIsSubmit] = useState(false)
+<<<<<<< HEAD:dvbst_web_admin/src/components/NewUser.js
     // const [addUser] = useAddUserMutation();
     // const user = User(name, fname, gname, id, dept, sect, year, wallet);
+=======
 
-    const isValidFileUploaded = (file) => {
-        const validExtensions = ['png', 'jpeg', 'jpg']
-        const fileExtension = file.type.split('/')[1]
-        return validExtensions.includes(fileExtension)
-    }
+    const {
+        error: addNewVoterError,
+        fetch: addNewVoter,
+        isLoading: isAddNewVoterLoading,
+    } = useWeb3ExecuteFunction({
+        contractAddress: process.env.REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS,
+        functionName: "insertVoter",
+        abi: StudentContract.abi,
+        params: {
+            voterInfo: {
+                index: 0,
+                userAddress: formValues.wallet,
+                studentId: formValues.id,
+                fName: formValues.name,
+                lName: formValues.fname,
+                gName: formValues.gname,
+                DOB: 1985,
+                currentYear: formValues.year,
+                currentSection: formValues.section,
+                currentDepartment: 1,
+            },
+            email: "mygmail@gmail.com",
+            password: "admin234123123",
+        }
+    });
+
+    const addVoter = async () => {
+        await enableWeb3();
+        await addNewVoter();
+        console.log("error2", addNewVoterError);
+    };
+>>>>>>> 89d96a1 (Fix merge conflicts):dvbst_web_admin/src/components/NewVoter.js
 
     const changeHandler = (event) => {
         const { name, value } = event.target;
         setFormValues({ ...formValues, [name]: value })
     };
 
-    const picHandler = (event) => {
-        setFormValues({ ...formValues, profile: event.target.files[0] })
-        setIsFilePicked(true)
-    }
-
-    const checkCandidate = () => {
-        setCandidate(!candidate)
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setFormErrors(validate(formValues))
         setIsSubmit(true)
+<<<<<<< HEAD:dvbst_web_admin/src/components/NewUser.js
         // await addUser(user);
+=======
+        addVoter()
+        navigate('/voters')
+        setFormValues(initialValues)
+>>>>>>> 89d96a1 (Fix merge conflicts):dvbst_web_admin/src/components/NewVoter.js
     }
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -93,20 +125,34 @@ export default function NewUser() {
         if (values.wallet && !walletRegex.test(values.wallet)) {
             errors.wallet = "Invalid Wallet Address (0x followed by 40 hexadecimal characters)"
         }
-        if (!values.bio && candidate) {
-            errors.bio = "Bio is a Required Field"
-        }
-        if (values.profile && !isValidFileUploaded(values.profile)) {
-            errors.profile = "Invalid Image Type (only png, jpg, jpeg allowed)"
-        }
         return errors
     }
 
     return (
         <div class="min-h-screen w-full bg-white-800 flex flex-row align-center content-center py-8 px-4 lg:px-8">
+<<<<<<< HEAD:dvbst_web_admin/src/components/NewUser.js
+=======
+            {isAddNewVoterLoading && (
+                <div>
+                    <SpinnerCircularFixed
+                        size={50}
+                        thickness={100}
+                        speed={100}
+                        color="#36ad47"
+                        secondaryColor="rgba(0, 0, 0, 0.44)"
+                    />
+                </div>
+            )}
+            {addNewVoterError && (
+                <div>
+                    <h2>{addNewVoterError.message.split("revert ")[1]}</h2>
+                </div>
+            )}
+
+>>>>>>> 89d96a1 (Fix merge conflicts):dvbst_web_admin/src/components/NewVoter.js
             <div class="w-[50vw]">
                 <div class="sm:mx-auto sm:w-full sm:max-w-md">
-                    <h2 class="mt-6 mb-6 text-left text-2xl font-extrabold text-gray-900">Add New User</h2>
+                    <h2 class="mt-6 mb-6 text-left text-2xl font-extrabold text-gray-900">Add New Voter</h2>
                 </div>
                 <form onSubmit={handleSubmit} class="w-full max-w-lg sm:mx-auto sm:w-full sm:max-w-md">
                     <div class="flex flex-wrap -mx-3 mb-3">
@@ -224,31 +270,8 @@ export default function NewUser() {
                             <p class="text-red-500 text-xs italic">{formErrors.wallet}</p>
                         </div>
                     </div>
-                    {candidate && (
-                        <div>
-                            <hr />
-                            <div class="flex flex-wrap -mx-3 mb-3">
-                                <div class="w-full md:w-full px-3 mb-6 md:mb-0">
-                                    <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-bio">
-                                        Bio
-                                    </label>
-                                    <textarea class="appearance-none block w-full bg-white-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 resize-none" name='bio' id="grid-bio" value={formValues.bio} onChange={changeHandler} placeholder="Enter Candidate Bio upto 250 characters" rows="4" />
-                                    <p class="text-red-500 text-xs italic">{formErrors.bio}</p>
-                                </div>
-                            </div>
-                            <div class="mb-3 w-96">
-                                <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-pic" >Candidate Picture</label>
-                                <input class="appearance-none block w-full bg-white-200 text-sm text-gray-700 border border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='profile' id="grid-pic" type="file" onChange={picHandler} />
-                                <p class="text-red-500 text-xs italic">{formErrors.profile}</p>
-                            </div>
-                        </div>
-                    )}
                     <div>
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#00D05A] hover:bg-[#00D05A]/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add User</button>
-                    </div>
-                    <div class="w-full flex items-start items-center py-3">
-                        <input class="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-blue-300 h-4 w-4 rounded" id="flowbite" aria-describedby="flowbite" type="checkbox" checked={candidate} onChange={checkCandidate} />
-                        <label class="text-sm ml-3 font-medium text-gray-900" for="flowbite">User wants to be a Candidate</label>
+                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#00D05A] hover:bg-[#00D05A]/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add Voter</button>
                     </div>
                 </form >
             </div >
