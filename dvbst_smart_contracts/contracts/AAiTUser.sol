@@ -1,10 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
+import "./AAiTElection.sol";
+
 contract AAiTUser {
     enum DEPTARTMENT_TYPE {
         SITE,
         ELEC
+    }
+    enum USER_TYPE {
+        VOTER,
+        CANDIDATE,
+        ADMIN
     }
     struct UserStruct {
         uint256 index;
@@ -35,12 +42,16 @@ contract AAiTUser {
         string candidateProfilePicture;
         // address candidateAddress;
     }
+    struct AdminStruct{
+        UserStruct adminInfo;
+    }
 
     mapping(string => UserStruct) private userStructsMapping;
     string[] private userIndex;
     UserStruct[] private userValue;
     VoterStruct[] private votersList;
     CandidateStruct[] private candidatesList;
+    AdminStruct[] private adminList;
     address private owner;
 
     modifier onlyOwner() {
@@ -52,21 +63,7 @@ contract AAiTUser {
         owner = msg.sender;
     }
 
-    function bytes32ToString(bytes32 _bytes32)
-        internal
-        pure
-        returns (string memory)
-    {
-        uint8 i = 0;
-        while (i < 32 && _bytes32[i] != 0) {
-            i++;
-        }
-        bytes memory bytesArray = new bytes(i);
-        for (i = 0; i < 32 && _bytes32[i] != 0; i++) {
-            bytesArray[i] = _bytes32[i];
-        }
-        return string(bytesArray);
-    }
+    
 
     function findUserByStudentId(string memory newStudentId)
         internal
@@ -137,7 +134,7 @@ contract AAiTUser {
             abi.encodePacked(
                 userIndex[
                     userStructsMapping[
-                        bytes32ToString(
+                        AAiTElectionLibrary.bytes32ToString(
                             keccak256(
                                 abi.encodePacked(
                                     newfName,
@@ -168,7 +165,8 @@ contract AAiTUser {
         DEPTARTMENT_TYPE currentDepartment,
         string memory email,
         string memory profilePicture,
-        string memory bio
+        string memory bio,
+        USER_TYPE role
     ) external onlyOwner returns (uint256 index) {
         // require(msg.sender != owner, "Permission Denied");
         require(!isUser(fName, lName, gName), "User Already Exists");
@@ -179,7 +177,7 @@ contract AAiTUser {
         );
         require(!findUserByEmail(email), "User Already Exists");
 
-        string memory fullName = bytes32ToString(
+        string memory fullName = AAiTElectionLibrary.bytes32ToString(
             keccak256(abi.encodePacked(fName, " ", lName, " ", gName))
         );
 
@@ -208,10 +206,8 @@ contract AAiTUser {
                 email
             )
         );
-        if (
-            keccak256(abi.encodePacked(profilePicture)) == keccak256(abi.encodePacked("")) &&
-            keccak256(abi.encodePacked(bio)) == keccak256(abi.encodePacked(""))
-        ) {
+        if ( role == USER_TYPE.VOTER)
+         {
             votersList.push(
                 VoterStruct(
                     userStructsMapping[fullName],
@@ -219,9 +215,8 @@ contract AAiTUser {
                 )
             );
         } else if (
-            keccak256(abi.encodePacked(bio)) != keccak256(abi.encodePacked("")) &&
-            keccak256(abi.encodePacked(profilePicture)) != keccak256(abi.encodePacked(""))
-        ) {
+            role == USER_TYPE.CANDIDATE)
+         {
             candidatesList.push(
                 CandidateStruct(
                     userStructsMapping[fullName],
@@ -230,7 +225,10 @@ contract AAiTUser {
                     bio
                 )
             );
-        } else {
+        } else if(role == USER_TYPE.ADMIN){
+            adminList.push(AdminStruct(
+                userStructsMapping[fullName]
+            ));
             return userIndex.length - 1;
         }
         // emit LogNewUser(
@@ -254,7 +252,7 @@ contract AAiTUser {
     ) external view returns (UserStruct memory) {
         // if (!isUser(userAddress)) throw;
         require(isUser(fName, lName, gName), "User Does not exist");
-        string memory fullName = bytes32ToString(
+        string memory fullName = AAiTElectionLibrary.bytes32ToString(
             keccak256(abi.encodePacked(fName, " ", lName, " ", gName))
         );
 
@@ -271,7 +269,7 @@ contract AAiTUser {
         string memory gName
     ) external returns (bool success) {
         require(isUser(fName, lName, gName), "User Does not exist");
-        string memory fullName = bytes32ToString(
+        string memory fullName = AAiTElectionLibrary.bytes32ToString(
             keccak256(abi.encodePacked(fName, " ", lName, " ", gName))
         );
         // Candidate deployedCandidate = Candidate(candidateContractAddress);

@@ -138,6 +138,7 @@ contract AAiTElectionTimer {
             // changeVal("initial phase");
         }else if (phase.phaseName == PHASE_NAME.REGISTRATION_BREAK) {
             if (block.timestamp >= phase.end) {
+                
                 changePhase(breakDuration);
                 return;
 
