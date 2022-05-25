@@ -24,12 +24,11 @@ export default function NewCandidate() {
         isLoading: isAddNewCandidateLoading,
     } = useWeb3ExecuteFunction({
         contractAddress: process.env.REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS,
-        functionName: "insertCandidate",
+        functionName: "insertUser",
         abi: StudentContract.abi,
         params: {
-            candidateInfo: {
+            userInfo: {
                 index: 0,
-                userAddress: formValues.wallet,
                 studentId: formValues.id,
                 fName: formValues.name,
                 lName: formValues.fname,

@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 // import User from '../models/user.model'
 
-<<<<<<< HEAD:dvbst_web_admin/src/components/NewUser.js
-export default function NewUser() {
-=======
 export default function NewVoter() {
     const { isInitialized, isWeb3Enabled, account, enableWeb3, Moralis } = useMoralis();
     const navigate = useNavigate();
 
->>>>>>> 89d96a1 (Fix merge conflicts):dvbst_web_admin/src/components/NewVoter.js
     const initialValues = {
         name: "", fname: "", gname: "",
         dept: "", section: "", year: "",
@@ -18,10 +14,6 @@ export default function NewVoter() {
     const [formValues, setFormValues] = useState(initialValues)
     const [formErrors, setFormErrors] = useState({})
     const [isSubmit, setIsSubmit] = useState(false)
-<<<<<<< HEAD:dvbst_web_admin/src/components/NewUser.js
-    // const [addUser] = useAddUserMutation();
-    // const user = User(name, fname, gname, id, dept, sect, year, wallet);
-=======
 
     const {
         error: addNewVoterError,
@@ -29,12 +21,11 @@ export default function NewVoter() {
         isLoading: isAddNewVoterLoading,
     } = useWeb3ExecuteFunction({
         contractAddress: process.env.REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS,
-        functionName: "insertVoter",
+        functionName: "insertUser",
         abi: StudentContract.abi,
         params: {
             voterInfo: {
                 index: 0,
-                userAddress: formValues.wallet,
                 studentId: formValues.id,
                 fName: formValues.name,
                 lName: formValues.fname,
@@ -45,7 +36,6 @@ export default function NewVoter() {
                 currentDepartment: 1,
             },
             email: "mygmail@gmail.com",
-            password: "admin234123123",
         }
     });
 
@@ -54,7 +44,6 @@ export default function NewVoter() {
         await addNewVoter();
         console.log("error2", addNewVoterError);
     };
->>>>>>> 89d96a1 (Fix merge conflicts):dvbst_web_admin/src/components/NewVoter.js
 
     const changeHandler = (event) => {
         const { name, value } = event.target;
@@ -65,13 +54,9 @@ export default function NewVoter() {
         e.preventDefault();
         setFormErrors(validate(formValues))
         setIsSubmit(true)
-<<<<<<< HEAD:dvbst_web_admin/src/components/NewUser.js
-        // await addUser(user);
-=======
         addVoter()
         navigate('/voters')
         setFormValues(initialValues)
->>>>>>> 89d96a1 (Fix merge conflicts):dvbst_web_admin/src/components/NewVoter.js
     }
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -130,8 +115,6 @@ export default function NewVoter() {
 
     return (
         <div class="min-h-screen w-full bg-white-800 flex flex-row align-center content-center py-8 px-4 lg:px-8">
-<<<<<<< HEAD:dvbst_web_admin/src/components/NewUser.js
-=======
             {isAddNewVoterLoading && (
                 <div>
                     <SpinnerCircularFixed
@@ -149,7 +132,6 @@ export default function NewVoter() {
                 </div>
             )}
 
->>>>>>> 89d96a1 (Fix merge conflicts):dvbst_web_admin/src/components/NewVoter.js
             <div class="w-[50vw]">
                 <div class="sm:mx-auto sm:w-full sm:max-w-md">
                     <h2 class="mt-6 mb-6 text-left text-2xl font-extrabold text-gray-900">Add New Voter</h2>
