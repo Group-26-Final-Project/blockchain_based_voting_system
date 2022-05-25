@@ -1,65 +1,26 @@
 import React, { useEffect } from "react";
-import UsersTable, { Detail } from "./UsersTable";
+import VotersTable, { Detail } from "./VotersTable";
 // import { UsersData } from './UsersData';
 import { SpinnerCircularFixed } from "spinners-react";
 import StudentContract from "../contracts/AAiTStudent.json";
 // import { useAPIContract } from "../hooks/useAPIContract";
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 
-export default function Users() {
+export default function Voters() {
   const { isInitialized, isWeb3Enabled, account, enableWeb3, Moralis } =
     useMoralis();
 
   const {
-    data: data1,
-    error: eror1,
-    fetch: fetch1,
-    isFetching: isFetching1,
-    isLoading: isLoading1,
+    data: voters,
+    error: getAllVotersError,
+    fetch: getAllVoters,
+    isLoading: getAllVotersLoading,
   } = useWeb3ExecuteFunction({
     //   chain: "eth",
     contractAddress: process.env.REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS,
     functionName: "getAllVoters",
     abi: StudentContract.abi,
   });
-
-  const {
-    data: data2,
-    error: eror2,
-    fetch: fetch2,
-    isFetching: isFetching2,
-    isLoading: isLoading2,
-  } = useWeb3ExecuteFunction({
-    //   chain: "eth",
-    contractAddress: process.env.REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS,
-    functionName: "insertVoter",
-    abi: StudentContract.abi,
-    params: {
-      voterInfo: {
-        index: 0,
-        userAddress: "0xe86DC0f7e6588A82e9096F2b719Ed975d3c4994d",
-        studentId: "ATR/8098/09",
-        fName: "second",
-        lName: "hand",
-        gName: "dude",
-        DOB: 1985,
-        currentYear: 2009,
-        currentSection: 1,
-        currentDepartment: 1,
-      },
-      email: "mygmail@gmail.com",
-      password: "admin234123123",
-    },
-  });
-
-  const addVoter = async () => {
-    await enableWeb3();
-    await fetch2();
-    console.log("fetch2", data2);
-    console.log("error2", eror2);
-    await fetch1();
-    console.log("fetch1", data1);
-  };
 
   const extractVoters = (data) => {
     var voterData = [];
@@ -86,10 +47,8 @@ export default function Users() {
   useEffect(() => {
     const fetchData = async () => {
       await enableWeb3();
-      await fetch1();
-      console.log(data1);
+      await getAllVoters();
     };
-    console.log(isWeb3Enabled, isInitialized, account);
     if (isInitialized && isWeb3Enabled) {
       fetchData();
     } else {
@@ -127,7 +86,7 @@ export default function Users() {
 
   return (
     <div class="min-h-screen w-full bg-white-800 flex flex-col justify-center items-center py-4 px-4 lg:px-8">
-      {(isLoading1 || isLoading2) && (
+      {getAllVotersLoading && (
         <div>
           <SpinnerCircularFixed
             size={50}
@@ -138,46 +97,20 @@ export default function Users() {
           />
         </div>
       )}
-      {eror1 && (
+      {getAllVotersError && (
         <div>
           <h3>Ooops something went wrong</h3>
-          <h2>{eror1.message}</h2>
+          <h2>{getAllVotersError.message}</h2>
         </div>
       )}
-      {eror2 && (
-        <div>
-          <h2>{eror2.data.message.split("revert ")[1]}</h2>
-        </div>
-      )}
-      {data1 && data1.length !== 0 && (
+      {voters && (
         <div class="w-full py-4 px-4 lg:px-8 rounded-2xl bg-white-700">
-          <UsersTable
+          <VotersTable
             columns={columns}
-            data={extractVoters(data1)}
-            childFunc={() => {
-              addVoter();
-            }}
+            data={extractVoters(voters)}
           />
         </div>
       )}
     </div>
   );
 }
-
-// const voterOptions = () => {
-
-// }
-// const { runContractFunction, contractResponse, error, isLoading } = useAPIContract();
-// const onGetAllVoters = ({ onSuccess, onError, onComplete }) => {
-//     runContractFunction({
-//         params: {
-//             chain: "eth",
-//             function_name: "getAllVoters",
-//             abi: StudentContract.abi,
-//             address: "0xABe6fEa796f4908496991ADCdaAFB28616659636"
-//         },
-//         onSuccess,
-//         onError,
-//         onComplete,
-//     });
-// };
