@@ -52,12 +52,11 @@ export default function NewVoter() {
         e.preventDefault();
         setFormErrors(validate(formValues))
         setIsSubmit(true)
-        await addVoter();
-
-        // if (Object.keys(formErrors).length === 0 && isSubmit){
-        //     // navigate('/voters')
-        //     setFormValues(initialValues)
-        // }
+        if (Object.keys(formErrors).length === 0 && isSubmit) {
+            await addVoter();
+            navigate('/voters')
+            setFormValues(initialValues)
+        }
     }
 
     const changeHandler = (event) => {

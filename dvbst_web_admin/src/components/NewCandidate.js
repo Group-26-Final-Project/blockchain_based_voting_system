@@ -91,7 +91,7 @@ export default function NewCandidate() {
     setIsSubmit(true);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       await addCandidate();
-      navigate("/voters");
+      navigate("/candidates");
       setFormValues(initialValues);
     }
   };
