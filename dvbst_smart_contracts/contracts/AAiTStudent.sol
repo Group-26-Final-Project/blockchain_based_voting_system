@@ -3,7 +3,6 @@ pragma solidity ^0.8.9;
 
 import "./AAiTUser.sol";
 
-
 contract AAiTStudent {
     enum DEPTARTMENT_TYPE {
         SITE,
@@ -74,8 +73,7 @@ contract AAiTStudent {
     // );
     // event LogDeleteUser(address indexed userAddress, uint256 index);
 
-    mapping(address => CandidateStruct)
-        private candidateStructsMapping;
+    mapping(address => CandidateStruct) private candidateStructsMapping;
     address[] private candidateIndex;
     CandidateStruct[] private candidateValue;
     address private AAiTUserContractAddress;
@@ -119,7 +117,9 @@ contract AAiTStudent {
         for (uint256 i = 0; i < voterValue.length; i++) {
             if (
                 keccak256(
-                    abi.encodePacked(voterValue[i].voterInfo.voterInfo.studentId)
+                    abi.encodePacked(
+                        voterValue[i].voterInfo.voterInfo.studentId
+                    )
                 ) == keccak256(abi.encodePacked(newStudentId))
             ) {
                 return true;
@@ -136,8 +136,9 @@ contract AAiTStudent {
     {
         for (uint256 i = 0; i < voterValue.length; i++) {
             if (
-                keccak256(abi.encodePacked(voterValue[i].voterInfo.voterInfo.email)) ==
-                keccak256(abi.encodePacked(newEmail))
+                keccak256(
+                    abi.encodePacked(voterValue[i].voterInfo.voterInfo.email)
+                ) == keccak256(abi.encodePacked(newEmail))
             ) {
                 return true;
             }
@@ -146,31 +147,22 @@ contract AAiTStudent {
         // return isIndeed;
     }
 
-    function findVoterByFullName(
-        string memory newfName,
-        string memory newlName,
-        string memory newgName
-    ) internal view returns (bool) {
-        for (uint256 i = 0; i < voterValue.length; i++) {
-            if (
-                keccak256(
-                    abi.encodePacked(
-                        voterValue[i].voterInfo.voterInfo.fName,
-                        " ",
-                        voterValue[i].voterInfo.voterInfo.lName,
-                        " ",
-                        voterValue[i].voterInfo.voterInfo.gName
-                    )
-                ) ==
-                keccak256(
-                    abi.encodePacked(newfName, " ", newlName, " ", newgName)
-                )
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // function findVoterByFullName(
+    //     // string memory newfName,
+    //     // string memory newlName,
+    //     string memory newFullName
+    // ) internal view returns (bool) {
+    //     for (uint256 i = 0; i < voterValue.length; i++) {
+    //         if (
+    //             keccak256(
+    //                 abi.encodePacked(voterValue[i].voterInfo.voterInfo.fullName)
+    //             ) == keccak256(abi.encodePacked(newFullName))
+    //         ) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     function isVoter(
         // string memory newfName,
@@ -226,15 +218,18 @@ contract AAiTStudent {
             !findVoterByStudentId(voterInfo.voterInfo.studentId),
             "Voter Already Exists"
         );
-        require(!findVoterByEmail(voterInfo.voterInfo.email), "Voter Already Exists");
         require(
-            !findVoterByFullName(
-                voterInfo.voterInfo.fName,
-                voterInfo.voterInfo.lName,
-                voterInfo.voterInfo.gName
-            ),
+            !findVoterByEmail(voterInfo.voterInfo.email),
             "Voter Already Exists"
         );
+        // require(
+        //     !findVoterByFullName(
+        //         voterInfo.voterInfo.fullName
+        //         // voterInfo.voterInfo.lName,
+        //         // voterInfo.voterInfo.gName
+        //     ),
+        //     "Voter Already Exists"
+        // );
 
         voterStructsMapping[userAddress].voterInfo = voterInfo;
         // voterStructsMapping[userAddress].voterEmail = email;
@@ -242,7 +237,9 @@ contract AAiTStudent {
         voterStructsMapping[userAddress].voterAddress = userAddress;
 
         voterIndex.push(userAddress);
-        voterStructsMapping[userAddress].voterInfo.vindex = voterIndex.length - 1;
+        voterStructsMapping[userAddress].voterInfo.vindex =
+            voterIndex.length -
+            1;
         voterValue.push(VoterStruct(voterInfo, userAddress));
         // emit LogNewVoter(voterInfo, email, password);
         return voterIndex.length - 1;
@@ -255,22 +252,21 @@ contract AAiTStudent {
         address userAddress
     ) external returns (bool success) {
         // require(findVoterByFullName(newfName, newlName, newgName), "Voter Does not Exist");
-        require(
-            isVoter(userAddress),
-            "Voter Does not exist"
-        );
+        require(isVoter(userAddress), "Voter Does not exist");
         // uint256 rowToDelete = voterStructsMapping[userAddress].vindex;
         // address keyToMove = voterIndex[voterIndex.length - 1];
-        voterIndex[voterStructsMapping[userAddress].voterInfo.vindex] = voterIndex[
-            voterIndex.length - 1
-        ];
-        voterStructsMapping[voterIndex[voterIndex.length - 1]].voterInfo
+        voterIndex[
+            voterStructsMapping[userAddress].voterInfo.vindex
+        ] = voterIndex[voterIndex.length - 1];
+        voterStructsMapping[voterIndex[voterIndex.length - 1]]
+            .voterInfo
             .vindex = voterStructsMapping[userAddress].voterInfo.vindex;
 
-        voterValue[voterStructsMapping[userAddress].voterInfo.vindex] = voterValue[
-            voterValue.length - 1
-        ];
-        voterValue[voterStructsMapping[userAddress].voterInfo.vindex].voterInfo
+        voterValue[
+            voterStructsMapping[userAddress].voterInfo.vindex
+        ] = voterValue[voterValue.length - 1];
+        voterValue[voterStructsMapping[userAddress].voterInfo.vindex]
+            .voterInfo
             .vindex = voterStructsMapping[userAddress].voterInfo.vindex;
         voterValue.pop();
         voterIndex.pop();
@@ -295,7 +291,9 @@ contract AAiTStudent {
         for (uint256 i = 0; i < candidateValue.length; i++) {
             if (
                 keccak256(
-                    abi.encodePacked(candidateValue[i].candidateInfo.candidateInfo.studentId)
+                    abi.encodePacked(
+                        candidateValue[i].candidateInfo.candidateInfo.studentId
+                    )
                 ) == keccak256(abi.encodePacked(newStudentId))
             ) {
                 return true;
@@ -314,7 +312,9 @@ contract AAiTStudent {
         for (uint256 i = 0; i < candidateValue.length; i++) {
             if (
                 keccak256(
-                    abi.encodePacked(candidateValue[i].candidateInfo.candidateInfo.email)
+                    abi.encodePacked(
+                        candidateValue[i].candidateInfo.candidateInfo.email
+                    )
                 ) == keccak256(abi.encodePacked(newEmail))
             ) {
                 return true;
@@ -324,32 +324,28 @@ contract AAiTStudent {
         // return isIndeed;
     }
 
-    function findCandidateByFullName(
-        string memory newfName,
-        string memory newlName,
-        string memory newgName
-    ) internal view returns (bool isIndeed) {
-        // CandidateStruct[] memory temp = candidateValue;
-        for (uint256 i = 0; i < candidateValue.length; i++) {
-            if (
-                keccak256(
-                    abi.encodePacked(
-                        candidateValue[i].candidateInfo.candidateInfo.fName,
-                        " ",
-                        candidateValue[i].candidateInfo.candidateInfo.lName,
-                        " ",
-                        candidateValue[i].candidateInfo.candidateInfo.gName
-                    )
-                ) ==
-                keccak256(
-                    abi.encodePacked(newfName, " ", newlName, " ", newgName)
-                )
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // function findCandidateByFullName(
+    //     // string memory newfName,
+    //     // string memory newlName,
+    //     string memory newfullName
+    // ) internal view returns (bool isIndeed) {
+    //     // CandidateStruct[] memory temp = candidateValue;
+    //     for (uint256 i = 0; i < candidateValue.length; i++) {
+    //         if (
+    //             keccak256(
+    //                 abi.encodePacked(
+    //                     candidateValue[i].candidateInfo.candidateInfo.fullName
+    //                     )
+    //             ) ==
+    //             keccak256(
+    //                 abi.encodePacked(newfullName)
+    //             )
+    //         ) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     function isCandidate(
         // string memory newfName,
@@ -369,8 +365,9 @@ contract AAiTStudent {
         if (voterIndex.length == 0) return false;
         // require(candidateIndex[candidateStructsMapping[userAddress].vindex] ==
         //     userAddress,"index out of bounds error over here");
-        return (candidateIndex[candidateStructsMapping[userAddress].candidateInfo.vindex] ==
-            userAddress);
+        return (candidateIndex[
+            candidateStructsMapping[userAddress].candidateInfo.vindex
+        ] == userAddress);
     }
 
     function insertCandidate(
@@ -410,14 +407,14 @@ contract AAiTStudent {
             !findCandidateByEmail(userInfo.candidateInfo.email),
             "Candidate Already Exists"
         );
-        require(
-            !findCandidateByFullName(
-                userInfo.candidateInfo.fName,
-                userInfo.candidateInfo.lName,
-                userInfo.candidateInfo.gName
-            ),
-            "Candidate Already Exists"
-        );
+        // require(
+        //     !findCandidateByFullName(
+        //         userInfo.candidateInfo.fullName
+        //         // userInfo.candidateInfo.lName,
+        //         // userInfo.candidateInfo.gName
+        //     ),
+        //     "Candidate Already Exists"
+        // );
 
         candidateStructsMapping[userAddress].candidateInfo = userInfo;
         // candidateStructsMapping[userAddress]
@@ -431,7 +428,9 @@ contract AAiTStudent {
         // userStructsMapping[userAddress].gName = gName;
         candidateStructsMapping[userAddress].candidateAddress = userAddress;
         candidateIndex.push(userAddress);
-        candidateStructsMapping[userAddress].candidateInfo.vindex = candidateIndex.length - 1;
+        candidateStructsMapping[userAddress].candidateInfo.vindex =
+            candidateIndex.length -
+            1;
         candidateValue.push(CandidateStruct(userInfo, userAddress));
 
         //     emit LogNewCandidate(
@@ -450,23 +449,24 @@ contract AAiTStudent {
         // string memory newgName,
         address userAddress
     ) public returns (bool success) {
-        require(
-            isCandidate(userAddress),
-            "Candidate Does not exist"
-        );
+        require(isCandidate(userAddress), "Candidate Does not exist");
         // uint256 rowToDelete = candidateStructsMapping[userAddress].vindex;
         // address keyToMove = candidateIndex[candidateIndex.length - 1];
         candidateIndex[
             candidateStructsMapping[userAddress].candidateInfo.vindex
         ] = candidateIndex[candidateIndex.length - 1];
-        candidateStructsMapping[candidateIndex[candidateIndex.length - 1]].candidateInfo
+        candidateStructsMapping[candidateIndex[candidateIndex.length - 1]]
+            .candidateInfo
             .vindex = candidateStructsMapping[userAddress].candidateInfo.vindex;
 
         candidateValue[
             candidateStructsMapping[userAddress].candidateInfo.vindex
         ] = candidateValue[candidateValue.length - 1];
-        candidateValue[candidateStructsMapping[userAddress].candidateInfo.vindex].candidateInfo
-            .vindex = candidateStructsMapping[userAddress].candidateInfo.vindex;
+        candidateValue[
+            candidateStructsMapping[userAddress].candidateInfo.vindex
+        ].candidateInfo.vindex = candidateStructsMapping[userAddress]
+            .candidateInfo
+            .vindex;
         candidateValue.pop();
         candidateIndex.pop();
         delete candidateStructsMapping[userAddress];
@@ -500,8 +500,9 @@ contract AAiTStudent {
     {
         for (uint256 i = 0; i < voterValue.length; i++) {
             if (
-                keccak256(abi.encodePacked(voterValue[i].voterInfo.voterInfo.email)) ==
-                keccak256(abi.encodePacked(email))
+                keccak256(
+                    abi.encodePacked(voterValue[i].voterInfo.voterInfo.email)
+                ) == keccak256(abi.encodePacked(email))
             ) {
                 return voterValue[i];
             }
@@ -509,11 +510,7 @@ contract AAiTStudent {
         revert("Not found");
     }
 
-    function getAllVoters()
-        public
-        view
-        returns (VoterStruct[] memory)
-    {
+    function getAllVoters() public view returns (VoterStruct[] memory) {
         return voterValue;
     }
 
@@ -535,8 +532,11 @@ contract AAiTStudent {
     {
         for (uint256 i = 0; i < candidateValue.length; i++) {
             if (
-                keccak256(abi.encodePacked(candidateValue[i].candidateInfo.candidateInfo.email)) ==
-                keccak256(abi.encodePacked(email))
+                keccak256(
+                    abi.encodePacked(
+                        candidateValue[i].candidateInfo.candidateInfo.email
+                    )
+                ) == keccak256(abi.encodePacked(email))
             ) {
                 return candidateValue[i];
             }
@@ -544,11 +544,7 @@ contract AAiTStudent {
         revert("Not found");
     }
 
-    function getAllCandidates()
-        public
-        view
-        returns (CandidateStruct[] memory)
-    {
+    function getAllCandidates() public view returns (CandidateStruct[] memory) {
         return candidateValue;
     }
 

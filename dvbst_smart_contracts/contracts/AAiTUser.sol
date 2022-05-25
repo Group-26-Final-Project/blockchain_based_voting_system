@@ -1,17 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
+import "./AAiTElection.sol";
+
 contract AAiTUser {
     enum DEPTARTMENT_TYPE {
         SITE,
         ELEC
     }
+    enum USER_TYPE {
+        VOTER,
+        CANDIDATE,
+        ADMIN
+    }
     struct UserStruct {
         uint256 index;
         string studentId;
-        string fName;
-        string lName;
-        string gName;
+        string fullName;
+        // string lName;
+        // string gName;
         uint256 DOB;
         uint256 currentYear;
         uint256 currentSection;
@@ -35,12 +42,16 @@ contract AAiTUser {
         string candidateProfilePicture;
         // address candidateAddress;
     }
+    struct AdminStruct {
+        UserStruct adminInfo;
+    }
 
     mapping(string => UserStruct) private userStructsMapping;
     string[] private userIndex;
     UserStruct[] private userValue;
     VoterStruct[] private votersList;
     CandidateStruct[] private candidatesList;
+    AdminStruct[] private adminList;
     address private owner;
 
     modifier onlyOwner() {
@@ -50,22 +61,6 @@ contract AAiTUser {
 
     constructor() {
         owner = msg.sender;
-    }
-
-    function bytes32ToString(bytes32 _bytes32)
-        internal
-        pure
-        returns (string memory)
-    {
-        uint8 i = 0;
-        while (i < 32 && _bytes32[i] != 0) {
-            i++;
-        }
-        bytes memory bytesArray = new bytes(i);
-        for (i = 0; i < 32 && _bytes32[i] != 0; i++) {
-            bytesArray[i] = _bytes32[i];
-        }
-        return string(bytesArray);
     }
 
     function findUserByStudentId(string memory newStudentId)
@@ -84,31 +79,25 @@ contract AAiTUser {
         return false;
     }
 
-    function findUserByFullName(
-        string memory newfName,
-        string memory newlName,
-        string memory newgName
-    ) internal view returns (bool) {
-        for (uint256 i = 0; i < userValue.length; i++) {
-            if (
-                keccak256(
-                    abi.encodePacked(
-                        userValue[i].fName,
-                        " ",
-                        userValue[i].lName,
-                        " ",
-                        userValue[i].gName
-                    )
-                ) ==
-                keccak256(
-                    abi.encodePacked(newfName, " ", newlName, " ", newgName)
-                )
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // function findUserByFullName(string memory fullName)
+    //     internal
+    //     view
+    //     returns (
+    //         // string memory newlName,
+    //         // string memory newgName
+    //         bool
+    //     )
+    // {
+    //     for (uint256 i = 0; i < userValue.length; i++) {
+    //         if (
+    //             keccak256(abi.encodePacked(fullName)) ==
+    //             keccak256(abi.encodePacked(userValue[i].fullName))
+    //         ) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     function findUserByEmail(string memory newEmail)
         internal
@@ -128,65 +117,50 @@ contract AAiTUser {
     }
 
     function isUser(
-        string memory newfName,
-        string memory newlName,
-        string memory newgName
+        // string memory newfName,
+        // string memory newlName,
+        string memory fullName
     ) public view returns (bool) {
         if (userIndex.length == 0) return false;
         return (keccak256(
-            abi.encodePacked(
-                userIndex[
-                    userStructsMapping[
-                        bytes32ToString(
-                            keccak256(
-                                abi.encodePacked(
-                                    newfName,
-                                    " ",
-                                    newlName,
-                                    " ",
-                                    newgName
-                                )
-                            )
-                        )
-                    ].index
-                ]
-            )
+            abi.encodePacked(userIndex[userStructsMapping[fullName].index])
         ) ==
             keccak256(
-                abi.encodePacked(newfName, " ", newlName, " ", newgName)
+                abi.encodePacked(fullName)
             ));
     }
 
     function insertUser(
         string memory studentId,
-        string memory fName,
-        string memory lName,
-        string memory gName,
+        // string memory fName,
+        // string memory lName,
+        string memory fullName,
         uint256 DOB,
         uint256 currentYear,
         uint256 currentSection,
         DEPTARTMENT_TYPE currentDepartment,
         string memory email,
         string memory profilePicture,
-        string memory bio
+        string memory bio,
+        USER_TYPE role
     ) external onlyOwner returns (uint256 index) {
         // require(msg.sender != owner, "Permission Denied");
-        require(!isUser(fName, lName, gName), "User Already Exists");
+        require(!isUser(fullName), "User Already Exists");
         require(!findUserByStudentId(studentId), "User Already Exists");
-        require(
-            !findUserByFullName(fName, lName, gName),
-            "User Already Exists"
-        );
+        // require(
+        //     !findUserByFullName(fullName),
+        //     "User Already Exists"
+        // );
         require(!findUserByEmail(email), "User Already Exists");
 
-        string memory fullName = bytes32ToString(
-            keccak256(abi.encodePacked(fName, " ", lName, " ", gName))
-        );
+        // string memory fullName = AAiTElectionLibrary.bytes32ToString(
+        //     keccak256(abi.encodePacked(fName, " ", lName, " ", gName))
+        // );
 
         userStructsMapping[fullName].studentId = studentId;
-        userStructsMapping[fullName].fName = fName;
-        userStructsMapping[fullName].lName = lName;
-        userStructsMapping[fullName].gName = gName;
+        userStructsMapping[fullName].fullName = fullName;
+        // userStructsMapping[fullName].lName = lName;
+        // userStructsMapping[fullName].gName = gName;
         userStructsMapping[fullName].DOB = DOB;
         userStructsMapping[fullName].currentYear = currentYear;
         userStructsMapping[fullName].currentSection = currentSection;
@@ -198,9 +172,9 @@ contract AAiTUser {
             UserStruct(
                 userStructsMapping[fullName].index,
                 studentId,
-                fName,
-                lName,
-                gName,
+                fullName,
+                // lName,
+                // gName,
                 DOB,
                 currentYear,
                 currentSection,
@@ -208,20 +182,14 @@ contract AAiTUser {
                 email
             )
         );
-        if (
-            keccak256(abi.encodePacked(profilePicture)) == keccak256(abi.encodePacked("")) &&
-            keccak256(abi.encodePacked(bio)) == keccak256(abi.encodePacked(""))
-        ) {
+        if (role == USER_TYPE.VOTER) {
             votersList.push(
                 VoterStruct(
                     userStructsMapping[fullName],
                     userStructsMapping[fullName].index
                 )
             );
-        } else if (
-            keccak256(abi.encodePacked(bio)) != keccak256(abi.encodePacked("")) &&
-            keccak256(abi.encodePacked(profilePicture)) != keccak256(abi.encodePacked(""))
-        ) {
+        } else if (role == USER_TYPE.CANDIDATE) {
             candidatesList.push(
                 CandidateStruct(
                     userStructsMapping[fullName],
@@ -230,7 +198,8 @@ contract AAiTUser {
                     bio
                 )
             );
-        } else {
+        } else if (role == USER_TYPE.ADMIN) {
+            adminList.push(AdminStruct(userStructsMapping[fullName]));
             return userIndex.length - 1;
         }
         // emit LogNewUser(
@@ -248,15 +217,15 @@ contract AAiTUser {
     }
 
     function getUser(
-        string memory fName,
-        string memory lName,
-        string memory gName
+        // string memory fName,
+        // string memory lName,
+        string memory fullName
     ) external view returns (UserStruct memory) {
         // if (!isUser(userAddress)) throw;
-        require(isUser(fName, lName, gName), "User Does not exist");
-        string memory fullName = bytes32ToString(
-            keccak256(abi.encodePacked(fName, " ", lName, " ", gName))
-        );
+        require(isUser(fullName), "User Does not exist");
+        // string memory fullName = AAiTElectionLibrary.bytes32ToString(
+        //     keccak256(abi.encodePacked(fName, " ", lName, " ", gName))
+        // );
 
         return (userStructsMapping[fullName]);
     }
@@ -266,14 +235,14 @@ contract AAiTUser {
     }
 
     function removeUser(
-        string memory fName,
-        string memory lName,
-        string memory gName
+        // string memory fName,
+        // string memory lName,
+        string memory fullName
     ) external returns (bool success) {
-        require(isUser(fName, lName, gName), "User Does not exist");
-        string memory fullName = bytes32ToString(
-            keccak256(abi.encodePacked(fName, " ", lName, " ", gName))
-        );
+        require(isUser(fullName), "User Does not exist");
+        // string memory fullName = AAiTElectionLibrary.bytes32ToString(
+        //     keccak256(abi.encodePacked(fName, " ", lName, " ", gName))
+        // );
         // Candidate deployedCandidate = Candidate(candidateContractAddress);
         // Voter deployedVoter = Voter(voterContractAddress);
 

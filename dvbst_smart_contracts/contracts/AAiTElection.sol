@@ -48,25 +48,53 @@ library AAiTElectionLibrary {
         }
         return largest;
     }
+
+    function bytes32ToString(bytes32 _bytes32)
+        internal
+        pure
+        returns (string memory)
+    {
+        uint8 i = 0;
+        while (i < 32 && _bytes32[i] != 0) {
+            i++;
+        }
+        bytes memory bytesArray = new bytes(i);
+        for (i = 0; i < 32 && _bytes32[i] != 0; i++) {
+            bytesArray[i] = _bytes32[i];
+        }
+        return string(bytesArray);
+    }
 }
 
 contract AAiTElection {
     enum DEPTARTMENT_TYPE {
-        SITE,
-        ELEC
+        BIOMED,
+        CHEMICAL,
+        CIVIL,
+        ELEC,
+        MECHANICAL,
+        SITE
     }
     enum ELECTION_TYPE {
-        DEPARTMENT,
-        BATCH,
-        SECTION
+        PENDING,
+        ONGOING,
+        COMPLETED
     }
+    string[] private deptTypes = [
+        "Biomedical Engineering",
+        "Chemical Engineering",
+        "Civil Engineering",
+        "Electrical Engineering",
+        "Mechanical Engineering",
+        "Software Engineering"
+    ];
 
     struct ElectionStruct {
         uint256 index;
         string name;
         ELECTION_TYPE electionType;
-        string startDate;
-        string endDate;
+        uint256 startDate;
+        uint256 endDate;
         address[] candidates;
         address[] winners;
         address[] voters;
@@ -77,9 +105,9 @@ contract AAiTElection {
     }
 
     struct ElectionResultStruct {
-        string candidateFName;
-        string candidateLName;
-        string candidateGName;
+        string candidateFullName;
+        // string candidateLName;
+        // string candidateGName;
         address candidateAddress;
         uint256 votes;
     }
@@ -187,56 +215,56 @@ contract AAiTElection {
         return false;
     }
 
-    function addElection(
-        string memory name,
-        ELECTION_TYPE electionType,
-        string memory startDate,
-        string memory endDate,
-        address[] memory candidates,
-        address[] memory voters,
-        uint256 year,
-        uint256 section,
-        DEPTARTMENT_TYPE department
-    ) public {
-        require(
-            !findElectionByName(name) ||
-                !findElectionByType(year, section, department),
-            "exists"
-        );
+    // function addElection(
+    //     string memory name,
+    //     ELECTION_TYPE electionType,
+    //     string memory startDate,
+    //     string memory endDate,
+    //     address[] memory candidates,
+    //     address[] memory voters,
+    //     uint256 year,
+    //     uint256 section,
+    //     DEPTARTMENT_TYPE department
+    // ) public {
+    //     require(
+    //         !findElectionByName(name) ||
+    //             !findElectionByType(year, section, department),
+    //         "exists"
+    //     );
 
-        uint256 index = allElections.length;
-        address[] memory empty;
-        electionStructsMapping[name] = ElectionStruct(
-            allElections.length,
-            name,
-            electionType,
-            startDate,
-            endDate,
-            candidates,
-            empty,
-            voters,
-            empty,
-            year,
-            section,
-            department
-        );
-        allElections.push(
-            ElectionStruct({
-                index: allElections.length,
-                name: name,
-                electionType: electionType,
-                startDate: startDate,
-                endDate: endDate,
-                candidates: candidates,
-                winners: empty,
-                voters: voters,
-                voted: empty,
-                year: year,
-                section: section,
-                department: department
-            })
-        );
-    }
+    //     uint256 index = allElections.length;
+    //     address[] memory empty;
+    //     electionStructsMapping[name] = ElectionStruct(
+    //         allElections.length,
+    //         name,
+    //         electionType,
+    //         startDate,
+    //         endDate,
+    //         candidates,
+    //         empty,
+    //         voters,
+    //         empty,
+    //         year,
+    //         section,
+    //         department
+    //     );
+    //     allElections.push(
+    //         ElectionStruct({
+    //             index: allElections.length,
+    //             name: name,
+    //             electionType: electionType,
+    //             startDate: startDate,
+    //             endDate: endDate,
+    //             candidates: candidates,
+    //             winners: empty,
+    //             voters: voters,
+    //             voted: empty,
+    //             year: year,
+    //             section: section,
+    //             department: department
+    //         })
+    //     );
+    // }
 
     function removeElection(string memory name) internal onlyOwner {
         require(findElectionByName(name), "No Election");
@@ -342,6 +370,7 @@ contract AAiTElection {
         }
 
         temp.winners = winners;
+        temp.electionType = ELECTION_TYPE.COMPLETED;
 
         // sort candidates
         // uint256[] memory sortedCandidates = temp.candidates;
@@ -387,19 +416,11 @@ contract AAiTElection {
         }
     }
 
-    function endElection(string memory electionName) public onlyOwner {
-        declareWinner(electionName);
-        removeElection(electionName);
-    }
+    // function endElection(string memory electionName) public onlyOwner {
+    //     declareWinner(electionName);
+    //     removeElection(electionName);
+    // }
 
-    function endAllOngoingElections() public onlyOwner {
-        // ElectionStruct[] memory temp = allElections;
-        // for (uint256 i = 0; i < temp.length; i++) {
-        //     if (temp[i].electionType == ELECTION_TYPE.ONGOING) {
-        //         endElection(temp[i].name);
-        //     }
-        // }
-    }
 
     function getElectionResult(string memory electionName)
         public
@@ -423,9 +444,9 @@ contract AAiTElection {
                     electionStructsMapping[electionName].candidates[i]
                 );
             ElectionResultStruct memory tempResult = ElectionResultStruct(
-                tempCandidate.candidateInfo.candidateInfo.fName,
-                tempCandidate.candidateInfo.candidateInfo.lName,
-                tempCandidate.candidateInfo.candidateInfo.gName,
+                tempCandidate.candidateInfo.candidateInfo.fullName,
+                // tempCandidate.candidateInfo.candidateInfo.lName,
+                // tempCandidate.candidateInfo.candidateInfo.gName,
                 electionStructsMapping[electionName].candidates[i],
                 voteToken.balanceOf(
                     electionStructsMapping[electionName].candidates[i]
@@ -521,6 +542,8 @@ contract AAiTElection {
                     return allElections[i];
                 }
             }
+        } else {
+            revert("Invalid Operation");
         }
     }
 }
