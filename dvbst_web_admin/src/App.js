@@ -1,9 +1,9 @@
 import './App.css';
-import Users from './components/Users';
+// import Users from './components/Users';
 import Candidates from './components/Candidates';
 import Home from './components/Home';
 import NewElection from './components/NewElection';
-import NewUser from './components/NewUser';
+// import NewUser from './components/NewUser';
 import Sidebar from './components/Sidebar';
 import {
   BrowserRouter as Router,
@@ -13,6 +13,9 @@ import {
 import { AiOutlineMenu } from "react-icons/ai";
 import Election from './components/Elections';
 import Blacklist from './components/Blacklist'
+import NewCandidate from './components/NewCandidate';
+import Voters from './components/Voters';
+import NewVoter from './components/NewVoter';
 
 function App() {
   return (
@@ -29,9 +32,13 @@ function App() {
         <div class="flex-1 h-screen md:overflow-y-auto">
           <Routes>
             <Route path="/" exact element={<Home />} />
-            <Route path="/users" element={<Users />} />
+            {/* <Route path="/users" element={<Users />} /> */}
+            <Route path="/voters" element={<Voters />} />
+            <Route path="/voters/newvoter" element={<NewVoter />} />
+
             <Route path="/candidates" element={<Candidates />} />
-            <Route path="/users/newuser" element={<NewUser />} />
+            <Route path="/candidates/newcandidate" element={<NewCandidate />} />
+            {/* <Route path="/users/newuser" element={<NewUser />} /> */}
             <Route path="/elections" element={<Election />} />
             <Route path="/elections/newelection" element={<NewElection />} />
             <Route path="/blacklist" element={<Blacklist />} />

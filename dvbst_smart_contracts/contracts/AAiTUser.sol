@@ -19,11 +19,11 @@ contract AAiTUser {
         string fullName;
         // string lName;
         // string gName;
-        uint256 DOB;
         uint256 currentYear;
         uint256 currentSection;
         DEPTARTMENT_TYPE currentDepartment;
         string email;
+        string phone;
     }
     struct VoterStruct {
         UserStruct voterInfo;
@@ -79,25 +79,25 @@ contract AAiTUser {
         return false;
     }
 
-    // function findUserByFullName(string memory fullName)
-    //     internal
-    //     view
-    //     returns (
-    //         // string memory newlName,
-    //         // string memory newgName
-    //         bool
-    //     )
-    // {
-    //     for (uint256 i = 0; i < userValue.length; i++) {
-    //         if (
-    //             keccak256(abi.encodePacked(fullName)) ==
-    //             keccak256(abi.encodePacked(userValue[i].fullName))
-    //         ) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
+    function findUserByPhoneNumber(string memory phoneNumber)
+        internal
+        view
+        returns (
+            // string memory newlName,
+            // string memory newgName
+            bool
+        )
+    {
+        for (uint256 i = 0; i < userValue.length; i++) {
+            if (
+                keccak256(abi.encodePacked(phoneNumber)) ==
+                keccak256(abi.encodePacked(userValue[i].phone))
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     function findUserByEmail(string memory newEmail)
         internal
@@ -135,11 +135,12 @@ contract AAiTUser {
         // string memory fName,
         // string memory lName,
         string memory fullName,
-        uint256 DOB,
+        // uint256 DOB,
         uint256 currentYear,
         uint256 currentSection,
         DEPTARTMENT_TYPE currentDepartment,
         string memory email,
+        string memory phone,
         string memory profilePicture,
         string memory bio,
         USER_TYPE role
@@ -147,10 +148,10 @@ contract AAiTUser {
         // require(msg.sender != owner, "Permission Denied");
         require(!isUser(fullName), "User Already Exists");
         require(!findUserByStudentId(studentId), "User Already Exists");
-        // require(
-        //     !findUserByFullName(fullName),
-        //     "User Already Exists"
-        // );
+        require(
+            !findUserByPhoneNumber(phone),
+            "User Already Exists"
+        );
         require(!findUserByEmail(email), "User Already Exists");
 
         // string memory fullName = AAiTElectionLibrary.bytes32ToString(
@@ -161,7 +162,7 @@ contract AAiTUser {
         userStructsMapping[fullName].fullName = fullName;
         // userStructsMapping[fullName].lName = lName;
         // userStructsMapping[fullName].gName = gName;
-        userStructsMapping[fullName].DOB = DOB;
+        userStructsMapping[fullName].phone = phone;
         userStructsMapping[fullName].currentYear = currentYear;
         userStructsMapping[fullName].currentSection = currentSection;
         userStructsMapping[fullName].currentDepartment = currentDepartment;
@@ -175,11 +176,11 @@ contract AAiTUser {
                 fullName,
                 // lName,
                 // gName,
-                DOB,
                 currentYear,
                 currentSection,
                 currentDepartment,
-                email
+                email,
+                phone
             )
         );
         if (role == USER_TYPE.VOTER) {
