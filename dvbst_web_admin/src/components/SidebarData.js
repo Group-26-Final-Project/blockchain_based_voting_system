@@ -19,7 +19,7 @@ export const SidebarData = [
     {
         title: 'Voters',
         icon: <AiOutlineUserAdd/>,
-        link: "/users" 
+        link: "/voters" 
     },
     {
         title: 'Candidates',
