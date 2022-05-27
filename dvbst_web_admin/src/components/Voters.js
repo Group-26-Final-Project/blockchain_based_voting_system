@@ -38,7 +38,7 @@ export default function Voters() {
           sect: data[i].voterInfo.currentSection.toNumber(),
           year: data[i].voterInfo.currentYear.toNumber(),
           dept: data[i].voterInfo.currentDepartment,
-          details: i,
+          details: data[i].voterInfo.email,
         };
         voterData.push(voter);
       }
@@ -83,6 +83,11 @@ export default function Voters() {
         Header: "Department",
         accessor: "dept",
       },
+      {
+        Header: "",
+        accessor: "details",
+        Cell: Detail,
+    },
     ],
     []
   );

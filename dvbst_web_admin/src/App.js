@@ -1,6 +1,7 @@
 import './App.css';
 import Home from './components/Home';
 import Voters from './components/Voters';
+import VoterDetail from './components/VoterDetail';
 import NewVoter from './components/NewVoter';
 import Candidates from './components/Candidates';
 import CandidateDetail from './components/CandidateDetail';
@@ -32,6 +33,7 @@ function App() {
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/voters" element={<Voters />} />
+            <Route path="/voterDetail" element={<VoterDetail />} />
             <Route path="/voters/newvoter" element={<NewVoter />} />
             <Route path="/candidates" element={<Candidates />} />
             <Route path="/candidateDetail" element={<CandidateDetail />} />
