@@ -144,7 +144,7 @@ contract AAiTUser {
         string memory profilePicture,
         string memory bio,
         USER_TYPE role
-    ) external onlyOwner returns (uint256 index) {
+    ) external returns (uint256 index) {
         // require(msg.sender != owner, "Permission Denied");
         require(!isUser(fullName), "User Already Exists");
         require(!findUserByStudentId(studentId), "User Already Exists");

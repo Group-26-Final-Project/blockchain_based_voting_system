@@ -37,7 +37,6 @@ export default function Candidates() {
                     year: candidatesData[i].candidateInfo.currentYear.toNumber(),
                     dept: candidatesData[i].candidateInfo.currentDepartment,
                     status: "Active",
-                    lock: true,
                     details: i,
                 };
                 candidates.push(candidate);
@@ -45,26 +44,24 @@ export default function Candidates() {
         }
         return candidates;
     };
-
-    const fetchData = async () => {
-        await enableWeb3();
-        await getAllCandidates();
-    };
-
-
+    
     let navigate = useNavigate();
     const routeChange = () => {
         let path = window.location.pathname + '/newcandidate';
         navigate(path);
     }
-
+    
     useEffect(() => {
+        const fetchData = async () => {
+            await enableWeb3();
+            await getAllCandidates();
+        };
         if (isInitialized && isWeb3Enabled) {
             fetchData();
         } else {
             enableWeb3();
         }
-    }, [isInitialized, isWeb3Enabled]);
+    }, [enableWeb3, getAllCandidates, isInitialized, isWeb3Enabled]);
 
     const columns = React.useMemo(() =>
         [
@@ -91,7 +88,7 @@ export default function Candidates() {
             },
             {
                 Header: "",
-                accessor: "_id",
+                accessor: "email",
                 Cell: Detail,
             },
         ],
@@ -113,7 +110,8 @@ export default function Candidates() {
             {getCandidatesError && (
                 <div>
                     <h3>Ooops something went wrong</h3>
-                    <h2>{getCandidatesError.message}</h2>
+                    <button onClick={() => window.location.reload(false)}>Reload!</button>
+                    {/* <h2>{getCandidatesError.message}</h2> */}
                 </div>
             )}
             {candidatesData && (

@@ -63,7 +63,7 @@ export default function Voters() {
       enableWeb3();
       // authenticate();
     }
-  }, [isInitialized, isWeb3Enabled]);
+  }, [enableWeb3, getAllVoters, isInitialized, isWeb3Enabled]);
 
   const columns = React.useMemo(
     () => [
@@ -103,7 +103,8 @@ export default function Voters() {
       {getAllVotersError && (
         <div>
           <h3>Ooops something went wrong</h3>
-          <h2>{getAllVotersError.message}</h2>
+          <button onClick={() => window.location.reload(false)}>Reload!</button>
+          {/* <h2>{getAllVotersError.message}</h2> */}
         </div>
       )}
       {voters && (
