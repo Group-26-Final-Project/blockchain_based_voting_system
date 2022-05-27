@@ -3,6 +3,7 @@ import Home from './components/Home';
 import Voters from './components/Voters';
 import NewVoter from './components/NewVoter';
 import Candidates from './components/Candidates';
+import CandidateDetail from './components/CandidateDetail';
 import NewCandidate from './components/NewCandidate';
 import Election from './components/Elections';
 import NewElection from './components/NewElection';
@@ -33,6 +34,7 @@ function App() {
             <Route path="/voters" element={<Voters />} />
             <Route path="/voters/newvoter" element={<NewVoter />} />
             <Route path="/candidates" element={<Candidates />} />
+            <Route path="/candidateDetail" element={<CandidateDetail />} />
             <Route path="/candidates/newcandidate" element={<NewCandidate />} />
             <Route path="/elections" element={<Election />} />
             <Route path="/elections/newelection" element={<NewElection />} />

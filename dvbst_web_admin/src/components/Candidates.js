@@ -30,16 +30,17 @@ export default function Candidates() {
         var candidates = [];
         if (candidatesData && candidatesData.length > 0) {
             for (var i = 0; i < candidatesData.length; i++) {
-                console.log("Candidates", candidatesData[i])
+                // console.log("Candidates", candidatesData[i])
                 var candidate = {
                     name: candidatesData[i].candidateInfo.fullName,
                     sect: candidatesData[i].candidateInfo.currentSection.toNumber(),
                     year: candidatesData[i].candidateInfo.currentYear.toNumber(),
                     dept: candidatesData[i].candidateInfo.currentDepartment,
                     status: "Active",
-                    details: i,
+                    details: candidatesData[i].candidateInfo.email,
                 };
                 candidates.push(candidate);
+                console.log(candidate)
             }
         }
         return candidates;
@@ -88,7 +89,7 @@ export default function Candidates() {
             },
             {
                 Header: "",
-                accessor: "email",
+                accessor: "details",
                 Cell: Detail,
             },
         ],
