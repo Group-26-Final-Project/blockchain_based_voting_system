@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { ImLock, ImUnlocked } from 'react-icons/im';
 import { useTable, useSortBy, usePagination } from "react-table";
 import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon } from '@heroicons/react/solid'
 import { Button, PageButton } from '../shared/Buttons'
@@ -155,24 +154,6 @@ export function StatusPill({ value }) {
     );
 }
 
-export function Lock({ value }) {
-    const [lock, setLock] = useState(value);
-
-    const click = () => {
-        setLock(!lock);
-    }
-
-    const result = lock ? <ImLock /> : <ImUnlocked />;
-
-    return (
-        <span>
-            <button onClick={() => click()}>
-                {result}
-            </button>
-        </span>
-    )
-}
-
 export function Detail({ value }) {
     // const result = (value === 1) ? <ImLock /> : <ImUnlocked />;
     const result = <a href="?" class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
@@ -182,16 +163,4 @@ export function Detail({ value }) {
             {result}
         </span>
     )
-
-    // console.log((value));
-    // const result = <a href="https://www.pluralsight.com/guides/how-to-render-%22a%22-with-optional-href-in-react" class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
-    // return (
-    //     <span>
-    //         {result}
-    //         print(result);
-    //     </span>
-
-    //     // <a href="https://www.pluralsight.com/guides/how-to-render-%22a%22-with-optional-href-in-react" onClick={onClick} class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
-
-    // )
 }

@@ -30,34 +30,30 @@ export default function NewVoter() {
         params: {
             studentId: formValues.id,
             fullName: formValues.name + " " + formValues.fname + " " + formValues.gname,
-            // DOB: 1985,
-            currentYear: 1,
-            currentSection: 1,
+            currentYear: formValues.year,
+            currentSection: formValues.section,
             currentDepartment: 1,
             email: formValues.email,
             phone: formValues.phone,
-            profilePicture: "gh",
-            bio: "gh",
+            bio: " ",
+            profilePicture: " ",
             role: 0,
         }
     });
 
     const addVoter = async () => {
         await addNewVoter();
-        console.log("error2", addNewVoterError);
-        console.log("voter", voter);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setFormErrors(validate(formValues))
         setIsSubmit(true)
-        await addVoter();
-
-        // if (Object.keys(formErrors).length === 0 && isSubmit){
-        //     // navigate('/voters')
-        //     setFormValues(initialValues)
-        // }
+        if (Object.keys(formErrors).length === 0 && isSubmit) {
+            await addVoter();
+            navigate('/voters')
+            setFormValues(initialValues)
+        }
     }
 
     const changeHandler = (event) => {
@@ -66,20 +62,13 @@ export default function NewVoter() {
     };
 
     useEffect(() => {
-        if (Object.keys(formErrors).length === 0 && isSubmit) {
-            console.log("Successful Login");
-          } else {
-            console.log(formErrors);
-          }
-      
         if (isInitialized && isWeb3Enabled && isAuthenticated) {
-            // fetchData();
             console.log(account);
             console.log(user);
-          } else {
+        } else {
             enableWeb3();
-          }
-    }, [isWeb3Enabled, isInitialized, isAuthenticated, account, user, isSubmit, formErrors]);
+        }
+    }, [isWeb3Enabled, isInitialized, isAuthenticated, enableWeb3, account, user]);
 
     const validate = (values) => {
         const errors = {}
@@ -135,8 +124,8 @@ export default function NewVoter() {
     }
 
     return (
-        <div class="min-h-screen w-full bg-white-800 flex flex-row align-center content-center py-8 px-4 lg:px-8">
-            {isAddNewVoterLoading && (
+        <div class="min-h-screen w-full bg-white-800 flex flex-row justify-center items-center py-8 px-4 lg:px-8">
+            {(isAddNewVoterLoading || voter) && (
                 <div>
                     <SpinnerCircularFixed
                         size={50}
@@ -152,14 +141,9 @@ export default function NewVoter() {
                     <h2>{addNewVoterError.message}</h2>
                 </div>
             )}
-                {voter && (
-        <div>
-          <h2>{"we got em boys"}</h2>
-          <h2>{voter.toString()}</h2>
-        </div>
-      )}
-
-            <div class="w-[50vw]">
+            {!isAddNewVoterLoading && !voter && (
+                
+                <div class="w-[50vw]">
                 <div class="sm:mx-auto sm:w-full sm:max-w-md">
                     <h2 class="mt-6 mb-6 text-left text-2xl font-extrabold text-gray-900">Add New Voter</h2>
                 </div>
@@ -204,15 +188,13 @@ export default function NewVoter() {
                             </label>
                             <div class="relative">
                                 <select class="block appearance-none w-full bg-white-200 text-sm text-gray-700 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='dept' id="grid-dept" value={formValues.dept} onChange={changeHandler}>
-                                    <option value="" selected disabled hidden>--Select--</option>
-                                    <option>Biomedical Engineering</option>
-                                    <option>Chemical Engineering</option>
-                                    <option>Civil Engineering</option>
-                                    <option>Electrical Engineering</option>
-                                    <option>Leather Engineering</option>
-                                    <option>Mechanical Engineering</option>
-                                    <option>Software Engineering</option>
-                                    <option>Information Technology</option>
+                                <option value="" selected disabled hidden>--Select--</option>
+                                    <option value={1}>Software Engineering</option>
+                                    <option value={2}>Biomedical Engineering</option>
+                                    <option value={3}>Chemical Engineering</option>
+                                    <option value={4}>Civil Engineering</option>
+                                    <option value={5}>Electrical Engineering</option>
+                                    <option value={6}>Mechanical Engineering</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -229,11 +211,11 @@ export default function NewVoter() {
                             <div class="relative">
                                 <select class="block appearance-none w-full bg-white-200 text-sm text-gray-700 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='year' id="grid-year" value={formValues.year} onChange={changeHandler}>
                                     <option value="" selected disabled hidden>--Select--</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
+                                    <option value={4}>4</option>
+                                    <option value={5}>5</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -248,9 +230,9 @@ export default function NewVoter() {
                             <div class="relative">
                                 <select class="block appearance-none w-full bg-white-200 text-sm text-gray-700 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='section' id="grid-section" value={formValues.section} onChange={changeHandler}>
                                     <option value="" selected disabled hidden>--Select--</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -294,6 +276,7 @@ export default function NewVoter() {
                     </div>
                 </form >
             </div >
+        )}
         </div >
     );
 }
