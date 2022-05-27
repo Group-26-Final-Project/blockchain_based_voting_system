@@ -3,6 +3,7 @@ import { useTable, useSortBy, usePagination } from "react-table";
 import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon } from '@heroicons/react/solid'
 import { Button, PageButton } from '../shared/Buttons'
 import { classNames } from '../shared/Utils';
+import { Link } from 'react-router-dom';
 
 const CandidatesTable = ({ columns, data }) => {
     const {
@@ -155,9 +156,8 @@ export function StatusPill({ value }) {
 }
 
 export function Detail({ value }) {
-    // const result = (value === 1) ? <ImLock /> : <ImUnlocked />;
-    const result = <a href="?" class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
-
+    console.log("DEtail", value)
+    const result = <Link to="/candidateDetail" state={value} class="text-blue-600 dark:text-blue-500 hover:underline">Details</Link>
     return (
         <span>
             {result}
