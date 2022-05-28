@@ -12,6 +12,14 @@ export default function Voters() {
     const clearSearch = () => {
         setSearchQuery("")
     }
+    const deptTypes = [
+      "Biomedical Engineering",
+      "Chemical Engineering",
+      "Civil Engineering",
+      "Electrical Engineering",
+      "Mechanical Engineering",
+      "Software Engineering",
+    ];
 
   const { isInitialized, isWeb3Enabled, account, enableWeb3, Moralis } =
     useMoralis();
@@ -37,7 +45,7 @@ export default function Voters() {
           name: data[i].voterInfo.fullName,
           sect: data[i].voterInfo.currentSection.toNumber(),
           year: data[i].voterInfo.currentYear.toNumber(),
-          dept: data[i].voterInfo.currentDepartment,
+          dept: deptTypes[data[i].voterInfo.currentDepartment],
           details: data[i].voterInfo.email,
         };
         voterData.push(voter);
@@ -91,6 +99,10 @@ export default function Voters() {
     ],
     []
   );
+
+  console.log("voters", voters);
+  console.log("getAllVotersError", getAllVotersError);
+
 
   return (
     <div class="min-h-screen w-full bg-white-800 flex flex-col justify-center items-center py-4 px-4 lg:px-8">

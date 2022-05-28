@@ -9,6 +9,14 @@ import { useNavigate } from "react-router-dom";
 export default function Candidates() {
     const { isInitialized, isWeb3Enabled, account, enableWeb3, Moralis } = useMoralis();
     const [searchQuery, setSearchQuery] = useState("")
+    const deptTypes = [
+        "Biomedical Engineering",
+        "Chemical Engineering",
+        "Civil Engineering",
+        "Electrical Engineering",
+        "Mechanical Engineering",
+        "Software Engineering",
+      ];
 
     const clearSearch = () => {
         setSearchQuery("")
@@ -35,7 +43,7 @@ export default function Candidates() {
                     name: candidatesData[i].candidateInfo.fullName,
                     sect: candidatesData[i].candidateInfo.currentSection.toNumber(),
                     year: candidatesData[i].candidateInfo.currentYear.toNumber(),
-                    dept: candidatesData[i].candidateInfo.currentDepartment,
+                    dept: deptTypes[candidatesData[i].candidateInfo.currentDepartment],
                     status: "Active",
                     details: candidatesData[i].candidateInfo.email,
                 };

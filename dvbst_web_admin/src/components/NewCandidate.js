@@ -33,35 +33,51 @@ export default function NewCandidate() {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isFilePicked, setIsFilePicked] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  // const [IPFSURL, setIPFSURL] = useState("");
 
   const {
     data: addNewCandidateData,
     error: addNewCandidateError,
     fetch: addNewCandidate,
     isLoading: isAddNewCandidateLoading,
-  } = useWeb3ExecuteFunction({
-    contractAddress: process.env.REACT_APP_AAITUSER_CONTRACT_ADDRESS,
-    functionName: "insertUser",
-    abi: UserContract.abi,
-    params: {
-      studentId: formValues.id,
-      fullName: formValues.name + " " + formValues.fname + " " + formValues.gname,
-      currentYear: formValues.year,
-      currentSection: formValues.section,
-      currentDepartment: 1,
-      email: formValues.email,
-      phone: formValues.phone,
-      profilePicture: formValues.profile,
-      bio: formValues.bio,
-      role: 1,
-    },
-  });
+  } = useWeb3ExecuteFunction({});
 
   const addCandidate = async () => {
-    await addNewCandidate();
+    console.log("loading is set")
+    const url = await saveProfilePicture();
+    console.log("url", url);
+    const options = {
+      contractAddress: process.env.REACT_APP_AAITUSER_CONTRACT_ADDRESS,
+      functionName: "insertUser",
+      abi: UserContract.abi,
+      params: {
+        studentId: formValues.id,
+        fullName:
+          formValues.name + " " + formValues.fname + " " + formValues.gname,
+        currentYear: formValues.year,
+        currentSection: formValues.section,
+        currentDepartment: formValues.dept,
+        email: formValues.email,
+        phone: formValues.phone,
+        profilePicture: url,
+        bio: formValues.bio,
+        role: 1,
+      },
+    };
+    console.log("params", options.params);
+    await addNewCandidate({
+      params: options,
+      onSuccess: () => {
+        // setFormValues(initialVal}});
+        // await saveProfilePicture();
+        setIsLoading(false);
+        navigate("/candidates");
+        setFormValues(initialValues);
+      },
+    });
   };
-
   const isValidFileUploaded = (file) => {
     const validExtensions = ["png", "jpeg", "jpg"];
     const fileExtension = file.type.split("/")[1];
@@ -76,16 +92,45 @@ export default function NewCandidate() {
   const picHandler = (event) => {
     setFormValues({ ...formValues, profile: event.target.files[0] });
     setIsFilePicked(true);
+    setSelectedFile(event.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    console.log("amhere in hadnle submit");
+    await e.preventDefault();
+    console.log("prevented default");
     setFormErrors(validate(formValues));
-    setIsSubmit(true);
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
+    console.log("validated the values");
+    setIsLoading(true);
+
+    // setIsSubmit(true);
+    // console.log("set is submit to true");
+    if (Object.keys(formErrors).length === 0) {
+      console.log("inside the if statement");
       await addCandidate();
-      navigate("/candidates");
-      setFormValues(initialValues);
+      // navigate("/candidates");
+      // setFormValues(initialValues);
+    }
+  };
+
+  const saveProfilePicture = async () => {
+    const profilePicObject = Moralis.Object.extend("ProfilePicture");
+    const profilePic = new profilePicObject();
+    profilePic.set("candidateName", formValues.name);
+    profilePic.set("candidateId", formValues.id);
+    if (selectedFile && selectedFile.size > 0) {
+      const name =
+        formValues.id.toString().replaceAll("/", "_") +
+        "." +
+        selectedFile.type.split("/")[1];
+      const finalProfilePic = new Moralis.File(name, selectedFile);
+      profilePic.set("profilePicture", finalProfilePic);
+      console.log("finalPP", finalProfilePic);
+      await profilePic.save();
+      await finalProfilePic.saveIPFS();
+      console.log("IPFS URL: ", finalProfilePic.name());
+      // setIPFSURL(finalProfilePic.name());
+      return finalProfilePic.name();
     }
   };
 
@@ -96,7 +141,15 @@ export default function NewCandidate() {
     } else {
       enableWeb3();
     }
-  }, [isInitialized, isWeb3Enabled, Moralis, isAuthenticated, account, user, enableWeb3]);
+  }, [
+    isInitialized,
+    isWeb3Enabled,
+    Moralis,
+    isAuthenticated,
+    account,
+    user,
+    enableWeb3,
+  ]);
 
   const validate = (values) => {
     const errors = {};
@@ -157,21 +210,25 @@ export default function NewCandidate() {
     }
     if (values.profile && !isValidFileUploaded(values.profile)) {
       errors.profile = "Invalid Image Type (only png, jpg, jpeg allowed)";
+    } else if (values.profile && values.profile.size > 1024000) {
+      errors.profile = "Image size should be less than 1MB";
     }
     return errors;
   };
 
   return (
     <div class="min-h-screen w-full bg-white-800 flex flex-row justify-center items-center py-8 px-4 lg:px-8">
-      {(isAddNewCandidateLoading || addNewCandidateData) && (
-        <div>
-          <SpinnerCircularFixed
-            size={50}
+      {(isAddNewCandidateLoading || isLoading || addNewCandidateData) && (
+        <div class="w-full flex justify-center items-center self-center">
+           <SpinnerCircularFixed
+            size={40}
             thickness={100}
             speed={100}
             color="#36ad47"
             secondaryColor="rgba(0, 0, 0, 0.44)"
           />
+          <h2 class="ml-3">Processing Transaction...</h2>
+         
         </div>
       )}
       {addNewCandidateError && (
@@ -179,7 +236,7 @@ export default function NewCandidate() {
           <h2>{addNewCandidateError.message}</h2>
         </div>
       )}
-      {!isAddNewCandidateLoading && !addNewCandidateData && (
+      {!isAddNewCandidateLoading && !addNewCandidateData && !isLoading && (
         <div class="w-[50vw]">
           <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <h2 class="mt-6 mb-6 text-left text-2xl font-extrabold text-gray-900">
@@ -279,13 +336,15 @@ export default function NewCandidate() {
                     value={formValues.dept}
                     onChange={changeHandler}
                   >
-                    <option value="" selected disabled hidden>--Select--</option>
-                    <option value={1}>Software Engineering</option>
-                    <option value={2}>Biomedical Engineering</option>
-                    <option value={3}>Chemical Engineering</option>
-                    <option value={4}>Civil Engineering</option>
-                    <option value={5}>Electrical Engineering</option>
-                    <option value={6}>Mechanical Engineering</option>
+                    <option value="" selected disabled hidden>
+                      --Select--
+                    </option>
+                    <option value={0}>Biomedical Engineering</option>
+                    <option value={1}>Chemical Engineering</option>
+                    <option value={2}>Civil Engineering</option>
+                    <option value={3}>Electrical Engineering</option>
+                    <option value={4}>Mechanical Engineering</option>
+                    <option value={5}>Software Engineering</option>
                   </select>
                   <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg
@@ -316,7 +375,9 @@ export default function NewCandidate() {
                     value={formValues.year}
                     onChange={changeHandler}
                   >
-                    <option value="" selected disabled hidden>--Select--</option>
+                    <option value="" selected disabled hidden>
+                      --Select--
+                    </option>
                     <option value={1}>1</option>
                     <option value={2}>2</option>
                     <option value={3}>3</option>
@@ -350,7 +411,9 @@ export default function NewCandidate() {
                     value={formValues.section}
                     onChange={changeHandler}
                   >
-                    <option value="" selected disabled hidden>--Select--</option>
+                    <option value="" selected disabled hidden>
+                      --Select--
+                    </option>
                     <option value={1}>1</option>
                     <option value={2}>2</option>
                     <option value={3}>3</option>
