@@ -14,15 +14,11 @@ module.exports = function (deployer, network) {
   //     console.log("No Biconomy Forwarder Found in the desired network!");
   //   }
   deployer.deploy(AAiTElectionTimer).then(function () {
-    console.log("AAiTElectionTimer deployed at: " + AAiTElectionTimer.address);
     return deployer
       .deploy(AAiTUser, AAiTElectionTimer.address)
       .then(function () {
-        console.log("AAiTUser deployed at: " + AAiTUser.address);
         return deployer.deploy(AAiTStudent, AAiTUser.address).then(function () {
-          console.log("AAiTStudent deployed at: " + AAiTStudent.address);
           return deployer.deploy(AAiTVoteToken).then(function () {
-            console.log("AAiTVoteToken deployed at: " + AAiTVoteToken.address);
             return deployer
               .deploy(
                 AAiTElection,
@@ -31,9 +27,6 @@ module.exports = function (deployer, network) {
                 AAiTElectionTimer.address
               )
               .then(function () {
-                console.log(
-                  "AAiTElection deployed at: " + AAiTElection.address
-                );
                 return deployer
                   .deploy(
                     AAiTElectionHandler,
@@ -44,8 +37,22 @@ module.exports = function (deployer, network) {
                   )
                   .then(function () {
                     console.log(
-                      "AAiTElectionHandler deployed at: " +
+                      "REACT_APP_AAITELECTIONHANDLER_CONTRACT_ADDRESS=" +
                         AAiTElectionHandler.address
+                    );
+                    console.log(
+                      "REACT_APP_AAITELECTION_CONTRACT_ADDRESS=" + AAiTElection.address
+                    );
+                    console.log(
+                      "REACT_APP_AAITVOTETOKEN_CONTRACT_ADDRESS=" + AAiTVoteToken.address
+                    );
+                    console.log(
+                      "REACT_APP_AAITSTUDENT_CONTRACT_ADDRESS=" + AAiTStudent.address
+                    );
+                    console.log("REACT_APP_AAITUSER_CONTRACT_ADDRESS=" + AAiTUser.address);
+                    console.log(
+                      "REACT_APP_AAITELECTIONTIMER_CONTRACT_ADDRESS=" +
+                        AAiTElectionTimer.address
                     );
                   });
               });
