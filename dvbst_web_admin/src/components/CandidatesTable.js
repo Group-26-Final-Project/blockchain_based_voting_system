@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTable, useSortBy, usePagination } from "react-table";
 import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon } from '@heroicons/react/solid'
 import { Button, PageButton } from '../shared/Buttons'
@@ -156,7 +156,6 @@ export function StatusPill({ value }) {
 }
 
 export function Detail({ value }) {
-    console.log("DEtail", value)
     const result = <Link to="/candidateDetail" state={value} class="text-blue-600 dark:text-blue-500 hover:underline">Details</Link>
     return (
         <span>

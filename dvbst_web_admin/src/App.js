@@ -1,4 +1,5 @@
 import './App.css';
+import Login from './components/Login';
 import Home from './components/Home';
 import Voters from './components/Voters';
 import VoterDetail from './components/VoterDetail';
@@ -14,11 +15,24 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate
 } from 'react-router-dom';
 import { AiOutlineMenu } from "react-icons/ai";
+import { useMoralis } from "react-moralis";
 
 function App() {
-  return (
+  const { isAuthenticated } = useMoralis();
+  return !isAuthenticated ? (
+    <Router>
+      <Routes>
+        <Route path="/" exact element={<Login />} />
+        <Route
+          path="*"
+          element={<Navigate to="/" replace />}
+        />
+      </Routes>
+    </Router>
+  ) : (
     <Router>
       <div class="md:flex bg-[#D3E8E6]/20 h-screen">
         <div class="bg-[#2F313D] text-white md:hidden">
@@ -32,6 +46,7 @@ function App() {
         <div class="flex-1 h-screen md:overflow-y-auto">
           <Routes>
             <Route path="/" exact element={<Home />} />
+            <Route path="/login" exact element={<Login />} />
             <Route path="/voters" element={<Voters />} />
             <Route path="/voterDetail" element={<VoterDetail />} />
             <Route path="/voters/newvoter" element={<NewVoter />} />
@@ -41,6 +56,10 @@ function App() {
             <Route path="/elections" element={<Election />} />
             <Route path="/elections/newelection" element={<NewElection />} />
             <Route path="/blacklist" element={<Blacklist />} />
+            <Route
+              path="*"
+              element={<Navigate to="/" replace />}
+            />
           </Routes>
         </div>
       </div>

@@ -139,7 +139,6 @@ export default UsersTable
 
 
 export function Detail({ value }) {
-    console.log("DEtail", value)
     const result = <Link to="/voterDetail" state={value} class="text-blue-600 dark:text-blue-500 hover:underline">Details</Link>
     return (
         <span>

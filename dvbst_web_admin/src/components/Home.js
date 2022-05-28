@@ -3,23 +3,23 @@ import { useMoralis } from "react-moralis";
 import HomeTable, { StatusPill } from "./HomeTable";
 
 export default function Home() {
-  const { isInitialized, isWeb3Enabled, authenticate, isAuthenticated, Moralis } = useMoralis();
-  useEffect(() => {
-    const login = async () => {
-        if (!isAuthenticated) {
+  // const { isInitialized, isWeb3Enabled, authenticate, isAuthenticated, Moralis, logout } = useMoralis();
+  // useEffect(() => {
+  //   const login = async () => {
+  //       if (!isAuthenticated) {
   
-          await authenticate()
-            .then(function (user) {
-            //   console.log(user!.get("ethAddress"));
-            console.log("authenticated user: ", user);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }
-      }
-      login();
-  }, [authenticate, isAuthenticated]);
+  //         await authenticate()
+  //           .then(function (user) {
+  //           //   console.log(user!.get("ethAddress"));
+  //           // console.log("authenticated user: ", user);
+  //           })
+  //           .catch(function (error) {
+  //             console.log(error);
+  //           });
+  //       }
+  //     }
+  //     login();
+  // }, [authenticate, isAuthenticated]);
   const columns = React.useMemo(
     () => [
       {
