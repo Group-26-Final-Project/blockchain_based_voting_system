@@ -3,7 +3,7 @@ import { useTable, useSortBy, usePagination } from "react-table";
 import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon } from '@heroicons/react/solid'
 import { Button, PageButton } from '../shared/Buttons'
 import { classNames } from '../shared/Utils';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ElectionsTable = ({ columns, data }) => {
     const {
@@ -145,8 +145,8 @@ const ElectionsTable = ({ columns, data }) => {
 export default ElectionsTable
 
 export function Detail({ value }) {
-    const result = <a href="?" class="text-blue-600 dark:text-blue-500 hover:underline">Details</a>
-
+    // console.log("DEtail", value)
+    const result = <Link to="/elections" state={""} class="text-blue-600 dark:text-blue-500 hover:underline">Details</Link>
     return (
         <span>
             {result}
