@@ -11,15 +11,24 @@ contract AAiTElectionTimer {
         REGISTRATION,
         REGISTRATION_BREAK,
         SECTION_ELECTION,
-        SECTION_ELECTION_DONE,
         SECTION_ELECTION_BREAK,
         BATCH_ELECTION,
         BATCH_ELECTION_BREAK,
-        BATCH_ELECTION_DONE,
         DEPARTMENT_ELECTION,
-        DEPARTMENT_ELECTION_DONE,
-        COMPLETED
+        COMPLETED       
     }
+
+    //  REGISTRATION,
+    //     REGISTRATION_BREAK,
+    //     SECTION_ELECTION,
+    //     // SECTION_ELECTION_DONE,
+    //     SECTION_ELECTION_BREAK,
+    //     BATCH_ELECTION,
+    //     BATCH_ELECTION_BREAK,
+    //     // BATCH_ELECTION_DONE,
+    //     DEPARTMENT_ELECTION,
+    //     // DEPARTMENT_ELECTION_DONE,
+    //     COMPLETED
 
     struct ElectionPhase {
         PHASE_NAME phaseName;
@@ -71,17 +80,27 @@ contract AAiTElectionTimer {
         phase = ElectionPhase(PHASE_NAME.COMPLETED, 0, 0);
     }
 
-    function changePhase(uint256 _newEnd) internal {
-        require(msg.sender == owner, "Only the owner can change the phase");
 
-        if (phase.phaseName == PHASE_NAME.DEPARTMENT_ELECTION) {
+
+    function changePhase() public {
+        // require(msg.sender == owner, "Only the owner can change the phase");
+
+         if (phase.phaseName == PHASE_NAME.DEPARTMENT_ELECTION) {
             phase = ElectionPhase(PHASE_NAME.COMPLETED, 0, 0);
             // changeVal("unos");
             return;
         }
-        phase.phaseName = PHASE_NAME(uint256(phase.phaseName) + 1);
+        else if(phase.phaseName == PHASE_NAME.COMPLETED){
+            phase = ElectionPhase(PHASE_NAME.REGISTRATION, block.timestamp, block.timestamp + 200);
+            return;
+
+        }
+        // return uint(phase.phaseName)+1;
+        phase.phaseName = PHASE_NAME(uint(phase.phaseName) + 1);
+        // phase.phaseName = PHASE_NAME.REGISTRATION_BREAK;
         phase.start = block.timestamp;
-        phase.end = block.timestamp + _newEnd;
+        // phase.end = block.timestamp + _newEnd;
+        phase.end = block.timestamp + 200;
     }
 
     function getRemainingTime() external view returns (uint256) {
@@ -118,182 +137,182 @@ contract AAiTElectionTimer {
         return phase;
     }
 
-    function checkCurrentPhase() external {
-        // require(msg.sender == owner, "only owner");
-        if (phase.phaseName == PHASE_NAME.REGISTRATION) {
-            if (block.timestamp >= phase.end) {
-                changePhase(votingDuration);
-                return;
-                // return "ON REGISTRATION";
-                // return phase;
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.REGISTRATION,
-                block.timestamp,
-                phase.end
-            );
-            // return "SECTION ELECTION INITIATED";
-            // return phase;
+    // function checkCurrentPhase() external {
+    //     // require(msg.sender == owner, "only owner");
+    //     if (phase.phaseName == PHASE_NAME.REGISTRATION) {
+    //         if (block.timestamp >= phase.end) {
+    //             changePhase(votingDuration);
+    //             return;
+    //             // return "ON REGISTRATION";
+    //             // return phase;
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.REGISTRATION,
+    //             block.timestamp,
+    //             phase.end
+    //         );
+    //         // return "SECTION ELECTION INITIATED";
+    //         // return phase;
 
-            // changeVal("initial phase");
-        }else if (phase.phaseName == PHASE_NAME.REGISTRATION_BREAK) {
-            if (block.timestamp >= phase.end) {
+    //         // changeVal("initial phase");
+    //     }else if (phase.phaseName == PHASE_NAME.REGISTRATION_BREAK) {
+    //         if (block.timestamp >= phase.end) {
                 
-                changePhase(breakDuration);
-                return;
+    //             changePhase(breakDuration);
+    //             return;
 
-                // return "ON SECTION_ELECTION";
-                // return phase;
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.REGISTRATION_BREAK,
-                block.timestamp,
-                phase.end
-            );
+    //             // return "ON SECTION_ELECTION";
+    //             // return phase;
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.REGISTRATION_BREAK,
+    //             block.timestamp,
+    //             phase.end
+    //         );
             
-            // return "SECTION ELECTION DONE";
-            // return phase;
-        }  
-        else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION) {
-            if (block.timestamp >= phase.end) {
-                changePhase(breakDuration);
-                return;
+    //         // return "SECTION ELECTION DONE";
+    //         // return phase;
+    //     }  
+    //     else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION) {
+    //         if (block.timestamp >= phase.end) {
+    //             changePhase(breakDuration);
+    //             return;
 
-                // return "ON SECTION_ELECTION";
-                // return phase;
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.SECTION_ELECTION,
-                block.timestamp,
-                phase.end
-            );
+    //             // return "ON SECTION_ELECTION";
+    //             // return phase;
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.SECTION_ELECTION,
+    //             block.timestamp,
+    //             phase.end
+    //         );
             
-            // return "SECTION ELECTION DONE";
-            // return phase;
-        }  else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION_DONE) {
-            if (block.timestamp >= phase.end) {
-                changePhase(breakDuration);
-                return;
+    //         // return "SECTION ELECTION DONE";
+    //         // return phase;
+    //     }  else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION_DONE) {
+    //         if (block.timestamp >= phase.end) {
+    //             changePhase(breakDuration);
+    //             return;
 
-                // return "ON SECTION_ELECTION";
-                // return phase;
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.SECTION_ELECTION_DONE,
-                block.timestamp,
-                phase.end
-            );
+    //             // return "ON SECTION_ELECTION";
+    //             // return phase;
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.SECTION_ELECTION_DONE,
+    //             block.timestamp,
+    //             phase.end
+    //         );
             
-            // return "SECTION ELECTION DONE";
-            // return phase;
-        } 
+    //         // return "SECTION ELECTION DONE";
+    //         // return phase;
+    //     } 
         
-        else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION_BREAK) {
-            if (block.timestamp >= phase.end) {
-                changePhase(votingDuration);
-                return;
+    //     else if (phase.phaseName == PHASE_NAME.SECTION_ELECTION_BREAK) {
+    //         if (block.timestamp >= phase.end) {
+    //             changePhase(votingDuration);
+    //             return;
 
-                // return "ON SECTION ELECTION BREAK";
-                // return phase;
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.SECTION_ELECTION_BREAK,
-                block.timestamp,
-                phase.end
-            );
-            // return "BATCH ELECTION INITIATED";
-            // return phase;
+    //             // return "ON SECTION ELECTION BREAK";
+    //             // return phase;
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.SECTION_ELECTION_BREAK,
+    //             block.timestamp,
+    //             phase.end
+    //         );
+    //         // return "BATCH ELECTION INITIATED";
+    //         // return phase;
 
-            // changeVal("initial phase");
-        } else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION) {
-            if (block.timestamp >= phase.end) {
-                changePhase(breakDuration);
-                return;
+    //         // changeVal("initial phase");
+    //     } else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION) {
+    //         if (block.timestamp >= phase.end) {
+    //             changePhase(breakDuration);
+    //             return;
 
-                // return "ON BATCH ELECTION";
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.BATCH_ELECTION,
-                block.timestamp,
-                phase.end
-            );
-            // return phase;
-            // return "BATCH ELECTION DONE";
-        }else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION_DONE) {
-            if (block.timestamp >= phase.end) {
-                changePhase(breakDuration);
-                return;
+    //             // return "ON BATCH ELECTION";
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.BATCH_ELECTION,
+    //             block.timestamp,
+    //             phase.end
+    //         );
+    //         // return phase;
+    //         // return "BATCH ELECTION DONE";
+    //     }else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION_DONE) {
+    //         if (block.timestamp >= phase.end) {
+    //             changePhase(breakDuration);
+    //             return;
 
-                // return "ON SECTION_ELECTION";
-                // return phase;
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.BATCH_ELECTION_DONE,
-                block.timestamp,
-                phase.end
-            );
+    //             // return "ON SECTION_ELECTION";
+    //             // return phase;
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.BATCH_ELECTION_DONE,
+    //             block.timestamp,
+    //             phase.end
+    //         );
             
-            // return "SECTION ELECTION DONE";
-            // return phase;
-        }  else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION_BREAK) {
-            if (block.timestamp >= phase.end) {
-                changePhase(votingDuration);
-                return;
+    //         // return "SECTION ELECTION DONE";
+    //         // return phase;
+    //     }  else if (phase.phaseName == PHASE_NAME.BATCH_ELECTION_BREAK) {
+    //         if (block.timestamp >= phase.end) {
+    //             changePhase(votingDuration);
+    //             return;
 
-                // return phase;
-                // return "ON BATCH ELECTION BREAK";
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.BATCH_ELECTION_BREAK,
-                block.timestamp,
-                phase.end
-            );
-            // return phase;
-            // return "DEPARTMENT ELECTION INITIATED";
-            // changeVal("initial phase");
-        } else if (phase.phaseName == PHASE_NAME.DEPARTMENT_ELECTION) {
-            if (block.timestamp >= phase.end) {
-                stopTimer();
-                return;
+    //             // return phase;
+    //             // return "ON BATCH ELECTION BREAK";
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.BATCH_ELECTION_BREAK,
+    //             block.timestamp,
+    //             phase.end
+    //         );
+    //         // return phase;
+    //         // return "DEPARTMENT ELECTION INITIATED";
+    //         // changeVal("initial phase");
+    //     } else if (phase.phaseName == PHASE_NAME.DEPARTMENT_ELECTION) {
+    //         if (block.timestamp >= phase.end) {
+    //             stopTimer();
+    //             return;
 
-                // return phase;
-                // return "ON DEPARTMENT ELECTION";
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.DEPARTMENT_ELECTION,
-                block.timestamp,
-                phase.end
-            );
-            // return phase;
-            // return "DEPARTMENT ELECTION DONE";
-        }else if (phase.phaseName == PHASE_NAME.DEPARTMENT_ELECTION_DONE) {
-            if (block.timestamp >= phase.end) {
-                changePhase(breakDuration);
-                return;
+    //             // return phase;
+    //             // return "ON DEPARTMENT ELECTION";
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.DEPARTMENT_ELECTION,
+    //             block.timestamp,
+    //             phase.end
+    //         );
+    //         // return phase;
+    //         // return "DEPARTMENT ELECTION DONE";
+    //     }else if (phase.phaseName == PHASE_NAME.DEPARTMENT_ELECTION_DONE) {
+    //         if (block.timestamp >= phase.end) {
+    //             changePhase(breakDuration);
+    //             return;
 
-                // return "ON SECTION_ELECTION";
-                // return phase;
-            }
-            phase = ElectionPhase(
-                PHASE_NAME.DEPARTMENT_ELECTION_DONE,
-                block.timestamp,
-                phase.end
-            );
+    //             // return "ON SECTION_ELECTION";
+    //             // return phase;
+    //         }
+    //         phase = ElectionPhase(
+    //             PHASE_NAME.DEPARTMENT_ELECTION_DONE,
+    //             block.timestamp,
+    //             phase.end
+    //         );
             
-            // return "SECTION ELECTION DONE";
-            // return phase;
-        }  else {
-            phase = ElectionPhase(PHASE_NAME.COMPLETED, 0, 0);
-            return;
+    //         // return "SECTION ELECTION DONE";
+    //         // return phase;
+    //     }  else {
+    //         phase = ElectionPhase(PHASE_NAME.COMPLETED, 0, 0);
+    //         return;
 
-            // return "UNKNOWN PHASE";
-            // return phase;
-        }
-        // changeVal("to this");
-        // if(token == address(0)) {
-        //   owner.transfer(amount);
-        // } else {
-        //   IERC20(token).transfer(owner, amount);
-        // }
-    }
+    //         // return "UNKNOWN PHASE";
+    //         // return phase;
+    //     }
+    //     // changeVal("to this");
+    //     // if(token == address(0)) {
+    //     //   owner.transfer(amount);
+    //     // } else {
+    //     //   IERC20(token).transfer(owner, amount);
+    //     // }
+    // }
 }
