@@ -2,6 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "./AAiTElection.sol";
+import "./AAiTElectionTimer.sol";
 
 contract AAiTUser {
     enum DEPTARTMENT_TYPE {
@@ -54,13 +55,16 @@ contract AAiTUser {
     AdminStruct[] private adminList;
     address private owner;
 
+    AAiTElectionTimer private electionTimer;
+
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
 
-    constructor() {
+    constructor(address _AAiTElectionTimerContractAddress) {
         owner = msg.sender;
+        electionTimer = AAiTElectionTimer(_AAiTElectionTimerContractAddress);
     }
 
     function findUserByStudentId(string memory newStudentId)
@@ -146,6 +150,7 @@ contract AAiTUser {
         USER_TYPE role
     ) external returns (uint256 index) {
         // require(msg.sender != owner, "Permission Denied");
+        require(electionTimer.getCurrentPhase().phaseName != AAiTElectionTimer.PHASE_NAME.COMPLETED, "Invalid Operation");
         require(!isUser(fullName), "User Already Exists");
         require(!findUserByStudentId(studentId), "User Already Exists");
         require(
@@ -195,8 +200,8 @@ contract AAiTUser {
                 CandidateStruct(
                     userStructsMapping[fullName],
                     userStructsMapping[fullName].index,
-                    profilePicture,
-                    bio
+                    bio,
+                    profilePicture
                 )
             );
         } else if (role == USER_TYPE.ADMIN) {
